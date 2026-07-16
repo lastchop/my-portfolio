@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
 
-// --- MOCK DATEN (Now in English) ---
+// --- MOCK DATEN (English) ---
 const generateImages = (seed, count, ratio) => {
   return Array.from({ length: count }).map((_, i) => {
     const width = ratio === '16:9' ? 1920 : 800;
@@ -147,68 +147,74 @@ const ProjectCarousel = ({ project, onClick }) => {
   }, []);
 
   return (
-    <div 
-      className="relative w-full aspect-[4/5] bg-white overflow-hidden group cursor-pointer rounded-xl smooth-appear flex flex-col"
-      onMouseEnter={() => setShowArrows(true)}
-      onMouseLeave={() => setShowArrows(false)}
-      onClick={() => onClick(project)}
-    >
+    <div className="flex flex-col mb-12 md:mb-0 smooth-appear">
+      {/* Das eigentliche Bild-Karussell (Exakt 4:5 Format garantiert) */}
       <div 
-        ref={scrollRef}
-        className="flex w-full h-full overflow-x-auto snap-x snap-mandatory hide-scrollbar"
+        className="relative w-full aspect-[4/5] bg-white overflow-hidden group cursor-pointer rounded-xl"
+        onMouseEnter={() => setShowArrows(true)}
+        onMouseLeave={() => setShowArrows(false)}
+        onClick={() => onClick(project)}
       >
-        {project.carousel.map((imgUrl, idx) => (
-          <div key={idx} className="min-w-full h-full snap-center relative">
-            <img 
-              src={imgUrl} 
-              alt={`${project.title} - image ${idx + 1}`} 
-              className="w-full h-full object-cover"
-              loading="lazy"
-            />
-          </div>
-        ))}
-      </div>
-
-      {/* Indikator-Punkte (Dots) - Leicht vergrößert für bessere Sichtbarkeit */}
-      {project.carousel.length > 1 && (
-        <div className="absolute bottom-4 left-0 right-0 flex justify-center pointer-events-none">
-          <div className="bg-black/30 backdrop-blur-sm rounded-full px-2 py-1.5 flex gap-1.5">
-            {project.carousel.map((_, idx) => (
-              <div 
-                key={idx} 
-                className={`w-[5px] h-[5px] rounded-full bg-white transition-opacity duration-300 ${idx === currentIndex ? 'opacity-100' : 'opacity-40'}`}
+        <div 
+          ref={scrollRef}
+          className="flex w-full h-full overflow-x-auto snap-x snap-mandatory hide-scrollbar"
+        >
+          {project.carousel.map((imgUrl, idx) => (
+            <div key={idx} className="min-w-full h-full snap-center relative">
+              <img 
+                src={imgUrl} 
+                alt={`${project.title} - image ${idx + 1}`} 
+                className="w-full h-full object-cover"
+                loading="lazy"
               />
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
-      )}
 
-      {/* Navigation Arrows - Vergrößert auf 32px (Touch-freundlicher) */}
-      {project.carousel.length > 1 && (
-        <>
-          <button 
-            onClick={(e) => scroll('left', e)}
-            className={`absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center bg-black/40 hover:bg-black/60 text-white rounded-full backdrop-blur-sm transition-opacity duration-300 ${showArrows ? 'opacity-100' : 'opacity-0 md:opacity-100'}`}
-          >
-            <ChevronLeft size={18} strokeWidth={2} />
-          </button>
-          
-          <button 
-            onClick={(e) => scroll('right', e)}
-            className={`absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center bg-black/40 hover:bg-black/60 text-white rounded-full backdrop-blur-sm transition-opacity duration-300 ${showArrows ? 'opacity-100' : 'opacity-0 md:opacity-100'}`}
-          >
-            <ChevronRight size={18} strokeWidth={2} />
-          </button>
-        </>
-      )}
+        {/* Indikator-Punkte (Dots) - Liegen INNEN über dem Bild */}
+        {project.carousel.length > 1 && (
+          <div className="absolute bottom-4 left-0 right-0 flex justify-center pointer-events-none">
+            <div className="bg-black/30 backdrop-blur-sm rounded-full px-2 py-1.5 flex gap-1.5">
+              {project.carousel.map((_, idx) => (
+                <div 
+                  key={idx} 
+                  className={`w-[5px] h-[5px] rounded-full bg-white transition-opacity duration-300 ${idx === currentIndex ? 'opacity-100' : 'opacity-40'}`}
+                />
+              ))}
+            </div>
+          </div>
+        )}
 
-      {/* Overlay Title on Hover (Desktop) */}
-      <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:flex items-center justify-center pointer-events-none">
-        <h3 className="text-white text-base font-normal tracking-wide">{project.title}</h3>
+        {/* Navigation Arrows */}
+        {project.carousel.length > 1 && (
+          <>
+            <button 
+              onClick={(e) => scroll('left', e)}
+              className={`absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center bg-black/40 hover:bg-black/60 text-white rounded-full backdrop-blur-sm transition-opacity duration-300 ${showArrows ? 'opacity-100' : 'opacity-0 md:opacity-100'}`}
+            >
+              <ChevronLeft size={18} strokeWidth={2} />
+            </button>
+            
+            <button 
+              onClick={(e) => scroll('right', e)}
+              className={`absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center bg-black/40 hover:bg-black/60 text-white rounded-full backdrop-blur-sm transition-opacity duration-300 ${showArrows ? 'opacity-100' : 'opacity-0 md:opacity-100'}`}
+            >
+              <ChevronRight size={18} strokeWidth={2} />
+            </button>
+          </>
+        )}
+
+        {/* Overlay Title on Hover (Desktop) */}
+        <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:flex items-center justify-center pointer-events-none">
+          <h3 className="text-white text-base font-normal tracking-wide">{project.title}</h3>
+        </div>
       </div>
       
-      {/* Mobile Title (Nur auf kleinen Screens sichtbar) */}
-      <div className="md:hidden mt-3 text-center mb-12">
+      {/* Mobile Title (AUßERHALB des 4:5 Containers, direkt auf dem Hintergrund) */}
+      <div 
+        className="md:hidden mt-3 text-center cursor-pointer px-2" 
+        onClick={() => onClick(project)}
+      >
         <h3 className="text-black text-sm font-medium tracking-wide">{project.title}</h3>
       </div>
     </div>
@@ -280,11 +286,11 @@ const FloatingMenu = ({ onGoHome, onViewChange, onCategorySelect }) => {
               </button>
               
               <div className={`overflow-hidden transition-all duration-300 flex flex-col gap-3 pl-4 ${categoriesOpen ? 'max-h-72 mt-2 opacity-100' : 'max-h-0 opacity-0'}`}>
-                <button onClick={() => handleCategoryClick(null)} className="text-left text-white/70 hover:text-white text-sm tracking-wide focus:outline-none">all projects</button>
-                <button onClick={() => handleCategoryClick('posters')} className="text-left text-white/70 hover:text-white text-sm tracking-wide focus:outline-none">posters</button>
-                <button onClick={() => handleCategoryClick('branding')} className="text-left text-white/70 hover:text-white text-sm tracking-wide focus:outline-none">branding</button>
-                <button onClick={() => handleCategoryClick('illustrations')} className="text-left text-white/70 hover:text-white text-sm tracking-wide focus:outline-none">illustrations</button>
-                <button onClick={() => handleCategoryClick('packaging')} className="text-left text-white/70 hover:text-white text-sm tracking-wide focus:outline-none">packaging</button>
+                <button onClick={() => handleCategoryClick(null)} className="text-left text-white/70 hover:text-white text-sm tracking-wide focus:outline-none font-normal">all projects</button>
+                <button onClick={() => handleCategoryClick('posters')} className="text-left text-white/70 hover:text-white text-sm tracking-wide focus:outline-none font-normal">posters</button>
+                <button onClick={() => handleCategoryClick('branding')} className="text-left text-white/70 hover:text-white text-sm tracking-wide focus:outline-none font-normal">branding</button>
+                <button onClick={() => handleCategoryClick('illustrations')} className="text-left text-white/70 hover:text-white text-sm tracking-wide focus:outline-none font-normal">illustrations</button>
+                <button onClick={() => handleCategoryClick('packaging')} className="text-left text-white/70 hover:text-white text-sm tracking-wide focus:outline-none font-normal">packaging</button>
               </div>
             </div>
 
@@ -374,7 +380,7 @@ const AboutPage = () => {
   );
 };
 
-// 5. Services Seite (Mit SVG Icons)
+// 5. Services Seite
 const ServicesPage = () => {
   useEffect(() => { window.scrollTo(0, 0); }, []);
   return (
@@ -394,7 +400,6 @@ const ServicesPage = () => {
           {/* Service 1 */}
           <div className="flex items-start gap-6">
             <div className="w-8 h-8 shrink-0 mt-1">
-              {/* Platzhalter Icon */}
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-full h-full text-black">
                 <circle cx="12" cy="12" r="10"></circle>
                 <circle cx="12" cy="12" r="4"></circle>
