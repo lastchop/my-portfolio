@@ -1,7 +1,33 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
 
-// --- MOCK DATEN (English) ---
+// --- HELPER TO RENDER IMAGES OR VIDEOS AUTOMATICALLY ---
+// If the link ends with .mp4, it renders a seamless, autoplaying, muted video loop.
+const renderMedia = (url, alt, className) => {
+  const isVideo = url.toLowerCase().endsWith('.mp4') || url.includes('.mp4');
+  if (isVideo) {
+    return (
+      <video 
+        src={url} 
+        className={`${className} object-cover`}
+        autoPlay 
+        loop 
+        muted 
+        playsInline 
+      />
+    );
+  }
+  return (
+    <img 
+      src={url} 
+      alt={alt} 
+      className={className} 
+      loading="lazy" 
+    />
+  );
+};
+
+// --- MOCK DATA (Replace these links with your own images or .mp4 videos!) ---
 const generateImages = (seed, count, ratio) => {
   return Array.from({ length: count }).map((_, i) => {
     const width = ratio === '16:9' ? 1920 : 800;
@@ -18,7 +44,8 @@ const initialProjects = [
     title: 'neon nights',
     category: 'posters',
     description: placeholderDescription,
-    carousel: generateImages('neon', 4, '4:5'),
+    // You can mix images and .mp4 videos in the carousel!
+    carousel: generateImages('neon', 4, '4:5'), 
     details: [
       { type: '4:5', url: `https://picsum.photos/seed/neon0/800/1000` },
       { type: '16:9', url: `https://picsum.photos/seed/neon-wide1/1920/1080` },
@@ -161,12 +188,7 @@ const ProjectCarousel = ({ project, onClick }) => {
         >
           {project.carousel.map((imgUrl, idx) => (
             <div key={idx} className="min-w-full h-full snap-center relative">
-              <img 
-                src={imgUrl} 
-                alt={`${project.title} - image ${idx + 1}`} 
-                className="w-full h-full object-cover"
-                loading="lazy"
-              />
+              {renderMedia(imgUrl, `${project.title} - media ${idx + 1}`, "w-full h-full object-cover")}
             </div>
           ))}
         </div>
@@ -330,12 +352,7 @@ const ProjectView = ({ project }) => {
               key={idx} 
               className={`w-full overflow-hidden rounded-xl ${isWide ? 'md:col-span-2 aspect-video' : 'aspect-[4/5]'}`}
             >
-              <img 
-                src={media.url} 
-                alt={`${project.title} detail ${idx}`}
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                loading="lazy"
-              />
+              {renderMedia(media.url, `${project.title} detail ${idx}`, "w-full h-full object-cover hover:scale-105 transition-transform duration-700")}
             </div>
           );
         })}
@@ -354,12 +371,7 @@ const AboutPage = () => {
           about studio
         </h1>
         <div className="w-full aspect-[4/5] bg-white rounded-xl overflow-hidden mb-8 shadow-sm">
-          <img 
-            src="https://picsum.photos/seed/about-studio-portrait/800/1000" 
-            alt="about studio portrait" 
-            className="w-full h-full object-cover"
-            loading="lazy"
-          />
+          {renderMedia("https://picsum.photos/seed/about-studio-portrait/800/1000", "about studio portrait", "w-full h-full object-cover")}
         </div>
         <div className="space-y-6">
           <div>
