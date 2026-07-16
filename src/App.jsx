@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
 
 // --- HELPER TO RENDER IMAGES OR VIDEOS AUTOMATICALLY ---
-// If the link ends with .mp4, it renders a seamless, autoplaying, muted video loop.
 const renderMedia = (url, alt, className) => {
   const isVideo = url.toLowerCase().endsWith('.mp4') || url.includes('.mp4');
   if (isVideo) {
@@ -27,7 +26,7 @@ const renderMedia = (url, alt, className) => {
   );
 };
 
-// --- MOCK DATA (Replace these links with your own images or .mp4 videos!) ---
+// --- MOCK DATA ---
 const generateImages = (seed, count, ratio) => {
   return Array.from({ length: count }).map((_, i) => {
     const width = ratio === '16:9' ? 1920 : 800;
@@ -44,7 +43,6 @@ const initialProjects = [
     title: 'neon nights',
     category: 'posters',
     description: placeholderDescription,
-    // You can mix images and .mp4 videos in the carousel!
     carousel: generateImages('neon', 4, '4:5'), 
     details: [
       { type: '4:5', url: `https://picsum.photos/seed/neon0/800/1000` },
@@ -140,7 +138,6 @@ const initialProjects = [
 // 1. Das interaktive Karussell für das Grid
 const ProjectCarousel = ({ project, onClick }) => {
   const scrollRef = useRef(null);
-  const [showArrows, setShowArrows] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const scroll = (direction, e) => {
@@ -175,11 +172,9 @@ const ProjectCarousel = ({ project, onClick }) => {
 
   return (
     <div className="flex flex-col mb-12 md:mb-0 smooth-appear">
-      {/* Das eigentliche Bild-Karussell (Exakt 4:5 Format garantiert) */}
+      {/* Das eigentliche Bild-Karussell (Exakt 4:5 Format) */}
       <div 
         className="relative w-full aspect-[4/5] bg-white overflow-hidden group cursor-pointer rounded-xl"
-        onMouseEnter={() => setShowArrows(true)}
-        onMouseLeave={() => setShowArrows(false)}
         onClick={() => onClick(project)}
       >
         <div 
@@ -193,7 +188,7 @@ const ProjectCarousel = ({ project, onClick }) => {
           ))}
         </div>
 
-        {/* Indikator-Punkte (Dots) - Liegen INNEN über dem Bild */}
+        {/* Indikator-Punkte (Dots) */}
         {project.carousel.length > 1 && (
           <div className="absolute bottom-4 left-0 right-0 flex justify-center pointer-events-none">
             <div className="bg-black/30 backdrop-blur-sm rounded-full px-2 py-1.5 flex gap-1.5">
@@ -207,19 +202,19 @@ const ProjectCarousel = ({ project, onClick }) => {
           </div>
         )}
 
-        {/* Navigation Arrows */}
+        {/* Navigation Arrows (Nur auf Desktop! hidden md:flex) */}
         {project.carousel.length > 1 && (
           <>
             <button 
               onClick={(e) => scroll('left', e)}
-              className={`absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center bg-black/40 hover:bg-black/60 text-white rounded-full backdrop-blur-sm transition-opacity duration-300 ${showArrows ? 'opacity-100' : 'opacity-0 md:opacity-100'}`}
+              className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 hidden md:flex items-center justify-center bg-black/40 hover:bg-black/60 text-white rounded-full backdrop-blur-sm transition-opacity duration-300 opacity-0 group-hover:opacity-100"
             >
               <ChevronLeft size={18} strokeWidth={2} />
             </button>
             
             <button 
               onClick={(e) => scroll('right', e)}
-              className={`absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center bg-black/40 hover:bg-black/60 text-white rounded-full backdrop-blur-sm transition-opacity duration-300 ${showArrows ? 'opacity-100' : 'opacity-0 md:opacity-100'}`}
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 hidden md:flex items-center justify-center bg-black/40 hover:bg-black/60 text-white rounded-full backdrop-blur-sm transition-opacity duration-300 opacity-0 group-hover:opacity-100"
             >
               <ChevronRight size={18} strokeWidth={2} />
             </button>
@@ -232,7 +227,7 @@ const ProjectCarousel = ({ project, onClick }) => {
         </div>
       </div>
       
-      {/* Mobile Title (AUßERHALB des 4:5 Containers, linksbündig ausgerichtet) */}
+      {/* Mobile Title */}
       <div 
         className="md:hidden mt-3 text-left cursor-pointer px-1" 
         onClick={() => onClick(project)}
@@ -267,7 +262,7 @@ const FloatingMenu = ({ onGoHome, onViewChange, onCategorySelect }) => {
     <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[273px]">
       <div className="bg-black/30 backdrop-blur-md shadow-xl overflow-hidden transition-all duration-500 ease-in-out rounded-[20px] text-white">
         
-        {/* Header / Trigger - Perfekte Pille 40px hoch, absolut zentriert */}
+        {/* Header / Trigger */}
         <div 
           className="flex items-center justify-between px-6 h-[40px] cursor-pointer"
           onClick={() => setIsOpen(!isOpen)}
@@ -291,7 +286,6 @@ const FloatingMenu = ({ onGoHome, onViewChange, onCategorySelect }) => {
         <div 
           className={`transition-all duration-500 ease-in-out ${isOpen ? 'max-h-[550px] opacity-100' : 'max-h-0 opacity-0'}`}
         >
-          {/* Klarer Abstand zum Titel */}
           <div className="p-6 pt-10 flex flex-col gap-4">
             
             {/* Projekt Kategorien */}
@@ -666,47 +660,56 @@ export default function PortfolioApp() {
 
   useEffect(() => {
     setProjects(baseProjects);
-    window.scrollTo({ top: 50, behavior: 'instant' });
+    // Ein winziger Moment Verzögerung, bevor er runter springt, 
+    // damit das Infinite-Scroll nicht versehentlich sofort auslöst
+    setTimeout(() => {
+      window.scrollTo({ top: 150, behavior: 'instant' });
+    }, 50);
   }, [activeCategory]);
 
   useEffect(() => {
     if (activeProject || currentView !== 'home') return;
 
-    if (window.scrollY === 0) {
-        window.scrollTo(0, 50); 
-    }
-
     const handleScroll = () => {
       if (isFetching.current) return;
 
-      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 800) {
+      const scrollY = window.scrollY;
+      
+      // Verhindert den Absturz durch den "Rubber-Band" Effekt (Minus-Scroll) am Handy
+      if (scrollY < 0) return;
+
+      const scrollHeight = document.documentElement.scrollHeight;
+      const innerHeight = window.innerHeight;
+
+      // Scrollen nach unten
+      if (innerHeight + scrollY >= scrollHeight - 800) {
         isFetching.current = true;
         const newProjects = baseProjects.map(p => ({...p, id: p.id + '-down-' + Math.random()}));
         setProjects(prev => [...prev, ...newProjects]);
         
-        setTimeout(() => { isFetching.current = false; }, 200);
+        setTimeout(() => { isFetching.current = false; }, 300);
       }
 
-      if (window.scrollY <= 100) {
+      // Scrollen nach oben (mit besserem Timeout-Schutz)
+      if (scrollY <= 50) {
         isFetching.current = true;
-        
-        const oldScrollHeight = document.documentElement.scrollHeight;
-        const oldScrollTop = window.scrollY;
+        const oldScrollHeight = scrollHeight;
 
         const newProjects = baseProjects.map(p => ({...p, id: p.id + '-up-' + Math.random()}));
         setProjects(prev => [...newProjects, ...prev]);
 
+        // Gibt React kurz Zeit, das HTML zu bauen, bevor er die neue Höhe berechnet
         setTimeout(() => {
           const newScrollHeight = document.documentElement.scrollHeight;
           const diff = newScrollHeight - oldScrollHeight;
-          window.scrollTo({ top: oldScrollTop + diff, left: 0, behavior: 'instant' });
+          window.scrollTo({ top: scrollY + diff, behavior: 'instant' });
           
-          isFetching.current = false;
+          setTimeout(() => { isFetching.current = false; }, 100);
         }, 0);
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [activeProject, currentView, activeCategory]);
 
@@ -728,6 +731,15 @@ export default function PortfolioApp() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&display=swap');
         
+        /* Unsichtbare Scrollbalken in allen Browsern! */
+        html, body {
+          -ms-overflow-style: none;  /* IE and Edge */
+          scrollbar-width: none;  /* Firefox */
+        }
+        html::-webkit-scrollbar, body::-webkit-scrollbar {
+          display: none; /* Chrome, Safari and Opera */
+        }
+
         html {
           scroll-behavior: smooth;
         }
