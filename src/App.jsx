@@ -171,7 +171,8 @@ const ProjectCarousel = ({ project, onClick }) => {
   }, []);
 
   return (
-    <div className="flex flex-col mb-12 md:mb-0 smooth-appear">
+    // ABSTAND MOBILE VERRINGERT: mb-6 (statt mb-12)
+    <div className="flex flex-col mb-6 md:mb-0 smooth-appear">
       {/* Das eigentliche Bild-Karussell (Exakt 4:5 Format) */}
       <div 
         className="relative w-full aspect-[4/5] bg-white overflow-hidden group cursor-pointer rounded-xl"
@@ -660,8 +661,7 @@ export default function PortfolioApp() {
 
   useEffect(() => {
     setProjects(baseProjects);
-    // Ein winziger Moment Verzögerung, bevor er runter springt, 
-    // damit das Infinite-Scroll nicht versehentlich sofort auslöst
+    // Timeout-Schutz beim ersten Laden
     setTimeout(() => {
       window.scrollTo({ top: 150, behavior: 'instant' });
     }, 50);
@@ -673,24 +673,28 @@ export default function PortfolioApp() {
     const handleScroll = () => {
       if (isFetching.current) return;
 
+      // MOBILE FIX: Infinite Scroll auf dem Handy komplett deaktivieren!
+      // Wenn der Bildschirm schmaler als 768px ist, macht das Script nichts.
+      if (window.innerWidth < 768) return;
+
       const scrollY = window.scrollY;
       
-      // Verhindert den Absturz durch den "Rubber-Band" Effekt (Minus-Scroll) am Handy
+      // Verhindert Absturz am Desktop bei elastischem Minus-Scroll
       if (scrollY < 0) return;
 
       const scrollHeight = document.documentElement.scrollHeight;
       const innerHeight = window.innerHeight;
 
-      // Scrollen nach unten
-      if (innerHeight + scrollY >= scrollHeight - 800) {
+      // SMOOTH SCROLL NACH UNTEN (Lädt extrem früh nach: - 1500px)
+      if (innerHeight + scrollY >= scrollHeight - 1500) {
         isFetching.current = true;
         const newProjects = baseProjects.map(p => ({...p, id: p.id + '-down-' + Math.random()}));
         setProjects(prev => [...prev, ...newProjects]);
         
-        setTimeout(() => { isFetching.current = false; }, 300);
+        setTimeout(() => { isFetching.current = false; }, 100);
       }
 
-      // Scrollen nach oben (mit besserem Timeout-Schutz)
+      // SMOOTH SCROLL NACH OBEN (Nutzt requestAnimationFrame gegen Bildsprünge)
       if (scrollY <= 50) {
         isFetching.current = true;
         const oldScrollHeight = scrollHeight;
@@ -698,20 +702,19 @@ export default function PortfolioApp() {
         const newProjects = baseProjects.map(p => ({...p, id: p.id + '-up-' + Math.random()}));
         setProjects(prev => [...newProjects, ...prev]);
 
-        // Gibt React kurz Zeit, das HTML zu bauen, bevor er die neue Höhe berechnet
-        setTimeout(() => {
+        requestAnimationFrame(() => {
           const newScrollHeight = document.documentElement.scrollHeight;
           const diff = newScrollHeight - oldScrollHeight;
           window.scrollTo({ top: scrollY + diff, behavior: 'instant' });
           
-          setTimeout(() => { isFetching.current = false; }, 100);
-        }, 0);
+          setTimeout(() => { isFetching.current = false; }, 50);
+        });
       }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [activeProject, currentView, activeCategory]);
+  }, [activeProject, currentView, activeCategory, baseProjects]);
 
   const handleGoHome = () => {
     setActiveProject(null);
@@ -731,7 +734,7 @@ export default function PortfolioApp() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&display=swap');
         
-        /* Unsichtbare Scrollbalken in allen Browsern! */
+        /* Unsichtbare Scrollbalken in ALLEN Browsern! */
         html, body {
           -ms-overflow-style: none;  /* IE and Edge */
           scrollbar-width: none;  /* Firefox */
