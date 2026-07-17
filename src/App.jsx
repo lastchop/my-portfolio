@@ -171,7 +171,8 @@ const ProjectCarousel = ({ project, onClick, id }) => {
   }, []);
 
   return (
-    <div id={id} className="flex flex-col mb-6 md:mb-0 smooth-appear">
+    // KEIN UNTERER MARGIN MEHR (mb-6 entfernt). Abstand wird jetzt rein vom Grid gesteuert!
+    <div id={id} className="flex flex-col smooth-appear">
       {/* Das eigentliche Bild-Karussell (Exakt 4:5 Format) */}
       <div 
         className="relative w-full aspect-[4/5] bg-white overflow-hidden group cursor-pointer rounded-xl"
@@ -664,8 +665,6 @@ export default function PortfolioApp() {
     : initialProjects;
 
   // Der mathematische Trick: Wir runden das Array exakt auf 15 Projekte auf!
-  // Warum 15? Weil 15 das kleinste gemeinsame Vielfache von 3 (Tablet) und 5 (Desktop) Spalten ist.
-  // Dadurch schließt das "Set" IMMER mit einer perfekten, vollen Zeile ab!
   const perfectSet = useMemo(() => {
     if (isMobile) return baseProjects; // Am Handy laden wir strikt nur das normale, einfache Set
     let arr = [...baseProjects];
@@ -675,7 +674,7 @@ export default function PortfolioApp() {
     return arr.slice(0, 15);
   }, [baseProjects, isMobile]);
 
-  // Auf Desktop rendern wir das perfekte Set 12 Mal unsichtbar hintereinander (180 Projekte!)
+  // Auf Desktop rendern wir das perfekte Set 12 Mal unsichtbar hintereinander
   const displayProjects = useMemo(() => {
     if (isMobile) return perfectSet;
     return Array(12).fill(perfectSet).flat().map((p, i) => ({ ...p, uniqueId: `${p.id}-${i}` }));
@@ -703,8 +702,7 @@ export default function PortfolioApp() {
     const initTimer = setTimeout(() => {
       calculateHeight();
       if (singleSetHeight > 0) {
-        // TELEPORT ZUM START: Wirft dich unsichtbar in die exakte Mitte (Set Nr. 5) 
-        // Du bist also bei Lade-Ende meilenweit von dem "grauen 0px Balken" entfernt!
+        // TELEPORT ZUM START
         window.scrollTo({ top: singleSetHeight * 5, behavior: 'instant' });
       }
     }, 100);
@@ -715,11 +713,11 @@ export default function PortfolioApp() {
 
       const scrollY = window.scrollY;
 
-      // TELEPORT NACH UNTEN: Wenn du in das obere Drittel scrollst
+      // TELEPORT NACH UNTEN
       if (scrollY < singleSetHeight * 3) {
         window.scrollTo({ top: scrollY + singleSetHeight, behavior: 'instant' });
       }
-      // TELEPORT NACH OBEN: Wenn du in das untere Drittel scrollst
+      // TELEPORT NACH OBEN
       else if (scrollY > singleSetHeight * 8) {
         window.scrollTo({ top: scrollY - singleSetHeight, behavior: 'instant' });
       }
@@ -802,10 +800,13 @@ export default function PortfolioApp() {
       ) : currentView === 'imprint' ? (
         <ImprintPage />
       ) : (
-        <main className="p-2 pt-32 pb-32">
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-2">
+        // HIER WURDE DAS PADDING GEÄNDERT: p-2 (8px auf allen Seiten) auf Mobile.
+        // Auf Desktop (ab md) kommen die großen pt-32 und pb-32 Abstände für den Loop wieder dazu!
+        <main className="p-2 md:pt-32 md:pb-32">
+          {/* HIER WURDE DAS GRID ANGEPASST: gap-6 (24px) auf Mobile, gap-2 (8px) auf Desktop */}
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-2">
             {isMobile ? (
-              // MOBILE RENDER (Exakt 1 Set, kein Absturz)
+              // MOBILE RENDER
               displayProjects.map((project, idx) => (
                 <ProjectCarousel 
                   key={project.id} 
@@ -815,7 +816,7 @@ export default function PortfolioApp() {
                 />
               ))
             ) : (
-              // DESKTOP RENDER (12 Sets für Seamless Teleport)
+              // DESKTOP RENDER
               Array(12).fill(displayProjects).map((_, setIndex) => (
                 <React.Fragment key={setIndex}>
                   {displayProjects.slice(setIndex * 15, (setIndex + 1) * 15).map((project, idx) => (
