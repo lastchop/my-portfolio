@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Menu, X, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
 
 // --- HELPER TO RENDER IMAGES OR VIDEOS AUTOMATICALLY ---
@@ -136,7 +136,7 @@ const initialProjects = [
 // --- KOMPONENTEN ---
 
 // 1. Das interaktive Karussell für das Grid
-const ProjectCarousel = ({ project, onClick }) => {
+const ProjectCarousel = ({ project, onClick, id }) => {
   const scrollRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -171,8 +171,7 @@ const ProjectCarousel = ({ project, onClick }) => {
   }, []);
 
   return (
-    // ABSTAND MOBILE VERRINGERT: mb-6 (statt mb-12)
-    <div className="flex flex-col mb-6 md:mb-0 smooth-appear">
+    <div id={id} className="flex flex-col mb-6 md:mb-0 smooth-appear">
       {/* Das eigentliche Bild-Karussell (Exakt 4:5 Format) */}
       <div 
         className="relative w-full aspect-[4/5] bg-white overflow-hidden group cursor-pointer rounded-xl"
@@ -651,70 +650,90 @@ export default function PortfolioApp() {
   const [activeProject, setActiveProject] = useState(null);
   const [currentView, setCurrentView] = useState('home');
   const [activeCategory, setActiveCategory] = useState(null);
-  
+  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
+
+  // Hört auf Fenster-Größenänderungen (Mobile vs Desktop)
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const baseProjects = activeCategory 
     ? initialProjects.filter(p => p.category === activeCategory)
     : initialProjects;
 
-  const [projects, setProjects] = useState(baseProjects);
-  const isFetching = useRef(false);
+  // Der mathematische Trick: Wir runden das Array exakt auf 15 Projekte auf!
+  // Warum 15? Weil 15 das kleinste gemeinsame Vielfache von 3 (Tablet) und 5 (Desktop) Spalten ist.
+  // Dadurch schließt das "Set" IMMER mit einer perfekten, vollen Zeile ab!
+  const perfectSet = useMemo(() => {
+    if (isMobile) return baseProjects; // Am Handy laden wir strikt nur das normale, einfache Set
+    let arr = [...baseProjects];
+    while (arr.length < 15) {
+      arr = [...arr, ...baseProjects];
+    }
+    return arr.slice(0, 15);
+  }, [baseProjects, isMobile]);
 
-  useEffect(() => {
-    setProjects(baseProjects);
-    // Timeout-Schutz beim ersten Laden
-    setTimeout(() => {
-      window.scrollTo({ top: 150, behavior: 'instant' });
-    }, 50);
-  }, [activeCategory]);
+  // Auf Desktop rendern wir das perfekte Set 12 Mal unsichtbar hintereinander (180 Projekte!)
+  const displayProjects = useMemo(() => {
+    if (isMobile) return perfectSet;
+    return Array(12).fill(perfectSet).flat().map((p, i) => ({ ...p, uniqueId: `${p.id}-${i}` }));
+  }, [perfectSet, isMobile]);
 
+  // Die Teleport-Logik (Lenis-Style Seamless Loop)
   useEffect(() => {
-    if (activeProject || currentView !== 'home') return;
+    if (isMobile || activeProject || currentView !== 'home') {
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    let singleSetHeight = 0;
+
+    // Errechnet die exakte Pixel-Höhe von einem einzigen 15er-Set
+    const calculateHeight = () => {
+      const item1 = document.getElementById('item-0-0');
+      const item2 = document.getElementById('item-1-0');
+      if (item1 && item2) {
+        singleSetHeight = item2.offsetTop - item1.offsetTop;
+      }
+    };
+
+    // Gib dem Browser eine Sekunde, um die Bilder für die Messung zu laden
+    const initTimer = setTimeout(() => {
+      calculateHeight();
+      if (singleSetHeight > 0) {
+        // TELEPORT ZUM START: Wirft dich unsichtbar in die exakte Mitte (Set Nr. 5) 
+        // Du bist also bei Lade-Ende meilenweit von dem "grauen 0px Balken" entfernt!
+        window.scrollTo({ top: singleSetHeight * 5, behavior: 'instant' });
+      }
+    }, 100);
 
     const handleScroll = () => {
-      if (isFetching.current) return;
-
-      // MOBILE FIX: Infinite Scroll auf dem Handy komplett deaktivieren!
-      // Wenn der Bildschirm schmaler als 768px ist, macht das Script nichts.
-      if (window.innerWidth < 768) return;
+      if (singleSetHeight === 0) calculateHeight();
+      if (singleSetHeight === 0) return;
 
       const scrollY = window.scrollY;
-      
-      // Verhindert Absturz am Desktop bei elastischem Minus-Scroll
-      if (scrollY < 0) return;
 
-      const scrollHeight = document.documentElement.scrollHeight;
-      const innerHeight = window.innerHeight;
-
-      // SMOOTH SCROLL NACH UNTEN (Lädt extrem früh nach: - 1500px)
-      if (innerHeight + scrollY >= scrollHeight - 1500) {
-        isFetching.current = true;
-        const newProjects = baseProjects.map(p => ({...p, id: p.id + '-down-' + Math.random()}));
-        setProjects(prev => [...prev, ...newProjects]);
-        
-        setTimeout(() => { isFetching.current = false; }, 100);
+      // TELEPORT NACH UNTEN: Wenn du in das obere Drittel scrollst
+      if (scrollY < singleSetHeight * 3) {
+        window.scrollTo({ top: scrollY + singleSetHeight, behavior: 'instant' });
       }
-
-      // SMOOTH SCROLL NACH OBEN (Nutzt requestAnimationFrame gegen Bildsprünge)
-      if (scrollY <= 50) {
-        isFetching.current = true;
-        const oldScrollHeight = scrollHeight;
-
-        const newProjects = baseProjects.map(p => ({...p, id: p.id + '-up-' + Math.random()}));
-        setProjects(prev => [...newProjects, ...prev]);
-
-        requestAnimationFrame(() => {
-          const newScrollHeight = document.documentElement.scrollHeight;
-          const diff = newScrollHeight - oldScrollHeight;
-          window.scrollTo({ top: scrollY + diff, behavior: 'instant' });
-          
-          setTimeout(() => { isFetching.current = false; }, 50);
-        });
+      // TELEPORT NACH OBEN: Wenn du in das untere Drittel scrollst
+      else if (scrollY > singleSetHeight * 8) {
+        window.scrollTo({ top: scrollY - singleSetHeight, behavior: 'instant' });
       }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [activeProject, currentView, activeCategory, baseProjects]);
+    window.addEventListener('resize', calculateHeight);
+
+    return () => {
+      clearTimeout(initTimer);
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', calculateHeight);
+    };
+  }, [isMobile, activeProject, currentView, displayProjects]);
 
   const handleGoHome = () => {
     setActiveProject(null);
@@ -785,13 +804,31 @@ export default function PortfolioApp() {
       ) : (
         <main className="p-2 pt-32 pb-32">
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-2">
-            {projects.map((project) => (
-              <ProjectCarousel 
-                key={project.id} 
-                project={project} 
-                onClick={(p) => setActiveProject(p)} 
-              />
-            ))}
+            {isMobile ? (
+              // MOBILE RENDER (Exakt 1 Set, kein Absturz)
+              displayProjects.map((project, idx) => (
+                <ProjectCarousel 
+                  key={project.id} 
+                  id={`item-0-${idx}`}
+                  project={project} 
+                  onClick={(p) => setActiveProject(p)} 
+                />
+              ))
+            ) : (
+              // DESKTOP RENDER (12 Sets für Seamless Teleport)
+              Array(12).fill(displayProjects).map((_, setIndex) => (
+                <React.Fragment key={setIndex}>
+                  {displayProjects.slice(setIndex * 15, (setIndex + 1) * 15).map((project, idx) => (
+                    <ProjectCarousel 
+                      key={`${setIndex}-${idx}`} 
+                      id={`item-${setIndex}-${idx}`}
+                      project={project} 
+                      onClick={(p) => setActiveProject(p)} 
+                    />
+                  ))}
+                </React.Fragment>
+              ))
+            )}
           </div>
         </main>
       )}
