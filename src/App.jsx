@@ -40,15 +40,33 @@ const placeholderDescription = "this project explores the boundaries between ana
 const initialProjects = [
   {
     id: 'p1',
-    title: 'neon nights',
+    title: 'test test',
     category: 'posters',
     description: placeholderDescription,
-    carousel: generateImages('neon', 4, '4:5'), 
+    
+    // STARTSEITEN-KARUSSELL
+    carousel: [
+      "/lobautunnel.jpg",
+      "https://picsum.photos/seed/neon1/800/1000"
+    ], 
+    
+    // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
     details: [
-      { type: '4:5', url: `https://picsum.photos/seed/neon0/800/1000` },
-      { type: '16:9', url: `https://picsum.photos/seed/neon-wide1/1920/1080` },
-      { type: '4:5', url: `https://picsum.photos/seed/neon2/800/1000` },
-      { type: '4:5', url: `https://picsum.photos/seed/neon3/800/1000` },
+      // Zeile 1: Ein 4:5 Bild und ein 16:9 Bild/Video nebeneinander
+      [
+        { type: '4:5', url: "/lobautunnel.jpg" },
+        { type: '16:9', url: "/lobautunnel-animation.mp4" }
+      ],
+      // Zeile 2: Drei 4:5 Bilder nebeneinander
+      [
+        { type: '4:5', url: "/lobautunnel-animation.mp4" },
+        { type: '4:5', url: "/lobautunnel-animation.mp4" },
+        { type: '4:5', url: "/lobautunnel-animation.mp4" }
+      ],
+      // Zeile 3: Ein einzelnes Bild über die volle Breite
+      [
+        { type: '16:9', url: "https://picsum.photos/seed/neon-wide2/1920/1080" }
+      ]
     ]
   },
   {
@@ -58,9 +76,11 @@ const initialProjects = [
     description: "a comprehensive rebranding for a sustainable startup. from logo design to packaging, every touchpoint was designed to combine ecological values with modern aesthetics.",
     carousel: generateImages('eco', 3, '4:5'),
     details: [
-      { type: '16:9', url: `https://picsum.photos/seed/eco-wide0/1920/1080` },
-      { type: '4:5', url: `https://picsum.photos/seed/eco1/800/1000` },
-      { type: '4:5', url: `https://picsum.photos/seed/eco2/800/1000` },
+      [{ type: '16:9', url: `https://picsum.photos/seed/eco-wide0/1920/1080` }],
+      [
+        { type: '4:5', url: `https://picsum.photos/seed/eco1/800/1000` },
+        { type: '4:5', url: `https://picsum.photos/seed/eco2/800/1000` }
+      ]
     ]
   },
   {
@@ -70,9 +90,11 @@ const initialProjects = [
     description: placeholderDescription,
     carousel: generateImages('char', 5, '4:5'),
     details: [
-      { type: '4:5', url: `https://picsum.photos/seed/char0/800/1000` },
-      { type: '4:5', url: `https://picsum.photos/seed/char1/800/1000` },
-      { type: '16:9', url: `https://picsum.photos/seed/char-wide2/1920/1080` },
+      [
+        { type: '4:5', url: `https://picsum.photos/seed/char0/800/1000` },
+        { type: '4:5', url: `https://picsum.photos/seed/char1/800/1000` }
+      ],
+      [{ type: '16:9', url: `https://picsum.photos/seed/char-wide2/1920/1080` }]
     ]
   },
   {
@@ -82,8 +104,10 @@ const initialProjects = [
     description: "a colorful and playful packaging series for cold-pressed juices. the design catches the eye on the supermarket shelf and communicates freshness at first glance.",
     carousel: generateImages('juice', 3, '4:5'),
     details: [
-      { type: '4:5', url: `https://picsum.photos/seed/juice0/800/1000` },
-      { type: '16:9', url: `https://picsum.photos/seed/juice-wide1/1920/1080` },
+      [
+        { type: '4:5', url: `https://picsum.photos/seed/juice0/800/1000` },
+        { type: '16:9', url: `https://picsum.photos/seed/juice-wide1/1920/1080` }
+      ]
     ]
   },
   {
@@ -93,8 +117,10 @@ const initialProjects = [
     description: placeholderDescription,
     carousel: generateImages('typo', 2, '4:5'),
     details: [
-      { type: '4:5', url: `https://picsum.photos/seed/typo0/800/1000` },
-      { type: '4:5', url: `https://picsum.photos/seed/typo1/800/1000` },
+      [
+        { type: '4:5', url: `https://picsum.photos/seed/typo0/800/1000` },
+        { type: '4:5', url: `https://picsum.photos/seed/typo1/800/1000` }
+      ]
     ]
   },
   {
@@ -104,8 +130,8 @@ const initialProjects = [
     description: placeholderDescription,
     carousel: generateImages('tech', 4, '4:5'),
     details: [
-      { type: '16:9', url: `https://picsum.photos/seed/tech-wide0/1920/1080` },
-      { type: '16:9', url: `https://picsum.photos/seed/tech-wide1/1920/1080` },
+      [{ type: '16:9', url: `https://picsum.photos/seed/tech-wide0/1920/1080` }],
+      [{ type: '16:9', url: `https://picsum.photos/seed/tech-wide1/1920/1080` }]
     ]
   },
   {
@@ -115,8 +141,10 @@ const initialProjects = [
     description: "free graphic exploration of basic botanical shapes. created as a series for fine art prints.",
     carousel: generateImages('botanical', 3, '4:5'),
     details: [
-      { type: '4:5', url: `https://picsum.photos/seed/botanical1/800/1000` },
-      { type: '4:5', url: `https://picsum.photos/seed/botanical2/800/1000` },
+      [
+        { type: '4:5', url: `https://picsum.photos/seed/botanical1/800/1000` },
+        { type: '4:5', url: `https://picsum.photos/seed/botanical2/800/1000` }
+      ]
     ]
   },
   {
@@ -126,9 +154,11 @@ const initialProjects = [
     description: "minimalist packaging design for a local coffee roastery in vienna. the focus was on tactile materials and concise typography.",
     carousel: generateImages('coffee', 4, '4:5'),
     details: [
-      { type: '16:9', url: `https://picsum.photos/seed/coffee0/1920/1080` },
-      { type: '4:5', url: `https://picsum.photos/seed/coffee1/800/1000` },
-      { type: '4:5', url: `https://picsum.photos/seed/coffee2/800/1000` },
+      [{ type: '16:9', url: `https://picsum.photos/seed/coffee0/1920/1080` }],
+      [
+        { type: '4:5', url: `https://picsum.photos/seed/coffee1/800/1000` },
+        { type: '4:5', url: `https://picsum.photos/seed/coffee2/800/1000` }
+      ]
     ]
   },
 ];
@@ -171,7 +201,6 @@ const ProjectCarousel = ({ project, onClick, id }) => {
   }, []);
 
   return (
-    // KEIN UNTERER MARGIN MEHR (mb-6 entfernt). Abstand wird jetzt rein vom Grid gesteuert!
     <div id={id} className="flex flex-col smooth-appear">
       {/* Das eigentliche Bild-Karussell (Exakt 4:5 Format) */}
       <div 
@@ -203,7 +232,7 @@ const ProjectCarousel = ({ project, onClick, id }) => {
           </div>
         )}
 
-        {/* Navigation Arrows (Nur auf Desktop! hidden md:flex) */}
+        {/* Navigation Arrows */}
         {project.carousel.length > 1 && (
           <>
             <button 
@@ -222,7 +251,7 @@ const ProjectCarousel = ({ project, onClick, id }) => {
           </>
         )}
 
-        {/* Overlay Title on Hover (Desktop) */}
+        {/* Overlay Title on Hover */}
         <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:flex items-center justify-center pointer-events-none">
           <h3 className="text-white text-base font-normal tracking-wide">{project.title}</h3>
         </div>
@@ -289,7 +318,6 @@ const FloatingMenu = ({ onGoHome, onViewChange, onCategorySelect }) => {
         >
           <div className="p-6 pt-10 flex flex-col gap-4">
             
-            {/* Projekt Kategorien */}
             <div className="flex flex-col">
               <button 
                 onClick={(e) => {
@@ -322,7 +350,7 @@ const FloatingMenu = ({ onGoHome, onViewChange, onCategorySelect }) => {
   );
 };
 
-// 3. Projekt Detailseite
+// 3. Projekt Detailseite - FULL WIDTH GRID (Ohne Hover-Zoom)
 const ProjectView = ({ project }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -330,7 +358,9 @@ const ProjectView = ({ project }) => {
 
   return (
     <div className="min-h-screen pb-24 pt-32">
-      <div className="px-6 md:px-12 max-w-7xl mx-auto mb-16">
+      
+      {/* TEXTBEREICH - Links ausgerichtet, aber Text nicht unendlich breit (Lesbarkeit!) */}
+      <div className="px-4 md:px-6 mb-16">
         <h1 className="text-4xl md:text-6xl font-medium tracking-tight mb-3">
           {project.title}
         </h1>
@@ -339,15 +369,34 @@ const ProjectView = ({ project }) => {
         </p>
       </div>
 
-      <div className="px-4 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-2 max-w-7xl mx-auto">
-        {project.details.map((media, idx) => {
-          const isWide = media.type === '16:9';
+      {/* BILDER-RASTER - 100% Breite */}
+      <div className="px-2 flex flex-col gap-6 md:gap-2 w-full">
+        {project.details.map((rowOrItem, idx) => {
+          const row = Array.isArray(rowOrItem) ? rowOrItem : [rowOrItem];
+
           return (
-            <div 
-              key={idx} 
-              className={`w-full overflow-hidden rounded-xl ${isWide ? 'md:col-span-2 aspect-video' : 'aspect-[4/5]'}`}
-            >
-              {renderMedia(media.url, `${project.title} detail ${idx}`, "w-full h-full object-cover hover:scale-105 transition-transform duration-700")}
+            <div key={idx} className="flex flex-col md:flex-row gap-6 md:gap-2 w-full">
+              {row.map((media, colIdx) => {
+                const flexValue = media.type === '16:9' ? 1.777 : media.type === '4:5' ? 0.8 : 1;
+                const ratioValue = media.type === '16:9' ? '16/9' : media.type === '4:5' ? '4/5' : '1/1';
+
+                return (
+                  <div 
+                    key={colIdx} 
+                    className="w-full relative overflow-hidden rounded-xl flex-editorial"
+                    style={{
+                      '--desktop-flex': flexValue,
+                      aspectRatio: ratioValue
+                    }}
+                  >
+                    {renderMedia(
+                      media.url, 
+                      `${project.title} detail ${idx}-${colIdx}`, 
+                      "absolute inset-0 w-full h-full object-cover" // <-- Hover-Effekte hier entfernt!
+                    )}
+                  </div>
+                );
+              })}
             </div>
           );
         })}
@@ -393,18 +442,13 @@ const ServicesPage = () => {
   return (
     <div className="min-h-screen pb-24 pt-32 px-6 md:px-12 flex justify-center">
       <div className="max-w-3xl w-full mb-16">
-        
-        {/* Unsichtbares Icon links, um die Main Headline exakt am Fließtext auszurichten */}
         <div className="flex items-start gap-6 mb-12">
           <div className="w-8 shrink-0"></div>
           <h1 className="text-4xl md:text-6xl font-medium tracking-tight">
             services
           </h1>
         </div>
-        
         <div className="flex flex-col gap-12">
-          
-          {/* Service 1 */}
           <div className="flex items-start gap-6">
             <div className="w-8 h-8 shrink-0 mt-1">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-full h-full text-black">
@@ -419,8 +463,6 @@ const ServicesPage = () => {
               </p>
             </div>
           </div>
-
-          {/* Service 2 */}
           <div className="flex items-start gap-6">
             <div className="w-8 h-8 shrink-0 mt-1">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-full h-full text-black">
@@ -435,8 +477,6 @@ const ServicesPage = () => {
               </p>
             </div>
           </div>
-
-          {/* Service 3 */}
           <div className="flex items-start gap-6">
             <div className="w-8 h-8 shrink-0 mt-1">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-full h-full text-black">
@@ -451,8 +491,6 @@ const ServicesPage = () => {
               </p>
             </div>
           </div>
-
-          {/* Service 4 */}
           <div className="flex items-start gap-6">
             <div className="w-8 h-8 shrink-0 mt-1">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-full h-full text-black">
@@ -467,8 +505,6 @@ const ServicesPage = () => {
               </p>
             </div>
           </div>
-
-          {/* Service 5 */}
           <div className="flex items-start gap-6">
             <div className="w-8 h-8 shrink-0 mt-1">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-full h-full text-black">
@@ -484,7 +520,6 @@ const ServicesPage = () => {
               </p>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -500,46 +535,26 @@ const ContactPage = () => {
         <h1 className="text-4xl md:text-6xl font-medium tracking-tight mb-12">
           get in touch
         </h1>
-        
         <div>
           <h2 className="text-lg font-medium text-black mb-0">project inquiries</h2>
           <p className="text-lg text-gray-700 leading-normal mb-10">
             have a project in mind or just want to say hi? drop me a line.
           </p>
         </div>
-        
         <form className="flex flex-col gap-6" onSubmit={(e) => e.preventDefault()}>
           <div className="flex flex-col gap-2">
             <label htmlFor="name" className="text-lg font-medium text-black pl-1">name</label>
-            <input 
-              type="text" 
-              id="name" 
-              className="w-full bg-transparent border border-black/20 focus:border-black rounded-xl px-4 py-3 focus:outline-none transition-colors text-lg" 
-              placeholder="your name" 
-            />
+            <input type="text" id="name" className="w-full bg-transparent border border-black/20 focus:border-black rounded-xl px-4 py-3 focus:outline-none transition-colors text-lg" placeholder="your name" />
           </div>
           <div className="flex flex-col gap-2">
             <label htmlFor="email" className="text-lg font-medium text-black pl-1">email</label>
-            <input 
-              type="email" 
-              id="email" 
-              className="w-full bg-transparent border border-black/20 focus:border-black rounded-xl px-4 py-3 focus:outline-none transition-colors text-lg" 
-              placeholder="your@email.com" 
-            />
+            <input type="email" id="email" className="w-full bg-transparent border border-black/20 focus:border-black rounded-xl px-4 py-3 focus:outline-none transition-colors text-lg" placeholder="your@email.com" />
           </div>
           <div className="flex flex-col gap-2">
             <label htmlFor="request" className="text-lg font-medium text-black pl-1">message</label>
-            <textarea 
-              id="request" 
-              rows="5" 
-              className="w-full bg-transparent border border-black/20 focus:border-black rounded-xl px-4 py-3 focus:outline-none transition-colors resize-none text-lg" 
-              placeholder="how can i help you?"
-            ></textarea>
+            <textarea id="request" rows="5" className="w-full bg-transparent border border-black/20 focus:border-black rounded-xl px-4 py-3 focus:outline-none transition-colors resize-none text-lg" placeholder="how can i help you?"></textarea>
           </div>
-          <button 
-            type="submit" 
-            className="self-start border border-black bg-transparent hover:bg-black text-black hover:text-white px-8 py-3 rounded-full font-medium transition-all duration-300 mt-2 text-lg"
-          >
+          <button type="submit" className="self-start border border-black bg-transparent hover:bg-black text-black hover:text-white px-8 py-3 rounded-full font-medium transition-all duration-300 mt-2 text-lg">
             submit
           </button>
         </form>
@@ -557,87 +572,23 @@ const ImprintPage = () => {
         <h1 className="text-4xl md:text-6xl font-medium tracking-tight mb-12">
           imprint & privacy policy
         </h1>
-        
         <div className="space-y-12">
           <section className="flex flex-col gap-6">
             <div>
               <h2 className="text-lg font-medium text-black mb-0">imprint</h2>
-              <p className="text-lg text-gray-700 leading-normal">
-                information according to § 5 ecg and disclosure according to § 25 medieng.
-              </p>
+              <p className="text-lg text-gray-700 leading-normal">information according to § 5 ecg and disclosure according to § 25 medieng.</p>
             </div>
-            
             <div>
               <h2 className="text-lg font-medium text-black mb-0">service provider, media owner and publisher:</h2>
-              <p className="text-lg text-gray-700 leading-normal">
-                [placeholder: lukas liszka]<br />
-                [placeholder: street 12]<br />
-                [placeholder: 1010 vienna, austria]
-              </p>
+              <p className="text-lg text-gray-700 leading-normal">[placeholder: lukas liszka]<br />[placeholder: street 12]<br />[placeholder: 1010 vienna, austria]</p>
             </div>
-
             <div>
               <h2 className="text-lg font-medium text-black mb-0">contact:</h2>
-              <p className="text-lg text-gray-700 leading-normal">
-                email: [placeholder: hello@lukasliszka.com]<br />
-                phone: [placeholder: +43 123 456789]
-              </p>
+              <p className="text-lg text-gray-700 leading-normal">email: [placeholder: hello@lukasliszka.com]<br />phone: [placeholder: +43 123 456789]</p>
             </div>
-
             <div>
               <h2 className="text-lg font-medium text-black mb-0">legal information:</h2>
-              <p className="text-lg text-gray-700 leading-normal">
-                vat number: [placeholder: atu12345678]<br />
-                business purpose: graphic design<br />
-                member of wko: [placeholder: wko wien, fachgruppe werbung und marktkommunikation]<br />
-                applicable legal regulations: gewerbeordnung (www.ris.bka.gv.at)<br />
-                supervisory authority/trade authority: [placeholder: magistratisches bezirksamt des x. bezirkes]<br />
-                job title: graphic designer
-              </p>
-            </div>
-            
-            <div>
-              <h2 className="text-lg font-medium text-black mb-0">online dispute resolution</h2>
-              <p className="text-lg text-gray-700 leading-normal">
-                consumers have the opportunity to submit complaints to the eu's online dispute resolution platform: http://ec.europa.eu/odr. you can also send any complaints to the email address given above.
-              </p>
-            </div>
-          </section>
-          
-          <section className="pt-12 border-t border-black/10 flex flex-col gap-6">
-            <div>
-              <h2 className="text-lg font-medium text-black mb-0">privacy policy</h2>
-              <p className="text-lg text-gray-700 leading-normal">
-                the protection of your personal data is of particular concern to us. we therefore process your data exclusively on the basis of the statutory provisions (gdpr, tkg 2021). in this privacy policy we inform you about the most important aspects of data processing within the framework of our website.
-              </p>
-            </div>
-
-            <div>
-              <h2 className="text-lg font-medium text-black mb-0">contacting us</h2>
-              <p className="text-lg text-gray-700 leading-normal">
-                if you contact us via the form on the website or by email, the data you provide will be stored by us for six months for the purpose of processing the inquiry and in case of follow-up questions. we do not pass on this data without your consent.
-              </p>
-            </div>
-
-            <div>
-              <h2 className="text-lg font-medium text-black mb-0">cookies</h2>
-              <p className="text-lg text-gray-700 leading-normal">
-                our website uses so-called cookies. these are small text files that are stored on your device with the help of the browser. they do no harm. we use cookies to make our offer user-friendly. some cookies remain stored on your device until you delete them. they enable us to recognize your browser on your next visit. if you do not want this, you can set up your browser so that it informs you about the setting of cookies and you only allow this in individual cases.
-              </p>
-            </div>
-
-            <div>
-              <h2 className="text-lg font-medium text-black mb-0">server log files</h2>
-              <p className="text-lg text-gray-700 leading-normal">
-                the provider of the pages automatically collects and stores information in so-called server log files, which your browser automatically transmits to us. these are: browser type and browser version, operating system used, referrer url, host name of the accessing computer, time of the server request, ip address. these data are not merged with other data sources.
-              </p>
-            </div>
-
-            <div>
-              <h2 className="text-lg font-medium text-black mb-0">your rights</h2>
-              <p className="text-lg text-gray-700 leading-normal">
-                in principle, you have the rights to information, correction, deletion, restriction, data portability, revocation and objection regarding your stored data. if you believe that the processing of your data violates data protection law or your data protection claims have otherwise been violated in any way, you can complain to us [placeholder: hello@lukasliszka.com] or the data protection authority.
-              </p>
+              <p className="text-lg text-gray-700 leading-normal">vat number: [placeholder: atu12345678]<br />business purpose: graphic design<br />member of wko: [placeholder: wko wien, fachgruppe werbung und marktkommunikation]<br />applicable legal regulations: gewerbeordnung (www.ris.bka.gv.at)<br />supervisory authority/trade authority: [placeholder: magistratisches bezirksamt des x. bezirkes]<br />job title: graphic designer</p>
             </div>
           </section>
         </div>
@@ -653,7 +604,6 @@ export default function PortfolioApp() {
   const [activeCategory, setActiveCategory] = useState(null);
   const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
 
-  // Hört auf Fenster-Größenänderungen (Mobile vs Desktop)
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', handleResize);
@@ -664,23 +614,18 @@ export default function PortfolioApp() {
     ? initialProjects.filter(p => p.category === activeCategory)
     : initialProjects;
 
-  // Der mathematische Trick: Wir runden das Array exakt auf 15 Projekte auf!
   const perfectSet = useMemo(() => {
-    if (isMobile) return baseProjects; // Am Handy laden wir strikt nur das normale, einfache Set
+    if (isMobile) return baseProjects;
     let arr = [...baseProjects];
-    while (arr.length < 15) {
-      arr = [...arr, ...baseProjects];
-    }
+    while (arr.length < 15) { arr = [...arr, ...baseProjects]; }
     return arr.slice(0, 15);
   }, [baseProjects, isMobile]);
 
-  // Auf Desktop rendern wir das perfekte Set 12 Mal unsichtbar hintereinander
   const displayProjects = useMemo(() => {
     if (isMobile) return perfectSet;
     return Array(12).fill(perfectSet).flat().map((p, i) => ({ ...p, uniqueId: `${p.id}-${i}` }));
   }, [perfectSet, isMobile]);
 
-  // Die Teleport-Logik (Lenis-Style Seamless Loop)
   useEffect(() => {
     if (isMobile || activeProject || currentView !== 'home') {
       window.scrollTo(0, 0);
@@ -689,7 +634,6 @@ export default function PortfolioApp() {
 
     let singleSetHeight = 0;
 
-    // Errechnet die exakte Pixel-Höhe von einem einzigen 15er-Set
     const calculateHeight = () => {
       const item1 = document.getElementById('item-0-0');
       const item2 = document.getElementById('item-1-0');
@@ -698,11 +642,9 @@ export default function PortfolioApp() {
       }
     };
 
-    // Gib dem Browser eine Sekunde, um die Bilder für die Messung zu laden
     const initTimer = setTimeout(() => {
       calculateHeight();
       if (singleSetHeight > 0) {
-        // TELEPORT ZUM START
         window.scrollTo({ top: singleSetHeight * 5, behavior: 'instant' });
       }
     }, 100);
@@ -713,12 +655,9 @@ export default function PortfolioApp() {
 
       const scrollY = window.scrollY;
 
-      // TELEPORT NACH UNTEN
       if (scrollY < singleSetHeight * 3) {
         window.scrollTo({ top: scrollY + singleSetHeight, behavior: 'instant' });
-      }
-      // TELEPORT NACH OBEN
-      else if (scrollY > singleSetHeight * 8) {
+      } else if (scrollY > singleSetHeight * 8) {
         window.scrollTo({ top: scrollY - singleSetHeight, behavior: 'instant' });
       }
     };
@@ -751,31 +690,30 @@ export default function PortfolioApp() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&display=swap');
         
-        /* Unsichtbare Scrollbalken in ALLEN Browsern! */
         html, body {
-          -ms-overflow-style: none;  /* IE and Edge */
-          scrollbar-width: none;  /* Firefox */
-        }
-        html::-webkit-scrollbar, body::-webkit-scrollbar {
-          display: none; /* Chrome, Safari and Opera */
-        }
-
-        html {
-          scroll-behavior: smooth;
-        }
-        .hide-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-        .hide-scrollbar {
           -ms-overflow-style: none;
           scrollbar-width: none;
         }
+        html::-webkit-scrollbar, body::-webkit-scrollbar {
+          display: none;
+        }
+        html { scroll-behavior: smooth; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
         @keyframes fadeInSmooth {
           from { opacity: 0; transform: translateY(15px); }
           to { opacity: 1; transform: translateY(0); }
         }
         .smooth-appear {
           animation: fadeInSmooth 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        /* HIER IST DIE MATHE FÜR DAS PERFEKTE RASTER (Nur auf Desktop) */
+        @media (min-width: 768px) {
+          .flex-editorial {
+            flex: var(--desktop-flex) 1 0% !important;
+          }
         }
       `}</style>
 
@@ -788,7 +726,6 @@ export default function PortfolioApp() {
         onCategorySelect={handleCategorySelect}
       />
 
-      {/* Main Content Area */}
       {activeProject ? (
         <ProjectView project={activeProject} />
       ) : currentView === 'about' ? (
@@ -800,32 +737,17 @@ export default function PortfolioApp() {
       ) : currentView === 'imprint' ? (
         <ImprintPage />
       ) : (
-        // HIER WURDE DAS PADDING GEÄNDERT: p-2 (8px auf allen Seiten) auf Mobile.
-        // Auf Desktop (ab md) kommen die großen pt-32 und pb-32 Abstände für den Loop wieder dazu!
         <main className="p-2 md:pt-32 md:pb-32">
-          {/* HIER WURDE DAS GRID ANGEPASST: gap-6 (24px) auf Mobile, gap-2 (8px) auf Desktop */}
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-2">
             {isMobile ? (
-              // MOBILE RENDER
               displayProjects.map((project, idx) => (
-                <ProjectCarousel 
-                  key={project.id} 
-                  id={`item-0-${idx}`}
-                  project={project} 
-                  onClick={(p) => setActiveProject(p)} 
-                />
+                <ProjectCarousel key={project.id} id={`item-0-${idx}`} project={project} onClick={(p) => setActiveProject(p)} />
               ))
             ) : (
-              // DESKTOP RENDER
               Array(12).fill(displayProjects).map((_, setIndex) => (
                 <React.Fragment key={setIndex}>
                   {displayProjects.slice(setIndex * 15, (setIndex + 1) * 15).map((project, idx) => (
-                    <ProjectCarousel 
-                      key={`${setIndex}-${idx}`} 
-                      id={`item-${setIndex}-${idx}`}
-                      project={project} 
-                      onClick={(p) => setActiveProject(p)} 
-                    />
+                    <ProjectCarousel key={`${setIndex}-${idx}`} id={`item-${setIndex}-${idx}`} project={project} onClick={(p) => setActiveProject(p)} />
                   ))}
                 </React.Fragment>
               ))
