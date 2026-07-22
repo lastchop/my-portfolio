@@ -40,110 +40,148 @@ const placeholderDescription = "this project explores the boundaries between ana
 const initialProjects = [
   {
     id: 'p1',
-    title: 'test test',
+    title: 'Nein zum Lobautunnel',
     category: 'posters',
     description: placeholderDescription,
     
     // STARTSEITEN-KARUSSELL
     carousel: [
-      "/lobautunnel.jpg",
-      "https://picsum.photos/seed/neon1/800/1000"
+      "/lobautunnel-animation.mp4",
+      "/lobautunnel-mockup.webp",
     ], 
     
     // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
     details: [
       // Zeile 1: Ein 4:5 Bild und ein 16:9 Bild/Video nebeneinander
       [
-        { type: '4:5', url: "/lobautunnel.jpg" },
-        { type: '16:9', url: "/lobautunnel-animation.mp4" }
+        { type: '16:9', url: "/lobautunnel-mockup1.webp" },
+        { type: '4:5', url: "/lobautunnel-mockup.webp" }
       ],
       // Zeile 2: Drei 4:5 Bilder nebeneinander
       [
         { type: '4:5', url: "/lobautunnel-animation.mp4" },
         { type: '4:5', url: "/lobautunnel-animation.mp4" },
         { type: '4:5', url: "/lobautunnel-animation.mp4" }
-      ],
-      // Zeile 3: Ein einzelnes Bild über die volle Breite
-      [
-        { type: '16:9', url: "https://picsum.photos/seed/neon-wide2/1920/1080" }
       ]
     ]
   },
   {
     id: 'p2',
-    title: 'eco brand',
-    category: 'branding',
-    description: "a comprehensive rebranding for a sustainable startup. from logo design to packaging, every touchpoint was designed to combine ecological values with modern aesthetics.",
-    carousel: generateImages('eco', 3, '4:5'),
+    title: 'niemann plakat',
+    category: 'posters',
+    description: placeholderDescription,
+    
+    // STARTSEITEN-KARUSSELL
+    carousel: [
+      "/niemann-plakat.webp",
+      "/niemann-3.webp",
+      "/niemann-1.webp",
+      "/niemann-2.webp",
+      "/niemann-4.webp",
+    ], 
+    
+    // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
     details: [
-      [{ type: '16:9', url: `https://picsum.photos/seed/eco-wide0/1920/1080` }],
+      // Zeile 1: Ein 4:5 Bild und ein 16:9 Bild/Video nebeneinander
       [
-        { type: '4:5', url: `https://picsum.photos/seed/eco1/800/1000` },
-        { type: '4:5', url: `https://picsum.photos/seed/eco2/800/1000` }
+        { type: '4:5', url: "/niemann-2.webp" },
+        { type: '16:9', url: "/niemann-5.webp" }
+      ],
+      // Zeile 2: Drei 4:5 Bilder nebeneinander
+      [
+        { type: '4:5', url: "/niemann-plakat.webp" },
+        { type: '4:5', url: "/niemann-1.webp" },
+        { type: '4:5', url: "/niemann-3.webp" }
+      ],
+      // Zeile 3: Ein einzelnes Bild über die volle Breite
+      [
+        { type: '16:9', url: "/niemann-6.webp" }
       ]
     ]
   },
   {
     id: 'p3',
-    title: 'character design',
+    title: 'wählengehen',
     category: 'illustrations',
     description: placeholderDescription,
-    carousel: generateImages('char', 5, '4:5'),
+    
+    // STARTSEITEN-KARUSSELL
+    carousel: [
+      "/waehlengehen.mp4",
+      "/waehlengehen-1.webp",
+    ], 
+    
+    // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
     details: [
+      // Zeile 1: Ein 4:5 Bild und ein 16:9 Bild/Video nebeneinander
       [
-        { type: '4:5', url: `https://picsum.photos/seed/char0/800/1000` },
-        { type: '4:5', url: `https://picsum.photos/seed/char1/800/1000` }
-      ],
-      [{ type: '16:9', url: `https://picsum.photos/seed/char-wide2/1920/1080` }]
+        { type: '4:5', url: "/waehlengehen.mp4" },
+        { type: '16:9', url: "/waehlengehen-1.webp" }
+      ]
     ]
   },
   {
     id: 'p4',
-    title: 'juice box',
+    title: 'sailor gin',
     category: 'packaging',
-    description: "a colorful and playful packaging series for cold-pressed juices. the design catches the eye on the supermarket shelf and communicates freshness at first glance.",
-    carousel: generateImages('juice', 3, '4:5'),
+    description: placeholderDescription,
+    
+    // STARTSEITEN-KARUSSELL
+    carousel: [
+      "/sailor-gin-animation.mp4",
+      "/sailor-gin-mockup1.webp",
+    ], 
+    
+    // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
     details: [
+      // Zeile 1: Ein 4:5 Bild und ein 16:9 Bild/Video nebeneinander
       [
-        { type: '4:5', url: `https://picsum.photos/seed/juice0/800/1000` },
-        { type: '16:9', url: `https://picsum.photos/seed/juice-wide1/1920/1080` }
+        { type: '4:5', url: "/sailor-gin-animation.mp4" },
+        { type: '16:9', url: "/sailor-gin-mockup.webp" }
       ]
     ]
   },
   {
     id: 'p5',
-    title: 'typo poster',
-    category: 'posters',
+    title: 'träubchen',
+    category: 'packaging',
     description: placeholderDescription,
-    carousel: generateImages('typo', 2, '4:5'),
+    
+    // STARTSEITEN-KARUSSELL
+    carousel: [
+      "/weinflaschen.webp",
+    ], 
+    
+    // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
     details: [
       [
-        { type: '4:5', url: `https://picsum.photos/seed/typo0/800/1000` },
-        { type: '4:5', url: `https://picsum.photos/seed/typo1/800/1000` }
+        { type: '16:9', url: "/weinflaschen1.webp" }
+      ],
+      [
+        { type: '16:9', url: "/trauben1.webp" }
+      ],
+      [
+        { type: '16:9', url: "/trauben2.webp" }
       ]
     ]
   },
   {
     id: 'p6',
-    title: 'tech identity',
-    category: 'branding',
-    description: placeholderDescription,
-    carousel: generateImages('tech', 4, '4:5'),
-    details: [
-      [{ type: '16:9', url: `https://picsum.photos/seed/tech-wide0/1920/1080` }],
-      [{ type: '16:9', url: `https://picsum.photos/seed/tech-wide1/1920/1080` }]
-    ]
-  },
-  {
-    id: 'p7',
-    title: 'botanical shapes',
+    title: 'hand in hand',
     category: 'illustrations',
-    description: "free graphic exploration of basic botanical shapes. created as a series for fine art prints.",
-    carousel: generateImages('botanical', 3, '4:5'),
+    description: placeholderDescription,
+    
+    // STARTSEITEN-KARUSSELL
+    carousel: [
+      "/eu-animation.mp4"
+    ], 
+    
+    // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
     details: [
+      // Zeile 1: Ein 4:5 Bild und ein 16:9 Bild/Video nebeneinander
       [
-        { type: '4:5', url: `https://picsum.photos/seed/botanical1/800/1000` },
-        { type: '4:5', url: `https://picsum.photos/seed/botanical2/800/1000` }
+        { type: '4:5', url: "/eu-animation.mp4" },
+        { type: '16:9', url: "public/eu-flagge.webp" }
       ]
     ]
   },
@@ -202,7 +240,7 @@ const ProjectCarousel = ({ project, onClick, id }) => {
 
   return (
     <div id={id} className="flex flex-col smooth-appear">
-      {/* Das eigentliche Bild-Karussell (Exakt 4:5 Format) */}
+      {/* Das eigentliche Bild-Karussell */}
       <div 
         className="relative w-full aspect-[4/5] bg-white overflow-hidden group cursor-pointer rounded-xl"
         onClick={() => onClick(project)}
@@ -250,14 +288,9 @@ const ProjectCarousel = ({ project, onClick, id }) => {
             </button>
           </>
         )}
-
-        {/* Overlay Title on Hover */}
-        <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:flex items-center justify-center pointer-events-none">
-          <h3 className="text-white text-base font-normal tracking-wide">{project.title}</h3>
-        </div>
       </div>
       
-      {/* Mobile Title */}
+      {/* Mobile Title (Bleibt erhalten, da er unter dem Bild steht) */}
       <div 
         className="md:hidden mt-3 text-left cursor-pointer px-1" 
         onClick={() => onClick(project)}
