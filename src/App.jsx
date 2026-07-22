@@ -108,7 +108,6 @@ const initialProjects = [
     // STARTSEITEN-KARUSSELL
     carousel: [
       "/waehlengehen.mp4",
-      "/waehlengehen-1.webp",
     ], 
     
     // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
