@@ -185,16 +185,57 @@ const initialProjects = [
     ]
   },
   {
-    id: 'p8',
-    title: 'coffee roasters',
-    category: 'packaging',
-    description: "minimalist packaging design for a local coffee roastery in vienna. the focus was on tactile materials and concise typography.",
-    carousel: generateImages('coffee', 4, '4:5'),
+    id: 'p7',
+    title: 'zonkey',
+    category: 'branding',
+    description: placeholderDescription,
+    
+    // STARTSEITEN-KARUSSELL
+    carousel: [
+      "/zonkey-logo.webp",
+      "/zonkey-schild.webp",
+    ], 
+    
+    // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
     details: [
-      [{ type: '16:9', url: `https://picsum.photos/seed/coffee0/1920/1080` }],
+      // Zeile 1: Ein 4:5 Bild und ein 16:9 Bild/Video nebeneinander
       [
-        { type: '4:5', url: `https://picsum.photos/seed/coffee1/800/1000` },
-        { type: '4:5', url: `https://picsum.photos/seed/coffee2/800/1000` }
+        { type: '4:5', url: "/zonkey-logo.webp" },
+        { type: '16:9', url: "/zonkey-website.webp" }
+      ],
+      [
+        { type: '16:9', url: "/zonkey-anwendungen.webp" },
+        { type: '4:5', url: "/zonkey-schild.webp" }
+      ],
+      // Zeile 3: Ein einzelnes Bild über die volle Breite
+      [
+        { type: '16:9', url: "/zonkey-herleitung.webp" }
+      ]
+    ]
+  },
+  {
+    id: 'p8',
+    title: 'dixi rebranding',
+    category: 'branding',
+    description: placeholderDescription,
+    
+    // STARTSEITEN-KARUSSELL
+    carousel: [
+      "/dixi-logo.webp",
+      "/dixi-nonne.webp",
+      "/dixi-festival1.webp",
+    ], 
+    
+    // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
+    details: [
+      // Zeile 1: Ein 4:5 Bild und ein 16:9 Bild/Video nebeneinander
+      [
+        { type: '16:9', url: "/dixi-vergleich.webp" },
+        { type: '4:5', url: "/dixi-nonne.webp" }
+      ],
+      [
+        { type: '16:9', url: "/dixi-festival.webp" },
+        { type: '4:5', url: "/dixi-logo.webp" }
       ]
     ]
   },
