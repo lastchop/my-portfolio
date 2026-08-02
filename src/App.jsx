@@ -215,7 +215,7 @@ const initialProjects = [
   },
   {
     id: 'p8',
-    title: 'dixi rebranding',
+    title: 'fiktives dixi rebranding',
     category: 'branding',
     description: placeholderDescription,
     
@@ -236,6 +236,203 @@ const initialProjects = [
       [
         { type: '16:9', url: "/dixi-festival.webp" },
         { type: '4:5', url: "/dixi-logo.webp" }
+      ]
+    ]
+  },
+  {
+    id: 'p9',
+    title: 'alumnivortrag “on digressing” ',
+    category: 'posters',
+    description: placeholderDescription,
+    
+    // STARTSEITEN-KARUSSELL
+    carousel: [
+      "/ondigressing-animation.mp4",
+      "/ondigressing-mockup1.webp",
+    ], 
+    
+    // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
+    details: [
+      // Zeile 1: Ein 4:5 Bild und ein 16:9 Bild/Video nebeneinander
+      [
+        { type: '16:9', url: "/ondigressing-mockup2.webp" },
+        { type: '4:5', url: "/ondigressing-animation.mp4" }
+      ]
+    ]
+  },
+  {
+    id: 'p10',
+    title: 'forum stadtpark',
+    category: 'branding',
+    description: placeholderDescription,
+    
+    // STARTSEITEN-KARUSSELL
+    carousel: [
+      "/forum-icon.webp",
+      "/forum-plakat.webp",
+      "/forum-versionen.webp",
+      "/forum-orientierung-4x5.webp",
+    ], 
+    
+    // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
+    details: [
+      // Zeile 1: Ein 4:5 Bild und ein 16:9 Bild/Video nebeneinander
+      [
+        { type: '4:5', url: "/forum-plakat.webp" },
+        { type: '16:9', url: "/forum-versionen1.webp" }
+      ],
+      [
+        { type: '16:9', url: "/forum-orientierung.webp" },
+        { type: '5', url: "/forum-orientierung1.webp" }
+      ],
+      [
+        { type: '16:9', url: "/forum-website.webp" },
+        { type: '5', url: "/forum-haus.webp" }
+      ]
+    ]
+  },
+  {
+    id: 'p11',
+    title: 'burnout',
+    category: 'illustrations',
+    description: placeholderDescription,
+    
+    // STARTSEITEN-KARUSSELL
+    carousel: [
+      "/burnout.mp4",
+    ], 
+    
+    // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
+    details: [
+      // Zeile 1: Ein 4:5 Bild und ein 16:9 Bild/Video nebeneinander
+      [
+        { type: '4:5', url: "/burnout.mp4" },
+        { type: '16:9', url: "/" }
+      ]
+    ]
+  },
+  {
+    id: 'p12',
+    title: 'MA15 Kalender',
+    category: 'illustartions',
+    description: placeholderDescription,
+    
+    // STARTSEITEN-KARUSSELL
+    carousel: [
+      "/ma15.webp",
+    ], 
+    
+    // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
+    details: [
+      // Zeile 1: Ein 4:5 Bild und ein 16:9 Bild/Video nebeneinander
+      [
+        { type: '4:5', url: "/niemann-2.webp" },
+        { type: '16:9', url: "/niemann-5.webp" }
+      ],
+      // Zeile 2: Drei 4:5 Bilder nebeneinander
+      [
+        { type: '4:5', url: "/niemann-plakat.webp" },
+        { type: '4:5', url: "/niemann-1.webp" },
+        { type: '4:5', url: "/niemann-3.webp" }
+      ],
+      // Zeile 3: Ein einzelnes Bild über die volle Breite
+      [
+        { type: '16:9', url: "/niemann-6.webp" }
+      ]
+    ]
+  },
+  {
+    id: 'p13',
+    title: 'lazy ways to help our planet',
+    category: 'posters',
+    description: placeholderDescription,
+    
+    // STARTSEITEN-KARUSSELL
+    carousel: [
+      "/lazy.webp",
+      "/lazy-piktogramm1.webp",
+      "/lazy-piktogramm2.webp",
+      "/lazy-piktogramm3.webp",
+      "/lazy2.webp",
+    ], 
+    
+    // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
+    details: [
+      // Zeile 1: Ein 4:5 Bild und ein 16:9 Bild/Video nebeneinander
+      [
+        { type: '4:5', url: "/lazy.webp" },
+        { type: '16:9', url: "/lazy1.webp" }
+      ],
+      // Zeile 2: Drei 4:5 Bilder nebeneinander
+      [
+        { type: '4:5', url: "/lazy-piktogramm1.webp" },
+        { type: '4:5', url: "/lazy-piktogramm2.webp" },
+        { type: '4:5', url: "/lazy-piktogramm3.webp" }
+      ]
+    ]
+  },
+  {
+    id: 'p14',
+    title: 'glleisig',
+    category: 'branding',
+    description: placeholderDescription,
+    
+    // STARTSEITEN-KARUSSELL
+    carousel: [
+      "/gleisig-tickets.webp",
+      "/gleisig-fahrplan.webp",
+      "/gleisig-bim1.webp",
+      "/gleisig-plakat1.webp",
+    ], 
+    
+    // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
+    details: [
+      // Zeile 1: Ein 4:5 Bild und ein 16:9 Bild/Video nebeneinander
+      [
+        { type: '16:9', url: "/gleisig-bim.webp" }
+      ],
+      // Zeile 2: Drei 4:5 Bilder nebeneinander
+      [
+        { type: '16:9', url: "/gleisig-uebersicht.webp" },
+        { type: '4:5', url: "/gleisig-tickets.webp" }
+      ],
+       [
+        { type: '16:9', url: "/gleisig-plakat.webp" }
+      ],
+      [
+        { type: '16:9', url: "/gleisig-uebersicht1.webp" },
+        { type: '4:5', url: "/gleisig-fahrplan.webp" }
+      ]
+    ]
+  },
+  {
+    id: 'p15',
+    title: 'Mentale Notfälle',
+    category: 'posters',
+    description: placeholderDescription,
+    
+    // STARTSEITEN-KARUSSELL
+    carousel: [
+      "/147-mockup.webp",
+    ], 
+    
+    // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
+    details: [
+      // Zeile 1: Ein 4:5 Bild und ein 16:9 Bild/Video nebeneinander
+      [
+        { type: '16:9', url: "/gleisig-bim.webp" }
+      ],
+      // Zeile 2: Drei 4:5 Bilder nebeneinander
+      [
+        { type: '16:9', url: "/gleisig-uebersicht.webp" },
+        { type: '4:5', url: "/gleisig-tickets.webp" }
+      ],
+       [
+        { type: '16:9', url: "/gleisig-plakat.webp" }
+      ],
+      [
+        { type: '16:9', url: "/gleisig-uebersicht1.webp" },
+        { type: '4:5', url: "/gleisig-fahrplan.webp" }
       ]
     ]
   },
