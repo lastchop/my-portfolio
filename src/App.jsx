@@ -27,37 +27,23 @@ const renderMedia = (url, alt, className) => {
 };
 
 // --- MOCK DATA ---
-const generateImages = (seed, count, ratio) => {
-  return Array.from({ length: count }).map((_, i) => {
-    const width = ratio === '16:9' ? 1920 : 800;
-    const height = ratio === '16:9' ? 1080 : 1000;
-    return `https://picsum.photos/seed/${seed}${i}/${width}/${height}`;
-  });
-};
-
 const placeholderDescription = "this project explores the boundaries between analog texture and digital precision. the goal was to develop a visual language that works seamlessly on both physical posters and in immersive online experiences. the color palette was deliberately reduced to draw focus to the shapes and strong typography.";
 
 const initialProjects = [
   {
     id: 'p1',
-    title: 'Nein zum Lobautunnel',
+    title: 'nein zum lobautunnel',
     category: 'posters',
     description: placeholderDescription,
-    
-    // STARTSEITEN-KARUSSELL
     carousel: [
       "/lobautunnel-animation.mp4",
       "/lobautunnel-mockup.webp",
     ], 
-    
-    // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
     details: [
-      // Zeile 1: Ein 4:5 Bild und ein 16:9 Bild/Video nebeneinander
       [
         { type: '16:9', url: "/lobautunnel-mockup1.webp" },
         { type: '4:5', url: "/lobautunnel-mockup.webp" }
       ],
-      // Zeile 2: Drei 4:5 Bilder nebeneinander
       [
         { type: '4:5', url: "/lobautunnel-animation.mp4" },
         { type: '4:5', url: "/lobautunnel-animation.mp4" },
@@ -70,8 +56,6 @@ const initialProjects = [
     title: 'niemann plakat',
     category: 'posters',
     description: placeholderDescription,
-    
-    // STARTSEITEN-KARUSSELL
     carousel: [
       "/niemann-plakat.webp",
       "/niemann-3.webp",
@@ -79,21 +63,16 @@ const initialProjects = [
       "/niemann-2.webp",
       "/niemann-4.webp",
     ], 
-    
-    // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
     details: [
-      // Zeile 1: Ein 4:5 Bild und ein 16:9 Bild/Video nebeneinander
       [
         { type: '4:5', url: "/niemann-2.webp" },
         { type: '16:9', url: "/niemann-5.webp" }
       ],
-      // Zeile 2: Drei 4:5 Bilder nebeneinander
       [
         { type: '4:5', url: "/niemann-plakat.webp" },
         { type: '4:5', url: "/niemann-1.webp" },
         { type: '4:5', url: "/niemann-3.webp" }
       ],
-      // Zeile 3: Ein einzelnes Bild über die volle Breite
       [
         { type: '16:9', url: "/niemann-6.webp" }
       ]
@@ -104,15 +83,10 @@ const initialProjects = [
     title: 'wählengehen',
     category: 'illustrations',
     description: placeholderDescription,
-    
-    // STARTSEITEN-KARUSSELL
     carousel: [
       "/waehlengehen.mp4",
     ], 
-    
-    // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
     details: [
-      // Zeile 1: Ein 4:5 Bild und ein 16:9 Bild/Video nebeneinander
       [
         { type: '4:5', url: "/waehlengehen.mp4" },
         { type: '16:9', url: "/waehlengehen-1.webp" }
@@ -124,16 +98,11 @@ const initialProjects = [
     title: 'sailor gin',
     category: 'packaging',
     description: placeholderDescription,
-    
-    // STARTSEITEN-KARUSSELL
     carousel: [
       "/sailor-gin-animation.mp4",
       "/sailor-gin-mockup1.webp",
     ], 
-    
-    // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
     details: [
-      // Zeile 1: Ein 4:5 Bild und ein 16:9 Bild/Video nebeneinander
       [
         { type: '4:5', url: "/sailor-gin-animation.mp4" },
         { type: '16:9', url: "/sailor-gin-mockup.webp" }
@@ -145,13 +114,9 @@ const initialProjects = [
     title: 'träubchen',
     category: 'packaging',
     description: placeholderDescription,
-    
-    // STARTSEITEN-KARUSSELL
     carousel: [
       "/weinflaschen.webp",
     ], 
-    
-    // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
     details: [
       [
         { type: '16:9', url: "/weinflaschen1.webp" }
@@ -169,15 +134,10 @@ const initialProjects = [
     title: 'hand in hand',
     category: 'illustrations',
     description: placeholderDescription,
-    
-    // STARTSEITEN-KARUSSELL
     carousel: [
       "/eu-animation.mp4"
     ], 
-    
-    // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
     details: [
-      // Zeile 1: Ein 4:5 Bild und ein 16:9 Bild/Video nebeneinander
       [
         { type: '4:5', url: "/eu-animation.mp4" },
         { type: '16:9', url: "public/eu-flagge.webp" }
@@ -189,16 +149,11 @@ const initialProjects = [
     title: 'zonkey',
     category: 'branding',
     description: placeholderDescription,
-    
-    // STARTSEITEN-KARUSSELL
     carousel: [
       "/zonkey-logo.webp",
       "/zonkey-schild.webp",
     ], 
-    
-    // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
     details: [
-      // Zeile 1: Ein 4:5 Bild und ein 16:9 Bild/Video nebeneinander
       [
         { type: '4:5', url: "/zonkey-logo.webp" },
         { type: '16:9', url: "/zonkey-website.webp" }
@@ -207,7 +162,6 @@ const initialProjects = [
         { type: '16:9', url: "/zonkey-anwendungen.webp" },
         { type: '4:5', url: "/zonkey-schild.webp" }
       ],
-      // Zeile 3: Ein einzelnes Bild über die volle Breite
       [
         { type: '16:9', url: "/zonkey-herleitung.webp" }
       ]
@@ -218,17 +172,12 @@ const initialProjects = [
     title: 'fiktives dixi rebranding',
     category: 'branding',
     description: placeholderDescription,
-    
-    // STARTSEITEN-KARUSSELL
     carousel: [
       "/dixi-logo.webp",
       "/dixi-nonne.webp",
       "/dixi-festival1.webp",
     ], 
-    
-    // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
     details: [
-      // Zeile 1: Ein 4:5 Bild und ein 16:9 Bild/Video nebeneinander
       [
         { type: '16:9', url: "/dixi-vergleich.webp" },
         { type: '4:5', url: "/dixi-nonne.webp" }
@@ -244,16 +193,11 @@ const initialProjects = [
     title: 'alumnivortrag “on digressing” ',
     category: 'posters',
     description: placeholderDescription,
-    
-    // STARTSEITEN-KARUSSELL
     carousel: [
       "/ondigressing-animation.mp4",
       "/ondigressing-mockup1.webp",
     ], 
-    
-    // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
     details: [
-      // Zeile 1: Ein 4:5 Bild und ein 16:9 Bild/Video nebeneinander
       [
         { type: '16:9', url: "/ondigressing-mockup2.webp" },
         { type: '4:5', url: "/ondigressing-animation.mp4" }
@@ -265,18 +209,13 @@ const initialProjects = [
     title: 'forum stadtpark',
     category: 'branding',
     description: placeholderDescription,
-    
-    // STARTSEITEN-KARUSSELL
     carousel: [
       "/forum-icon.webp",
       "/forum-plakat.webp",
       "/forum-versionen.webp",
       "/forum-orientierung-4x5.webp",
     ], 
-    
-    // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
     details: [
-      // Zeile 1: Ein 4:5 Bild und ein 16:9 Bild/Video nebeneinander
       [
         { type: '4:5', url: "/forum-plakat.webp" },
         { type: '16:9', url: "/forum-versionen1.webp" }
@@ -296,15 +235,10 @@ const initialProjects = [
     title: 'burnout',
     category: 'illustrations',
     description: placeholderDescription,
-    
-    // STARTSEITEN-KARUSSELL
     carousel: [
       "/burnout.mp4",
     ], 
-    
-    // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
     details: [
-      // Zeile 1: Ein 4:5 Bild und ein 16:9 Bild/Video nebeneinander
       [
         { type: '4:5', url: "/burnout.mp4" },
         { type: '16:9', url: "/" }
@@ -313,29 +247,22 @@ const initialProjects = [
   },
   {
     id: 'p12',
-    title: 'MA15 Kalender',
-    category: 'illustartions',
+    title: 'ma15 kalender',
+    category: 'illustrations',
     description: placeholderDescription,
-    
-    // STARTSEITEN-KARUSSELL
     carousel: [
       "/ma15.webp",
     ], 
-    
-    // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
     details: [
-      // Zeile 1: Ein 4:5 Bild und ein 16:9 Bild/Video nebeneinander
       [
         { type: '4:5', url: "/niemann-2.webp" },
         { type: '16:9', url: "/niemann-5.webp" }
       ],
-      // Zeile 2: Drei 4:5 Bilder nebeneinander
       [
         { type: '4:5', url: "/niemann-plakat.webp" },
         { type: '4:5', url: "/niemann-1.webp" },
         { type: '4:5', url: "/niemann-3.webp" }
       ],
-      // Zeile 3: Ein einzelnes Bild über die volle Breite
       [
         { type: '16:9', url: "/niemann-6.webp" }
       ]
@@ -346,8 +273,6 @@ const initialProjects = [
     title: 'lazy ways to help our planet',
     category: 'posters',
     description: placeholderDescription,
-    
-    // STARTSEITEN-KARUSSELL
     carousel: [
       "/lazy.webp",
       "/lazy-piktogramm1.webp",
@@ -355,15 +280,11 @@ const initialProjects = [
       "/lazy-piktogramm3.webp",
       "/lazy2.webp",
     ], 
-    
-    // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
     details: [
-      // Zeile 1: Ein 4:5 Bild und ein 16:9 Bild/Video nebeneinander
       [
         { type: '4:5', url: "/lazy.webp" },
         { type: '16:9', url: "/lazy1.webp" }
       ],
-      // Zeile 2: Drei 4:5 Bilder nebeneinander
       [
         { type: '4:5', url: "/lazy-piktogramm1.webp" },
         { type: '4:5', url: "/lazy-piktogramm2.webp" },
@@ -376,22 +297,16 @@ const initialProjects = [
     title: 'glleisig',
     category: 'branding',
     description: placeholderDescription,
-    
-    // STARTSEITEN-KARUSSELL
     carousel: [
       "/gleisig-tickets.webp",
       "/gleisig-fahrplan.webp",
       "/gleisig-bim1.webp",
       "/gleisig-plakat1.webp",
     ], 
-    
-    // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
     details: [
-      // Zeile 1: Ein 4:5 Bild und ein 16:9 Bild/Video nebeneinander
       [
         { type: '16:9', url: "/gleisig-bim.webp" }
       ],
-      // Zeile 2: Drei 4:5 Bilder nebeneinander
       [
         { type: '16:9', url: "/gleisig-uebersicht.webp" },
         { type: '4:5', url: "/gleisig-tickets.webp" }
@@ -407,32 +322,106 @@ const initialProjects = [
   },
   {
     id: 'p15',
-    title: 'Mentale Notfälle',
+    title: 'mentale notfälle',
     category: 'posters',
     description: placeholderDescription,
-    
-    // STARTSEITEN-KARUSSELL
     carousel: [
       "/147-mockup.webp",
+      "/147-sticker.webp",
     ], 
-    
-    // NEUES FLEXIBLES EDITORIAL-LAYOUT FÜR DIE UNTERSEITE
     details: [
-      // Zeile 1: Ein 4:5 Bild und ein 16:9 Bild/Video nebeneinander
       [
-        { type: '16:9', url: "/gleisig-bim.webp" }
-      ],
-      // Zeile 2: Drei 4:5 Bilder nebeneinander
+        { type: '4:5', url: "/147-sticker.webp" },
+        { type: '16:9', url: "/147-mockup1.webp" }
+      ]
+    ]
+  },
+  {
+    id: 'p16',
+    title: 'wunderlich christmas planner',
+    category: 'branding',
+    description: placeholderDescription,
+    carousel: [
+      "/wunderlich-logo.webp",
+      "/wunderlich-prozess.webp",
+      "/wunderlich-papier.webp",
+    ], 
+    details: [
       [
-        { type: '16:9', url: "/gleisig-uebersicht.webp" },
-        { type: '4:5', url: "/gleisig-tickets.webp" }
-      ],
-       [
-        { type: '16:9', url: "/gleisig-plakat.webp" }
+        { type: '4:5', url: "/wunderlich-logo.webp" },
+        { type: '16:9', url: "/wunderlich-prozess-1.webp" }
       ],
       [
-        { type: '16:9', url: "/gleisig-uebersicht1.webp" },
-        { type: '4:5', url: "/gleisig-fahrplan.webp" }
+        { type: '16:9', url: "/wunderlich-papier1.webp" }
+      ]
+    ]
+  },
+  {
+    id: 'p17',
+    title: 'Gastvortrag Plakat',
+    category: 'posters',
+    description: placeholderDescription,
+    carousel: [
+      "/gastvortrag-plakat.webp",
+      "/gastvortrag.webp",
+      "/gastvortrag-snacks.mp4",
+      "/gastvortrag-gang.webp",
+      
+    ], 
+    details: [
+      [
+        { type: '4:5', url: "/gastvortrag-plakat.webp" },
+        { type: '4:5', url: "/gastvortrag-gang.webp" },
+        { type: '4:5', url: "/gastvortrag-snacks.mp4" }
+      ]
+    ]
+  },
+  {
+    id: 'p18',
+    title: 'be nice, get nice',
+    category: 'illustration',
+    description: placeholderDescription,
+    carousel: [
+      "/pendel-animation.mp4",
+    ], 
+    details: [
+      [
+        { type: '4:5', url: "/wunderlich-logo.webp" },
+        { type: '16:9', url: "/wunderlich-prozess-1.webp" }
+      ],
+      [
+        { type: '16:9', url: "/wunderlich-papier1.webp" }
+      ]
+    ]
+  },
+  {
+    id: 'p19',
+    title: 'demok - Raum für Demokratie',
+    category: 'branding',
+    description: placeholderDescription,
+    carousel: [
+      "/demok-discussions.mp4",
+      "/demok-talks.mp4",
+      "/demok-workshops.mp4",
+    ], 
+    details: [
+        [
+        { type: '16:9', url: "/demok-animationen.mp4" }
+      ],
+      [
+        { type: '4:5', url: "/demok-polster.webp" },
+        { type: '16:9', url: "/demok-eingang.webp" }
+      ],
+        [
+        { type: '16:9', url: "/demok-drinnen.webp" },
+        { type: '4:5', url: "/demok-draussen.webp" }
+      ],
+      [
+        { type: '16:9', url: "/demok-plakate.webp" }
+      ],
+        [
+        { type: '16:9', url: "/demok-shirt.webp" },
+        { type: '4:5', url: "/demok-ball.webp" }
       ]
     ]
   },
@@ -477,7 +466,6 @@ const ProjectCarousel = ({ project, onClick, id }) => {
 
   return (
     <div id={id} className="flex flex-col smooth-appear">
-      {/* Das eigentliche Bild-Karussell */}
       <div 
         className="relative w-full aspect-[4/5] bg-white overflow-hidden group cursor-pointer rounded-xl"
         onClick={() => onClick(project)}
@@ -493,7 +481,6 @@ const ProjectCarousel = ({ project, onClick, id }) => {
           ))}
         </div>
 
-        {/* Indikator-Punkte (Dots) */}
         {project.carousel.length > 1 && (
           <div className="absolute bottom-4 left-0 right-0 flex justify-center pointer-events-none">
             <div className="bg-black/30 backdrop-blur-sm rounded-full px-2 py-1.5 flex gap-1.5">
@@ -507,7 +494,6 @@ const ProjectCarousel = ({ project, onClick, id }) => {
           </div>
         )}
 
-        {/* Navigation Arrows */}
         {project.carousel.length > 1 && (
           <>
             <button 
@@ -527,7 +513,6 @@ const ProjectCarousel = ({ project, onClick, id }) => {
         )}
       </div>
       
-      {/* Mobile Title (Bleibt erhalten, da er unter dem Bild steht) */}
       <div 
         className="md:hidden mt-3 text-left cursor-pointer px-1" 
         onClick={() => onClick(project)}
@@ -562,7 +547,6 @@ const FloatingMenu = ({ onGoHome, onViewChange, onCategorySelect }) => {
     <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[273px]">
       <div className="bg-black/30 backdrop-blur-md shadow-xl overflow-hidden transition-all duration-500 ease-in-out rounded-[20px] text-white">
         
-        {/* Header / Trigger */}
         <div 
           className="flex items-center justify-between px-6 h-[40px] cursor-pointer"
           onClick={() => setIsOpen(!isOpen)}
@@ -582,7 +566,6 @@ const FloatingMenu = ({ onGoHome, onViewChange, onCategorySelect }) => {
           </div>
         </div>
 
-        {/* Aufklappbarer Inhalt */}
         <div 
           className={`transition-all duration-500 ease-in-out ${isOpen ? 'max-h-[550px] opacity-100' : 'max-h-0 opacity-0'}`}
         >
@@ -620,26 +603,23 @@ const FloatingMenu = ({ onGoHome, onViewChange, onCategorySelect }) => {
   );
 };
 
-// 3. Projekt Detailseite - FULL WIDTH GRID (Ohne Hover-Zoom)
+// 3. Projekt Detailseite - FULL WIDTH GRID
 const ProjectView = ({ project }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [project]);
 
   return (
-    <div className="min-h-screen pb-24 pt-32">
-      
-      {/* TEXTBEREICH - Links ausgerichtet, aber Text nicht unendlich breit (Lesbarkeit!) */}
+    <div className="min-h-screen pb-2 pt-32">
       <div className="px-4 md:px-6 mb-16">
         <h1 className="text-4xl md:text-6xl font-medium tracking-tight mb-3">
           {project.title}
         </h1>
-        <p className="text-lg md:text-xl text-gray-700 leading-normal max-w-2xl">
+        <p className="text-lg md:text-xl text-gray-700 leading-snug max-w-2xl">
           {project.description}
         </p>
       </div>
 
-      {/* BILDER-RASTER - 100% Breite */}
       <div className="px-2 flex flex-col gap-6 md:gap-2 w-full">
         {project.details.map((rowOrItem, idx) => {
           const row = Array.isArray(rowOrItem) ? rowOrItem : [rowOrItem];
@@ -662,7 +642,7 @@ const ProjectView = ({ project }) => {
                     {renderMedia(
                       media.url, 
                       `${project.title} detail ${idx}-${colIdx}`, 
-                      "absolute inset-0 w-full h-full object-cover" // <-- Hover-Effekte hier entfernt!
+                      "absolute inset-0 w-full h-full object-cover" 
                     )}
                   </div>
                 );
@@ -675,31 +655,41 @@ const ProjectView = ({ project }) => {
   );
 };
 
+
 // 4. About Seite
 const AboutPage = () => {
   useEffect(() => { window.scrollTo(0, 0); }, []);
   return (
     <div className="min-h-screen pb-24 pt-32 px-6 md:px-12 flex justify-center">
-      <div className="max-w-3xl w-full mb-16">
-        <h1 className="text-4xl md:text-6xl font-medium tracking-tight mb-12">
-          about studio
-        </h1>
-        <div className="w-full aspect-[4/5] bg-white rounded-xl overflow-hidden mb-8 shadow-sm">
-          {renderMedia("https://picsum.photos/seed/about-studio-portrait/800/1000", "about studio portrait", "w-full h-full object-cover")}
-        </div>
-        <div className="space-y-6">
-          <div>
-            <h2 className="text-lg font-medium text-black mb-0">the approach</h2>
-            <p className="text-lg text-gray-700 leading-normal">
-              lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. at vero eos et accusam et justo duo dolores et ea rebum.
-            </p>
+      <div className="max-w-5xl w-full mb-16">
+        
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-y-8 md:gap-x-8 items-start">
+          
+          <div className="md:col-start-6 md:col-span-7">
+            <h1 className="text-4xl md:text-6xl font-medium tracking-tight">
+              about studio
+            </h1>
           </div>
-          <div>
-            <h2 className="text-lg font-medium text-black mb-0">the vision</h2>
-            <p className="text-lg text-gray-700 leading-normal">
-              stet clita kasd gubergren, no sea takimata sanctus est lorem ipsum dolor sit amet. lorem ipsum dolor sit amet, consetetur sadipscing elitr.
-            </p>
+
+          <div className="md:col-start-1 md:col-span-5 w-full shrink-0 aspect-[4/5] bg-white rounded-xl overflow-hidden shadow-sm">
+            {renderMedia("https://picsum.photos/seed/about-studio-portrait/800/1000", "about studio portrait", "w-full h-full object-cover")}
           </div>
+          
+          <div className="md:col-start-6 md:col-span-7 flex flex-col gap-6 md:gap-8">
+            <div>
+              <h2 className="text-lg font-medium text-black mb-1">the approach</h2>
+              <p className="text-lg text-gray-700 leading-snug">
+                lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. at vero eos et accusam et justo duo dolores et ea rebum.
+              </p>
+            </div>
+            <div>
+              <h2 className="text-lg font-medium text-black mb-1">the vision</h2>
+              <p className="text-lg text-gray-700 leading-snug">
+                stet clita kasd gubergren, no sea takimata sanctus est lorem ipsum dolor sit amet. lorem ipsum dolor sit amet, consetetur sadipscing elitr.
+              </p>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -727,8 +717,8 @@ const ServicesPage = () => {
               </svg>
             </div>
             <div>
-              <h2 className="text-lg font-medium text-black mb-0">art direction</h2>
-              <p className="text-lg text-gray-700 leading-normal">
+              <h2 className="text-lg font-medium text-black mb-1">art direction</h2>
+              <p className="text-lg text-gray-700 leading-snug">
                 crafting unique visual concepts and strategic design solutions tailored to your brand's core identity. guiding the visual language from concept to final execution.
               </p>
             </div>
@@ -741,8 +731,8 @@ const ServicesPage = () => {
               </svg>
             </div>
             <div>
-              <h2 className="text-lg font-medium text-black mb-0">branding & identity</h2>
-              <p className="text-lg text-gray-700 leading-normal">
+              <h2 className="text-lg font-medium text-black mb-1">branding & identity</h2>
+              <p className="text-lg text-gray-700 leading-snug">
                 from logo design to comprehensive brand guidelines, creating cohesive and memorable brand experiences that resonate with your target audience across all channels.
               </p>
             </div>
@@ -755,8 +745,8 @@ const ServicesPage = () => {
               </svg>
             </div>
             <div>
-              <h2 className="text-lg font-medium text-black mb-0">editorial design</h2>
-              <p className="text-lg text-gray-700 leading-normal">
+              <h2 className="text-lg font-medium text-black mb-1">editorial design</h2>
+              <p className="text-lg text-gray-700 leading-snug">
                 layout and typesetting for books, magazines, and digital publications. a strong focus on typography and grid systems to ensure optimal readability and aesthetic appeal.
               </p>
             </div>
@@ -769,8 +759,8 @@ const ServicesPage = () => {
               </svg>
             </div>
             <div>
-              <h2 className="text-lg font-medium text-black mb-0">ui/ux design</h2>
-              <p className="text-lg text-gray-700 leading-normal">
+              <h2 className="text-lg font-medium text-black mb-1">ui/ux design</h2>
+              <p className="text-lg text-gray-700 leading-snug">
                 designing intuitive and aesthetically pleasing digital interfaces. bridging the gap between functional user experience and contemporary visual design.
               </p>
             </div>
@@ -784,8 +774,8 @@ const ServicesPage = () => {
               </svg>
             </div>
             <div>
-              <h2 className="text-lg font-medium text-black mb-0">packaging design</h2>
-              <p className="text-lg text-gray-700 leading-normal">
+              <h2 className="text-lg font-medium text-black mb-1">packaging design</h2>
+              <p className="text-lg text-gray-700 leading-snug">
                 developing physical packaging concepts that stand out on the shelf. focusing on sustainable materials, structural integrity, and eye-catching graphics.
               </p>
             </div>
@@ -806,8 +796,8 @@ const ContactPage = () => {
           get in touch
         </h1>
         <div>
-          <h2 className="text-lg font-medium text-black mb-0">project inquiries</h2>
-          <p className="text-lg text-gray-700 leading-normal mb-10">
+          <h2 className="text-lg font-medium text-black mb-1">project inquiries</h2>
+          <p className="text-lg text-gray-700 leading-snug mb-10">
             have a project in mind or just want to say hi? drop me a line.
           </p>
         </div>
@@ -845,20 +835,20 @@ const ImprintPage = () => {
         <div className="space-y-12">
           <section className="flex flex-col gap-6">
             <div>
-              <h2 className="text-lg font-medium text-black mb-0">imprint</h2>
-              <p className="text-lg text-gray-700 leading-normal">information according to § 5 ecg and disclosure according to § 25 medieng.</p>
+              <h2 className="text-lg font-medium text-black mb-1">imprint</h2>
+              <p className="text-lg text-gray-700 leading-snug">information according to § 5 ecg and disclosure according to § 25 medieng.</p>
             </div>
             <div>
-              <h2 className="text-lg font-medium text-black mb-0">service provider, media owner and publisher:</h2>
-              <p className="text-lg text-gray-700 leading-normal">[placeholder: lukas liszka]<br />[placeholder: street 12]<br />[placeholder: 1010 vienna, austria]</p>
+              <h2 className="text-lg font-medium text-black mb-1">service provider, media owner and publisher:</h2>
+              <p className="text-lg text-gray-700 leading-snug">[placeholder: lukas liszka]<br />[placeholder: street 12]<br />[placeholder: 1010 vienna, austria]</p>
             </div>
             <div>
-              <h2 className="text-lg font-medium text-black mb-0">contact:</h2>
-              <p className="text-lg text-gray-700 leading-normal">email: [placeholder: hello@lukasliszka.com]<br />phone: [placeholder: +43 123 456789]</p>
+              <h2 className="text-lg font-medium text-black mb-1">contact:</h2>
+              <p className="text-lg text-gray-700 leading-snug">email: [placeholder: hello@lukasliszka.com]<br />phone: [placeholder: +43 123 456789]</p>
             </div>
             <div>
-              <h2 className="text-lg font-medium text-black mb-0">legal information:</h2>
-              <p className="text-lg text-gray-700 leading-normal">vat number: [placeholder: atu12345678]<br />business purpose: graphic design<br />member of wko: [placeholder: wko wien, fachgruppe werbung und marktkommunikation]<br />applicable legal regulations: gewerbeordnung (www.ris.bka.gv.at)<br />supervisory authority/trade authority: [placeholder: magistratisches bezirksamt des x. bezirkes]<br />job title: graphic designer</p>
+              <h2 className="text-lg font-medium text-black mb-1">legal information:</h2>
+              <p className="text-lg text-gray-700 leading-snug">vat number: [placeholder: atu12345678]<br />business purpose: graphic design<br />member of wko: [placeholder: wko wien, fachgruppe werbung und marktkommunikation]<br />applicable legal regulations: gewerbeordnung (www.ris.bka.gv.at)<br />supervisory authority/trade authority: [placeholder: magistratisches bezirksamt des x. bezirkes]<br />job title: graphic designer</p>
             </div>
           </section>
         </div>
@@ -887,8 +877,14 @@ export default function PortfolioApp() {
   const perfectSet = useMemo(() => {
     if (isMobile) return baseProjects;
     let arr = [...baseProjects];
-    while (arr.length < 15) { arr = [...arr, ...baseProjects]; }
-    return arr.slice(0, 15);
+    
+    // BERECHNET DAS NÖTIGE VIELFACHE VON 15 FÜR LÜCKENLOSES GRID
+    const targetLength = Math.max(15, Math.ceil(arr.length / 15) * 15);
+    
+    while (arr.length < targetLength) { 
+      arr = [...arr, ...baseProjects]; 
+    }
+    return arr.slice(0, targetLength);
   }, [baseProjects, isMobile]);
 
   const displayProjects = useMemo(() => {
@@ -1011,13 +1007,20 @@ export default function PortfolioApp() {
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-2">
             {isMobile ? (
               displayProjects.map((project, idx) => (
-                <ProjectCarousel key={project.id} id={`item-0-${idx}`} project={project} onClick={(p) => setActiveProject(p)} />
+                <ProjectCarousel key={project.uniqueId || project.id} id={`item-0-${idx}`} project={project} onClick={(p) => setActiveProject(p)} />
               ))
             ) : (
-              Array(12).fill(displayProjects).map((_, setIndex) => (
+              Array(12).fill(null).map((_, setIndex) => (
                 <React.Fragment key={setIndex}>
-                  {displayProjects.slice(setIndex * 15, (setIndex + 1) * 15).map((project, idx) => (
-                    <ProjectCarousel key={`${setIndex}-${idx}`} id={`item-${setIndex}-${idx}`} project={project} onClick={(p) => setActiveProject(p)} />
+                  {displayProjects
+                    .slice(setIndex * perfectSet.length, (setIndex + 1) * perfectSet.length)
+                    .map((project, idx) => (
+                      <ProjectCarousel 
+                        key={`${setIndex}-${idx}`} 
+                        id={`item-${setIndex}-${idx}`} 
+                        project={project} 
+                        onClick={(p) => setActiveProject(p)} 
+                      />
                   ))}
                 </React.Fragment>
               ))
