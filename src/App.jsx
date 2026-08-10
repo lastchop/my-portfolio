@@ -848,7 +848,9 @@ const ContactPage = () => {
       <div className="max-w-3xl w-full mb-16">
         
         {status === 'success' ? (
-          <div className="smooth-appear">
+          // HIER GEÄNDERT: "text-center" für die mittige Ausrichtung 
+          // und "mt-24" (Margin Top) damit es schön mittig im Raum steht
+          <div className="smooth-appear text-center mt-24">
             <h2 className="text-lg font-medium text-black mb-1">thank you!</h2>
             <p className="text-lg text-gray-700 leading-snug">
               Your message has been sent successfully.<br />
@@ -869,7 +871,6 @@ const ContactPage = () => {
             <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
               <div className="flex flex-col gap-2">
                 <label htmlFor="name" className="text-lg font-medium text-black pl-1">name</label>
-                {/* Das "name"-Attribut ist wichtig, damit Formspree weiß, was das Feld bedeutet */}
                 <input type="text" id="name" name="name" required className="w-full bg-transparent border border-black/20 focus:border-black rounded-xl px-4 py-3 focus:outline-none transition-colors text-lg" placeholder="your name" />
               </div>
               <div className="flex flex-col gap-2">
@@ -899,6 +900,7 @@ const ContactPage = () => {
     </div>
   );
 };
+
 
 
 
