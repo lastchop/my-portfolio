@@ -629,7 +629,6 @@ const ProjectView = ({ project }) => {
   }, [project]);
 
   return (
-    // HIER GEÄNDERT: "pt-20" wurde zu "pt-24" (der perfekte Sweet Spot)
     <div className="min-h-screen pb-2 pt-24">
       <div className="px-4 md:px-6 mb-16">
         <h1 className="text-4xl md:text-6xl font-medium tracking-tight mb-3">
@@ -640,12 +639,14 @@ const ProjectView = ({ project }) => {
         </p>
       </div>
 
-      <div className="px-2 flex flex-col gap-6 md:gap-2 w-full">
+      {/* HIER GEÄNDERT: gap-6 md:gap-2 wurde zu gap-2 für einheitliche 8px Abstände */}
+      <div className="px-2 flex flex-col gap-2 w-full">
         {project.details.map((rowOrItem, idx) => {
           const row = Array.isArray(rowOrItem) ? rowOrItem : [rowOrItem];
 
           return (
-            <div key={idx} className="flex flex-col md:flex-row gap-6 md:gap-2 w-full">
+            // HIER GEÄNDERT: Ebenfalls durchgehend gap-2
+            <div key={idx} className="flex flex-col md:flex-row gap-2 w-full">
               {row.map((media, colIdx) => {
                 const flexValue = media.type === '16:9' ? 1.777 : media.type === '4:5' ? 0.8 : 1;
                 const ratioValue = media.type === '16:9' ? '16/9' : media.type === '4:5' ? '4/5' : '1/1';
