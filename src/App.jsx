@@ -812,39 +812,99 @@ const ServicesPage = () => {
 // 6. Contact Seite
 const ContactPage = () => {
   useEffect(() => { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); }, []); 
+  
+  // Status für Ladeanimation und Erfolgsmeldung
+  const [status, setStatus] = useState(''); 
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus('loading');
+    const form = e.target;
+    const data = new FormData(form);
+
+    try {
+      // WICHTIG: Füge hier deinen kopierten Formspree-Link ein!
+      const response = await fetch('https://formspree.io/f/xnpapgop', {
+        method: 'POST',
+        body: data,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      
+      if (response.ok) {
+        setStatus('success');
+        form.reset();
+      } else {
+        setStatus('error');
+      }
+    } catch (error) {
+      setStatus('error');
+    }
+  };
+
   return (
     <div className="min-h-screen pb-24 pt-32 px-6 md:px-12 flex justify-center">
       <div className="max-w-3xl w-full mb-16">
         <h1 className="text-4xl md:text-6xl font-medium tracking-tight mb-12">
           get in touch
         </h1>
-        <div>
-          <h2 className="text-lg font-medium text-black mb-1">project inquiries</h2>
-          <p className="text-lg text-gray-700 leading-snug mb-10">
-            have a project in mind or just want to say hi? drop me a line.
-          </p>
-        </div>
-        <form className="flex flex-col gap-6" onSubmit={(e) => e.preventDefault()}>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="name" className="text-lg font-medium text-black pl-1">name</label>
-            <input type="text" id="name" className="w-full bg-transparent border border-black/20 focus:border-black rounded-xl px-4 py-3 focus:outline-none transition-colors text-lg" placeholder="your name" />
+        
+        {status === 'success' ? (
+          <div className="bg-black/5 border border-black/10 rounded-xl p-8 text-center smooth-appear">
+            <h2 className="text-2xl font-medium text-black mb-2">thank you!</h2>
+            <p className="text-lg text-gray-700">
+              deine nachricht wurde erfolgreich verschickt. ich melde mich so schnell wie möglich bei dir.
+            </p>
+            <button 
+              onClick={() => setStatus('')}
+              className="mt-6 border border-black bg-transparent hover:bg-black text-black hover:text-white px-6 py-2 rounded-full font-medium transition-all duration-300 text-base"
+            >
+              neue nachricht schreiben
+            </button>
           </div>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="email" className="text-lg font-medium text-black pl-1">email</label>
-            <input type="email" id="email" className="w-full bg-transparent border border-black/20 focus:border-black rounded-xl px-4 py-3 focus:outline-none transition-colors text-lg" placeholder="your@email.com" />
-          </div>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="request" className="text-lg font-medium text-black pl-1">message</label>
-            <textarea id="request" rows="5" className="w-full bg-transparent border border-black/20 focus:border-black rounded-xl px-4 py-3 focus:outline-none transition-colors resize-none text-lg" placeholder="how can i help you?"></textarea>
-          </div>
-          <button type="submit" className="self-start border border-black bg-transparent hover:bg-black text-black hover:text-white px-8 py-3 rounded-full font-medium transition-all duration-300 mt-2 text-lg">
-            submit
-          </button>
-        </form>
+        ) : (
+          <>
+            <div>
+              <h2 className="text-lg font-medium text-black mb-1">project inquiries</h2>
+              <p className="text-lg text-gray-700 leading-snug mb-10">
+                have a project in mind or just want to say hi? drop me a line.
+              </p>
+            </div>
+            <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+              <div className="flex flex-col gap-2">
+                <label htmlFor="name" className="text-lg font-medium text-black pl-1">name</label>
+                {/* Das "name"-Attribut ist wichtig, damit Formspree weiß, was das Feld bedeutet */}
+                <input type="text" id="name" name="name" required className="w-full bg-transparent border border-black/20 focus:border-black rounded-xl px-4 py-3 focus:outline-none transition-colors text-lg" placeholder="your name" />
+              </div>
+              <div className="flex flex-col gap-2">
+                <label htmlFor="email" className="text-lg font-medium text-black pl-1">email</label>
+                <input type="email" id="email" name="email" required className="w-full bg-transparent border border-black/20 focus:border-black rounded-xl px-4 py-3 focus:outline-none transition-colors text-lg" placeholder="your@email.com" />
+              </div>
+              <div className="flex flex-col gap-2">
+                <label htmlFor="request" className="text-lg font-medium text-black pl-1">message</label>
+                <textarea id="request" name="message" required rows="5" className="w-full bg-transparent border border-black/20 focus:border-black rounded-xl px-4 py-3 focus:outline-none transition-colors resize-none text-lg" placeholder="how can i help you?"></textarea>
+              </div>
+              
+              {status === 'error' && (
+                <p className="text-red-500 text-base">Ups, da ist etwas schiefgelaufen. Bitte versuche es später noch einmal.</p>
+              )}
+
+              <button 
+                type="submit" 
+                disabled={status === 'loading'}
+                className="self-start border border-black bg-transparent hover:bg-black text-black hover:text-white px-8 py-3 rounded-full font-medium transition-all duration-300 mt-2 text-lg disabled:opacity-50"
+              >
+                {status === 'loading' ? 'wird gesendet...' : 'submit'}
+              </button>
+            </form>
+          </>
+        )}
       </div>
     </div>
   );
 };
+
 
 // 7. Imprint & Privacy Policy Seite
 const ImprintPage = () => {
