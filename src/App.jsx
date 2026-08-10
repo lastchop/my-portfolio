@@ -629,7 +629,8 @@ const ProjectView = ({ project }) => {
   }, [project]);
 
   return (
-    <div className="min-h-screen pb-2 pt-32">
+    // HIER GEÄNDERT: "pt-20" wurde zu "pt-24" (der perfekte Sweet Spot)
+    <div className="min-h-screen pb-2 pt-24">
       <div className="px-4 md:px-6 mb-16">
         <h1 className="text-4xl md:text-6xl font-medium tracking-tight mb-3">
           {project.title}
@@ -673,6 +674,8 @@ const ProjectView = ({ project }) => {
     </div>
   );
 };
+
+
 
 
 // 4. About Seite
