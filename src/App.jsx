@@ -857,18 +857,43 @@ const ImprintPage = () => {
   );
 };
 
-// --- HAUPT APP ---
+// --- HAUPT APP (NEU MIT HASH ROUTING) ---
 export default function PortfolioApp() {
-  const [activeProject, setActiveProject] = useState(null);
-  const [currentView, setCurrentView] = useState('home');
-  const [activeCategory, setActiveCategory] = useState(null);
+  const [hash, setHash] = useState(typeof window !== 'undefined' ? window.location.hash : '');
   const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
+
+  // Hört auf Änderungen im Browser (Zurück- / Vorwärts-Knopf)
+  useEffect(() => {
+    const handleHashChange = () => setHash(window.location.hash);
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  // Leite Ansichten dynamisch von der URL ab
+  let currentView = 'home';
+  let activeProject = null;
+  let activeCategory = null;
+
+  if (hash.startsWith('#project=')) {
+    const projectId = hash.replace('#project=', '');
+    activeProject = initialProjects.find(p => p.id === projectId) || null;
+  } else if (hash.startsWith('#view=')) {
+    currentView = hash.replace('#view=', '');
+  } else if (hash.startsWith('#category=')) {
+    activeCategory = hash.replace('#category=', '');
+  }
+
+  // Navigations-Logik: Ändert nicht den State, sondern einfach die URL (Hash)
+  const handleGoHome = () => { window.location.hash = ''; };
+  const handleCategorySelect = (category) => { window.location.hash = category ? `#category=${category}` : ''; };
+  const handleViewChange = (view) => { window.location.hash = `#view=${view}`; };
+  const handleProjectClick = (project) => { window.location.hash = `#project=${project.id}`; };
 
   const baseProjects = activeCategory 
     ? initialProjects.filter(p => p.category === activeCategory)
@@ -910,7 +935,7 @@ export default function PortfolioApp() {
 
     const initTimer = setTimeout(() => {
       calculateHeight();
-      if (singleSetHeight > 0) {
+      if (singleSetHeight > 0 && window.scrollY === 0) {
         window.scrollTo({ top: singleSetHeight * 5, behavior: 'instant' });
       }
     }, 100);
@@ -936,19 +961,7 @@ export default function PortfolioApp() {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', calculateHeight);
     };
-  }, [isMobile, activeProject, currentView, displayProjects]);
-
-  const handleGoHome = () => {
-    setActiveProject(null);
-    setCurrentView('home');
-    setActiveCategory(null);
-  };
-
-  const handleCategorySelect = (category) => {
-    setActiveProject(null);
-    setCurrentView('home');
-    setActiveCategory(category);
-  };
+  }, [isMobile, activeProject, currentView, displayProjects, hash]);
 
   return (
     <div className="bg-gray-200 min-h-screen text-black selection:bg-black selection:text-white" style={{ fontFamily: "'IBM Plex Sans', sans-serif" }}>
@@ -985,10 +998,7 @@ export default function PortfolioApp() {
 
       <FloatingMenu 
         onGoHome={handleGoHome} 
-        onViewChange={(view) => {
-          setActiveProject(null);
-          setCurrentView(view);
-        }} 
+        onViewChange={handleViewChange} 
         onCategorySelect={handleCategorySelect}
       />
 
@@ -1007,7 +1017,7 @@ export default function PortfolioApp() {
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-2">
             {isMobile ? (
               displayProjects.map((project, idx) => (
-                <ProjectCarousel key={project.uniqueId || project.id} id={`item-0-${idx}`} project={project} onClick={(p) => setActiveProject(p)} />
+                <ProjectCarousel key={project.uniqueId || project.id} id={`item-0-${idx}`} project={project} onClick={handleProjectClick} />
               ))
             ) : (
               Array(12).fill(null).map((_, setIndex) => (
@@ -1019,7 +1029,7 @@ export default function PortfolioApp() {
                         key={`${setIndex}-${idx}`} 
                         id={`item-${setIndex}-${idx}`} 
                         project={project} 
-                        onClick={(p) => setActiveProject(p)} 
+                        onClick={handleProjectClick} 
                       />
                   ))}
                 </React.Fragment>
