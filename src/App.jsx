@@ -846,26 +846,20 @@ const ContactPage = () => {
   return (
     <div className="min-h-screen pb-24 pt-32 px-6 md:px-12 flex justify-center">
       <div className="max-w-3xl w-full mb-16">
-        <h1 className="text-4xl md:text-6xl font-medium tracking-tight mb-12">
-          get in touch
-        </h1>
         
         {status === 'success' ? (
-          <div className="bg-black/5 border border-black/10 rounded-xl p-8 text-center smooth-appear">
-            <h2 className="text-2xl font-medium text-black mb-2">thank you!</h2>
-            <p className="text-lg text-gray-700">
+          <div className="smooth-appear">
+            <h2 className="text-lg font-medium text-black mb-1">thank you!</h2>
+            <p className="text-lg text-gray-700 leading-snug">
               Your message has been sent successfully.<br />
               I’ll get back to you as soon as possible.
             </p>
-            <button 
-              onClick={() => setStatus('')}
-              className="mt-6 border border-black bg-transparent hover:bg-black text-black hover:text-white px-6 py-2 rounded-full font-medium transition-all duration-300 text-base"
-            >
-              send another message
-            </button>
           </div>
         ) : (
           <>
+            <h1 className="text-4xl md:text-6xl font-medium tracking-tight mb-12">
+              get in touch
+            </h1>
             <div>
               <h2 className="text-lg font-medium text-black mb-1">project inquiries</h2>
               <p className="text-lg text-gray-700 leading-snug mb-10">
@@ -905,6 +899,7 @@ const ContactPage = () => {
     </div>
   );
 };
+
 
 
 
