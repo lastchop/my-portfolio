@@ -32,6 +32,7 @@ const placeholderDescription = "this project explores the boundaries between ana
 const initialProjects = [
   {
     id: 'p1',
+    slug: 'nein-zum-lobautunnel', // <--- NEU: Der saubere Name für die URL
     title: 'nein zum lobautunnel',
     category: 'posters',
     description: placeholderDescription,
@@ -53,6 +54,7 @@ const initialProjects = [
   },
   {
     id: 'p2',
+    slug: 'niemann-plakat',
     title: 'niemann plakat',
     category: 'posters',
     description: placeholderDescription,
@@ -80,6 +82,7 @@ const initialProjects = [
   },
   {
     id: 'p3',
+    slug: 'waehlengehen',
     title: 'wählengehen',
     category: 'illustrations',
     description: placeholderDescription,
@@ -95,6 +98,7 @@ const initialProjects = [
   },
   {
     id: 'p4',
+    slug: 'sailor-gin',
     title: 'sailor gin',
     category: 'packaging',
     description: placeholderDescription,
@@ -111,6 +115,7 @@ const initialProjects = [
   },
   {
     id: 'p5',
+    slug: 'traeubchen',
     title: 'träubchen',
     category: 'packaging',
     description: placeholderDescription,
@@ -131,6 +136,7 @@ const initialProjects = [
   },
   {
     id: 'p6',
+    slug: 'hand-in-hand',
     title: 'hand in hand',
     category: 'illustrations',
     description: placeholderDescription,
@@ -146,6 +152,7 @@ const initialProjects = [
   },
   {
     id: 'p7',
+    slug: 'zonkey',
     title: 'zonkey',
     category: 'branding',
     description: placeholderDescription,
@@ -169,6 +176,7 @@ const initialProjects = [
   },
   {
     id: 'p8',
+    slug: 'fiktives-dixi-rebranding',
     title: 'fiktives dixi rebranding',
     category: 'branding',
     description: placeholderDescription,
@@ -190,6 +198,7 @@ const initialProjects = [
   },
   {
     id: 'p9',
+    slug: 'on-digressing',
     title: 'alumnivortrag “on digressing” ',
     category: 'posters',
     description: placeholderDescription,
@@ -206,6 +215,7 @@ const initialProjects = [
   },
   {
     id: 'p10',
+    slug: 'forum-stadtpark',
     title: 'forum stadtpark',
     category: 'branding',
     description: placeholderDescription,
@@ -232,6 +242,7 @@ const initialProjects = [
   },
   {
     id: 'p11',
+    slug: 'burnout',
     title: 'burnout',
     category: 'illustrations',
     description: placeholderDescription,
@@ -247,6 +258,7 @@ const initialProjects = [
   },
   {
     id: 'p12',
+    slug: 'ma15-kalender',
     title: 'ma15 kalender',
     category: 'illustrations',
     description: placeholderDescription,
@@ -270,6 +282,7 @@ const initialProjects = [
   },
   {
     id: 'p13',
+    slug: 'lazy-ways',
     title: 'lazy ways to help our planet',
     category: 'posters',
     description: placeholderDescription,
@@ -294,6 +307,7 @@ const initialProjects = [
   },
   {
     id: 'p14',
+    slug: 'gleisig',
     title: 'glleisig',
     category: 'branding',
     description: placeholderDescription,
@@ -322,6 +336,7 @@ const initialProjects = [
   },
   {
     id: 'p15',
+    slug: 'mentale-notfaelle',
     title: 'mentale notfälle',
     category: 'posters',
     description: placeholderDescription,
@@ -338,6 +353,7 @@ const initialProjects = [
   },
   {
     id: 'p16',
+    slug: 'wunderlich-christmas-planner',
     title: 'wunderlich christmas planner',
     category: 'branding',
     description: placeholderDescription,
@@ -358,6 +374,7 @@ const initialProjects = [
   },
   {
     id: 'p17',
+    slug: 'gastvortrag-plakat',
     title: 'Gastvortrag Plakat',
     category: 'posters',
     description: placeholderDescription,
@@ -378,6 +395,7 @@ const initialProjects = [
   },
   {
     id: 'p18',
+    slug: 'be-nice-get-nice',
     title: 'be nice, get nice',
     category: 'illustration',
     description: placeholderDescription,
@@ -396,6 +414,7 @@ const initialProjects = [
   },
   {
     id: 'p19',
+    slug: 'demok-raum-fuer-demokratie',
     title: 'demok - Raum für Demokratie',
     category: 'branding',
     description: placeholderDescription,
@@ -606,7 +625,7 @@ const FloatingMenu = ({ onGoHome, onViewChange, onCategorySelect }) => {
 // 3. Projekt Detailseite - FULL WIDTH GRID
 const ProjectView = ({ project }) => {
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); // FIX: 'instant' verhindert die störende Animation
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); 
   }, [project]);
 
   return (
@@ -658,7 +677,7 @@ const ProjectView = ({ project }) => {
 
 // 4. About Seite
 const AboutPage = () => {
-  useEffect(() => { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); }, []); // FIX: 'instant' scroll
+  useEffect(() => { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); }, []); 
   return (
     <div className="min-h-screen pb-24 pt-32 px-6 md:px-12 flex justify-center">
       <div className="max-w-5xl w-full mb-16">
@@ -698,7 +717,7 @@ const AboutPage = () => {
 
 // 5. Services Seite
 const ServicesPage = () => {
-  useEffect(() => { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); }, []); // FIX: 'instant' scroll
+  useEffect(() => { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); }, []); 
   return (
     <div className="min-h-screen pb-24 pt-32 px-6 md:px-12 flex justify-center">
       <div className="max-w-3xl w-full mb-16">
@@ -788,7 +807,7 @@ const ServicesPage = () => {
 
 // 6. Contact Seite
 const ContactPage = () => {
-  useEffect(() => { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); }, []); // FIX: 'instant' scroll
+  useEffect(() => { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); }, []); 
   return (
     <div className="min-h-screen pb-24 pt-32 px-6 md:px-12 flex justify-center">
       <div className="max-w-3xl w-full mb-16">
@@ -825,7 +844,7 @@ const ContactPage = () => {
 
 // 7. Imprint & Privacy Policy Seite
 const ImprintPage = () => {
-  useEffect(() => { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); }, []); // FIX: 'instant' scroll
+  useEffect(() => { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); }, []); 
   return (
     <div className="min-h-screen pb-24 pt-32 px-6 md:px-12 flex justify-center">
       <div className="max-w-3xl w-full mb-16">
@@ -857,7 +876,7 @@ const ImprintPage = () => {
   );
 };
 
-// --- HAUPT APP ---
+// --- HAUPT APP (NEU MIT SLUG-ROUTING) ---
 export default function PortfolioApp() {
   const [hash, setHash] = useState(typeof window !== 'undefined' ? window.location.hash : '');
   const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
@@ -878,9 +897,10 @@ export default function PortfolioApp() {
   let activeProject = null;
   let activeCategory = null;
 
+  // NEU: Hier wird jetzt nach dem 'slug' gesucht statt nach der 'id'
   if (hash.startsWith('#project=')) {
-    const projectId = hash.replace('#project=', '');
-    activeProject = initialProjects.find(p => p.id === projectId) || null;
+    const projectSlug = hash.replace('#project=', '');
+    activeProject = initialProjects.find(p => p.slug === projectSlug) || null;
   } else if (hash.startsWith('#view=')) {
     currentView = hash.replace('#view=', '');
   } else if (hash.startsWith('#category=')) {
@@ -890,7 +910,9 @@ export default function PortfolioApp() {
   const handleGoHome = () => { window.location.hash = ''; };
   const handleCategorySelect = (category) => { window.location.hash = category ? `#category=${category}` : ''; };
   const handleViewChange = (view) => { window.location.hash = `#view=${view}`; };
-  const handleProjectClick = (project) => { window.location.hash = `#project=${project.id}`; };
+  
+  // NEU: Hier wird der 'slug' in die URL gepackt statt der 'id'
+  const handleProjectClick = (project) => { window.location.hash = `#project=${project.slug}`; };
 
   const baseProjects = activeCategory 
     ? initialProjects.filter(p => p.category === activeCategory)
@@ -915,7 +937,7 @@ export default function PortfolioApp() {
 
   useEffect(() => {
     if (isMobile || activeProject || currentView !== 'home') {
-      window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); // FIX: 'instant' scroll
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); 
       return;
     }
 
