@@ -140,7 +140,7 @@ const initialProjects = [
     details: [
       [
         { type: '4:5', url: "/eu-animation.mp4" },
-        { type: '16:9', url: "/eu-flagge.webp" }
+        { type: '16:9', url: "public/eu-flagge.webp" }
       ]
     ]
   },
@@ -606,7 +606,7 @@ const FloatingMenu = ({ onGoHome, onViewChange, onCategorySelect }) => {
 // 3. Projekt Detailseite - FULL WIDTH GRID
 const ProjectView = ({ project }) => {
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); // FIX: 'instant' verhindert die störende Animation
   }, [project]);
 
   return (
@@ -658,7 +658,7 @@ const ProjectView = ({ project }) => {
 
 // 4. About Seite
 const AboutPage = () => {
-  useEffect(() => { window.scrollTo(0, 0); }, []);
+  useEffect(() => { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); }, []); // FIX: 'instant' scroll
   return (
     <div className="min-h-screen pb-24 pt-32 px-6 md:px-12 flex justify-center">
       <div className="max-w-5xl w-full mb-16">
@@ -698,7 +698,7 @@ const AboutPage = () => {
 
 // 5. Services Seite
 const ServicesPage = () => {
-  useEffect(() => { window.scrollTo(0, 0); }, []);
+  useEffect(() => { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); }, []); // FIX: 'instant' scroll
   return (
     <div className="min-h-screen pb-24 pt-32 px-6 md:px-12 flex justify-center">
       <div className="max-w-3xl w-full mb-16">
@@ -788,7 +788,7 @@ const ServicesPage = () => {
 
 // 6. Contact Seite
 const ContactPage = () => {
-  useEffect(() => { window.scrollTo(0, 0); }, []);
+  useEffect(() => { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); }, []); // FIX: 'instant' scroll
   return (
     <div className="min-h-screen pb-24 pt-32 px-6 md:px-12 flex justify-center">
       <div className="max-w-3xl w-full mb-16">
@@ -825,7 +825,7 @@ const ContactPage = () => {
 
 // 7. Imprint & Privacy Policy Seite
 const ImprintPage = () => {
-  useEffect(() => { window.scrollTo(0, 0); }, []);
+  useEffect(() => { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); }, []); // FIX: 'instant' scroll
   return (
     <div className="min-h-screen pb-24 pt-32 px-6 md:px-12 flex justify-center">
       <div className="max-w-3xl w-full mb-16">
@@ -857,12 +857,11 @@ const ImprintPage = () => {
   );
 };
 
-// --- HAUPT APP (NEU MIT HASH ROUTING) ---
+// --- HAUPT APP ---
 export default function PortfolioApp() {
   const [hash, setHash] = useState(typeof window !== 'undefined' ? window.location.hash : '');
   const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
 
-  // Hört auf Änderungen im Browser (Zurück- / Vorwärts-Knopf)
   useEffect(() => {
     const handleHashChange = () => setHash(window.location.hash);
     window.addEventListener('hashchange', handleHashChange);
@@ -875,7 +874,6 @@ export default function PortfolioApp() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Leite Ansichten dynamisch von der URL ab
   let currentView = 'home';
   let activeProject = null;
   let activeCategory = null;
@@ -889,7 +887,6 @@ export default function PortfolioApp() {
     activeCategory = hash.replace('#category=', '');
   }
 
-  // Navigations-Logik: Ändert nicht den State, sondern einfach die URL (Hash)
   const handleGoHome = () => { window.location.hash = ''; };
   const handleCategorySelect = (category) => { window.location.hash = category ? `#category=${category}` : ''; };
   const handleViewChange = (view) => { window.location.hash = `#view=${view}`; };
@@ -903,7 +900,6 @@ export default function PortfolioApp() {
     if (isMobile) return baseProjects;
     let arr = [...baseProjects];
     
-    // BERECHNET DAS NÖTIGE VIELFACHE VON 15 FÜR LÜCKENLOSES GRID
     const targetLength = Math.max(15, Math.ceil(arr.length / 15) * 15);
     
     while (arr.length < targetLength) { 
@@ -919,7 +915,7 @@ export default function PortfolioApp() {
 
   useEffect(() => {
     if (isMobile || activeProject || currentView !== 'home') {
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); // FIX: 'instant' scroll
       return;
     }
 
@@ -988,7 +984,6 @@ export default function PortfolioApp() {
           animation: fadeInSmooth 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
         }
 
-        /* HIER IST DIE MATHE FÜR DAS PERFEKTE RASTER (Nur auf Desktop) */
         @media (min-width: 768px) {
           .flex-editorial {
             flex: var(--desktop-flex) 1 0% !important;
