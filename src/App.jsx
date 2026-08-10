@@ -854,13 +854,14 @@ const ContactPage = () => {
           <div className="bg-black/5 border border-black/10 rounded-xl p-8 text-center smooth-appear">
             <h2 className="text-2xl font-medium text-black mb-2">thank you!</h2>
             <p className="text-lg text-gray-700">
-              deine nachricht wurde erfolgreich verschickt. ich melde mich so schnell wie möglich bei dir.
+              Your message has been sent successfully.<br />
+              I’ll get back to you as soon as possible.
             </p>
             <button 
               onClick={() => setStatus('')}
               className="mt-6 border border-black bg-transparent hover:bg-black text-black hover:text-white px-6 py-2 rounded-full font-medium transition-all duration-300 text-base"
             >
-              neue nachricht schreiben
+              send another message
             </button>
           </div>
         ) : (
@@ -887,7 +888,7 @@ const ContactPage = () => {
               </div>
               
               {status === 'error' && (
-                <p className="text-red-500 text-base">Ups, da ist etwas schiefgelaufen. Bitte versuche es später noch einmal.</p>
+                <p className="text-red-500 text-base">Oops, something went wrong. Please try again later.</p>
               )}
 
               <button 
@@ -895,7 +896,7 @@ const ContactPage = () => {
                 disabled={status === 'loading'}
                 className="self-start border border-black bg-transparent hover:bg-black text-black hover:text-white px-8 py-3 rounded-full font-medium transition-all duration-300 mt-2 text-lg disabled:opacity-50"
               >
-                {status === 'loading' ? 'wird gesendet...' : 'submit'}
+                {status === 'loading' ? 'sending...' : 'submit'}
               </button>
             </form>
           </>
@@ -904,6 +905,7 @@ const ContactPage = () => {
     </div>
   );
 };
+
 
 
 // 7. Imprint & Privacy Policy Seite
