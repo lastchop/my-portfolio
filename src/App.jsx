@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Menu, X, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
 
-// --- NEUER PERFORMANCE-BOOSTER: Sichtbarkeits-Sensor für Videos ---
-const MediaItem = ({ url, alt, className }) => {
+// --- PERFORMANCE-BOOSTER 2.0 ---
+const MediaItem = ({ url, alt, className, isPriority }) => {
   const isVideo = url && (url.toLowerCase().endsWith('.mp4') || url.includes('.mp4'));
   const mediaRef = useRef(null);
 
@@ -13,15 +13,15 @@ const MediaItem = ({ url, alt, className }) => {
       (entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            // Video ist im Sichtfeld -> Abspielen
+            // Video startet schon weit vor dem sichtbaren Bereich, um Flackern zu verhindern
             mediaRef.current?.play().catch(() => {});
           } else {
-            // Video ist weggescrollt -> Pausieren (Spart massiv CPU/RAM)
             mediaRef.current?.pause();
           }
         });
       },
-      { rootMargin: '200px' } // Lädt schon kurz bevor es ins Bild kommt
+      // HIER GEÄNDERT: 800px Pufferzone! Das Video ist längst bereit, wenn es ins Bild kommt.
+      { rootMargin: '800px' } 
     );
 
     observer.observe(mediaRef.current);
@@ -38,7 +38,8 @@ const MediaItem = ({ url, alt, className }) => {
         loop 
         muted 
         playsInline 
-        preload="metadata" // Lädt nur das erste Bild, spart Daten!
+        // HIER GEÄNDERT: Zwingt die Grafikkarte, das Video durchgehend bereit zu halten (Anti-Flacker-Trick)
+        style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
       />
     );
   }
@@ -48,7 +49,10 @@ const MediaItem = ({ url, alt, className }) => {
       src={url} 
       alt={alt || "portfolio media"} 
       className={`${className} object-cover`}
-      loading="lazy" 
+      // HIER GEÄNDERT: Das allererste Bild lädt sofort (eager), die restlichen verzögert (lazy). Keine weißen Boxen mehr!
+      loading={isPriority ? "eager" : "lazy"} 
+      decoding={isPriority ? "sync" : "async"}
+      style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
     />
   );
 };
@@ -189,7 +193,7 @@ const initialProjects = [
     details: [
       [
         { type: '4:5', url: "/eu-animation.mp4" },
-        { type: '16:9', url: "/eu-flagge.webp" }
+        { type: '16:9', url: "public/eu-flagge.webp" }
       ]
     ]
   },
@@ -567,7 +571,8 @@ const ProjectCarousel = ({ project, onClick, id }) => {
         >
           {project.carousel.map((imgUrl, idx) => (
             <div key={idx} className="min-w-full h-full snap-center relative">
-              <MediaItem url={imgUrl} alt={`${project.title} - media ${idx + 1}`} className="w-full h-full object-cover" />
+              {/* HIER GEÄNDERT: isPriority wird mitgegeben, damit das allererste Bild im Karussell sofort lädt! */}
+              <MediaItem url={imgUrl} alt={`${project.title} - media ${idx + 1}`} className="w-full h-full object-cover" isPriority={idx === 0} />
             </div>
           ))}
         </div>
@@ -759,7 +764,8 @@ const ProjectView = ({ project, language }) => {
                       aspectRatio: ratioValue
                     }}
                   >
-                    <MediaItem url={media.url} alt={`${project.title} detail ${idx}-${colIdx}`} className="absolute inset-0 w-full h-full object-cover" />
+                    {/* Detailbilder dürfen sofort laden, wir befinden uns eh schon in der Detailansicht */}
+                    <MediaItem url={media.url} alt={`${project.title} detail ${idx}-${colIdx}`} className="absolute inset-0 w-full h-full object-cover" isPriority={true} />
                   </div>
                 );
               })}
@@ -805,7 +811,7 @@ const AboutPage = ({ language }) => {
           </div>
 
           <div className="md:col-start-1 md:col-span-5 w-full shrink-0 aspect-[4/5] bg-white rounded-xl overflow-hidden shadow-sm">
-            <MediaItem url="/profilbild.webp" alt="portrait lukas liszka" className="w-full h-full object-cover" />
+            <MediaItem url="/profilbild.webp" alt="portrait lukas liszka" className="w-full h-full object-cover" isPriority={true} />
           </div>
           
           <div className="md:col-start-6 md:col-span-7 flex flex-col gap-10 md:gap-12">
@@ -1117,6 +1123,7 @@ export default function PortfolioApp() {
   const [hash, setHash] = useState(typeof window !== 'undefined' ? window.location.hash : '');
   const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
   
+  // Globale Sprach-Einstellung (Standard: 'de')
   const [language, setLanguage] = useState('de');
 
   useEffect(() => {
@@ -1157,6 +1164,7 @@ export default function PortfolioApp() {
     if (isMobile) return baseProjects;
     let arr = [...baseProjects];
     
+    // BERECHNET DAS NÖTIGE VIELFACHE VON 15 FÜR LÜCKENLOSES GRID
     const targetLength = Math.max(15, Math.ceil(arr.length / 15) * 15);
     
     while (arr.length < targetLength) { 
@@ -1165,11 +1173,10 @@ export default function PortfolioApp() {
     return arr.slice(0, targetLength);
   }, [baseProjects, isMobile]);
 
-  // HIER IST DER 2. PERFORMANCE-BOOSTER: 
-  // Nur noch 5 Kopien des Grids statt 12. Das spart massiv Arbeitsspeicher!
+  // HIER GEÄNDERT: Wir laden nur noch das ABSOLUTE MINIMUM an Kopien (3).
   const displayProjects = useMemo(() => {
     if (isMobile) return perfectSet;
-    return Array(5).fill(perfectSet).flat().map((p, i) => ({ ...p, uniqueId: `${p.id}-${i}` }));
+    return Array(3).fill(perfectSet).flat().map((p, i) => ({ ...p, uniqueId: `${p.id}-${i}` }));
   }, [perfectSet, isMobile]);
 
   useEffect(() => {
@@ -1191,8 +1198,7 @@ export default function PortfolioApp() {
     const initTimer = setTimeout(() => {
       calculateHeight();
       if (singleSetHeight > 0 && window.scrollY === 0) {
-        // Starte jetzt bei Höhe 2 (damit man sofort nach oben und unten scrollen kann)
-        window.scrollTo({ top: singleSetHeight * 2, behavior: 'instant' });
+        window.scrollTo({ top: singleSetHeight, behavior: 'instant' });
       }
     }, 100);
 
@@ -1202,10 +1208,10 @@ export default function PortfolioApp() {
 
       const scrollY = window.scrollY;
 
-      // Neue Scroll-Mathematik für 5 Kopien:
-      if (scrollY < singleSetHeight * 1) {
+      // HIER GEÄNDERT: Neue Scroll-Mathematik für genau 3 Kopien (Nahtloser Sprung)
+      if (scrollY < singleSetHeight * 0.5) {
         window.scrollTo({ top: scrollY + singleSetHeight, behavior: 'instant' });
-      } else if (scrollY > singleSetHeight * 3) {
+      } else if (scrollY > singleSetHeight * 1.5) {
         window.scrollTo({ top: scrollY - singleSetHeight, behavior: 'instant' });
       }
     };
@@ -1252,6 +1258,7 @@ export default function PortfolioApp() {
         }
       `}</style>
 
+      {/* Sprach-Switch ans Menü übergeben */}
       <FloatingMenu 
         onGoHome={handleGoHome} 
         onViewChange={handleViewChange} 
@@ -1260,6 +1267,7 @@ export default function PortfolioApp() {
         setLanguage={setLanguage}
       />
 
+      {/* Sprache an alle Seiten übergeben */}
       {activeProject ? (
         <ProjectView project={activeProject} language={language} />
       ) : currentView === 'about' ? (
@@ -1278,7 +1286,7 @@ export default function PortfolioApp() {
                 <ProjectCarousel key={project.uniqueId || project.id} id={`item-0-${idx}`} project={project} onClick={handleProjectClick} />
               ))
             ) : (
-              Array(5).fill(null).map((_, setIndex) => (
+              Array(3).fill(null).map((_, setIndex) => (
                 <React.Fragment key={setIndex}>
                   {displayProjects
                     .slice(setIndex * perfectSet.length, (setIndex + 1) * perfectSet.length)
