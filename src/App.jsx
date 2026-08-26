@@ -1,26 +1,53 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Menu, X, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
 
-// --- HELPER TO RENDER IMAGES OR VIDEOS AUTOMATICALLY ---
-const renderMedia = (url, alt, className) => {
-  const isVideo = url.toLowerCase().endsWith('.mp4') || url.includes('.mp4');
+// --- NEUER PERFORMANCE-BOOSTER: Sichtbarkeits-Sensor für Videos ---
+const MediaItem = ({ url, alt, className }) => {
+  const isVideo = url && (url.toLowerCase().endsWith('.mp4') || url.includes('.mp4'));
+  const mediaRef = useRef(null);
+
+  useEffect(() => {
+    if (!isVideo || !mediaRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // Video ist im Sichtfeld -> Abspielen
+            mediaRef.current?.play().catch(() => {});
+          } else {
+            // Video ist weggescrollt -> Pausieren (Spart massiv CPU/RAM)
+            mediaRef.current?.pause();
+          }
+        });
+      },
+      { rootMargin: '200px' } // Lädt schon kurz bevor es ins Bild kommt
+    );
+
+    observer.observe(mediaRef.current);
+
+    return () => observer.disconnect();
+  }, [isVideo]);
+
   if (isVideo) {
     return (
       <video 
+        ref={mediaRef}
         src={url} 
         className={`${className} object-cover`}
-        autoPlay 
         loop 
         muted 
         playsInline 
+        preload="metadata" // Lädt nur das erste Bild, spart Daten!
       />
     );
   }
+  
   return (
     <img 
       src={url} 
-      alt={alt} 
-      className={className} 
+      alt={alt || "portfolio media"} 
+      className={`${className} object-cover`}
       loading="lazy" 
     />
   );
@@ -540,7 +567,7 @@ const ProjectCarousel = ({ project, onClick, id }) => {
         >
           {project.carousel.map((imgUrl, idx) => (
             <div key={idx} className="min-w-full h-full snap-center relative">
-              {renderMedia(imgUrl, `${project.title} - media ${idx + 1}`, "w-full h-full object-cover")}
+              <MediaItem url={imgUrl} alt={`${project.title} - media ${idx + 1}`} className="w-full h-full object-cover" />
             </div>
           ))}
         </div>
@@ -615,7 +642,6 @@ const FloatingMenu = ({ onGoHome, onViewChange, onCategorySelect, language, setL
     illustrations: language === 'de' ? 'illustrationen' : 'illustrations',
     packaging: language === 'de' ? 'verpackungsdesign' : 'packaging',
     services: language === 'de' ? 'leistungen' : 'services',
-    // HIER GEÄNDERT: "über mich" statt "über das studio"
     about: language === 'de' ? 'über mich' : 'about me',
     contact: language === 'de' ? 'kontakt' : 'contact',
     imprint: language === 'de' ? 'impressum & datenschutz' : 'imprint & privacy policy',
@@ -675,7 +701,6 @@ const FloatingMenu = ({ onGoHome, onViewChange, onCategorySelect, language, setL
             <button onClick={() => handleNavClick('contact')} className="text-left text-base hover:text-white/70 transition-colors py-1 font-normal focus:outline-none">{t.contact}</button>
             <button onClick={() => handleNavClick('imprint')} className="text-left text-base hover:text-white/70 transition-colors py-1 font-normal focus:outline-none">{t.imprint}</button>
             
-            {/* Sprach-Switch */}
             <div className="flex items-center gap-3">
               <button 
                 onClick={(e) => { e.stopPropagation(); setLanguage('de'); }}
@@ -734,11 +759,7 @@ const ProjectView = ({ project, language }) => {
                       aspectRatio: ratioValue
                     }}
                   >
-                    {renderMedia(
-                      media.url, 
-                      `${project.title} detail ${idx}-${colIdx}`, 
-                      "absolute inset-0 w-full h-full object-cover" 
-                    )}
+                    <MediaItem url={media.url} alt={`${project.title} detail ${idx}-${colIdx}`} className="absolute inset-0 w-full h-full object-cover" />
                   </div>
                 );
               })}
@@ -756,18 +777,14 @@ const AboutPage = ({ language }) => {
   useEffect(() => { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); }, []); 
   
   const t = {
-    // HIER GEÄNDERT: Die große Headline
     title: language === 'de' ? 'über mich' : 'about me',
-    
-    // HIER GEÄNDERT: "profil/profile" statt "über mich" (damit es nicht doppelt da steht)
     aboutMe: language === 'de' ? 'profil' : 'profile',
-    
     aboutText: language === 'de' 
       ? 'Für mich steht eine klare und verständliche Idee immer im Vordergrund. Mit einer starken Idee eröffnen sich jedes Mal neue Wege, die es Spaß macht zu entdecken. Mein Fokus liegt darin, Themen visuell auf das notwendigste runterzukochen und zeitlose Designs zu gestalten.' 
       : 'For me, a clear and understandable concept is always the top priority. A strong concept always opens up new possibilities that are a joy to explore. My focus is on distilling themes visually down to their bare essentials and creating timeless designs.',
     exp: language === 'de' ? 'erfahrung' : 'experience',
     edu: language === 'de' ? 'ausbildung' : 'education',
-    now: language === 'de' ? 'jetzt' : 'now',
+    now: language === 'de' ? 'Jetzt' : 'Now',
     exp1: language === 'de' ? <>Freiberuflicher Grafikdesigner<br />Wien, Österreich</> : <>Freelance Graphic Designer<br />Vienna, Austria</>,
     exp2: language === 'de' ? <>Art Director bei Thies Design<br />Wien, Österreich</> : <>Art Director at Thies Design<br />Vienna, Austria</>,
     edu1: language === 'de' ? <>Universität für angewandte Kunst Wien<br />Kommunikationsdesign an der „Klasse für Ideen“</> : <>University of Applied Arts Vienna<br />Communication Design at the “Klasse für Ideen”</>,
@@ -788,7 +805,7 @@ const AboutPage = ({ language }) => {
           </div>
 
           <div className="md:col-start-1 md:col-span-5 w-full shrink-0 aspect-[4/5] bg-white rounded-xl overflow-hidden shadow-sm">
-            {renderMedia("profilbild.webp")}
+            <MediaItem url="/profilbild.webp" alt="portrait lukas liszka" className="w-full h-full object-cover" />
           </div>
           
           <div className="md:col-start-6 md:col-span-7 flex flex-col gap-10 md:gap-12">
@@ -1100,7 +1117,6 @@ export default function PortfolioApp() {
   const [hash, setHash] = useState(typeof window !== 'undefined' ? window.location.hash : '');
   const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
   
-  // Globale Sprach-Einstellung (Standard: 'de')
   const [language, setLanguage] = useState('de');
 
   useEffect(() => {
@@ -1141,7 +1157,6 @@ export default function PortfolioApp() {
     if (isMobile) return baseProjects;
     let arr = [...baseProjects];
     
-    // BERECHNET DAS NÖTIGE VIELFACHE VON 15 FÜR LÜCKENLOSES GRID
     const targetLength = Math.max(15, Math.ceil(arr.length / 15) * 15);
     
     while (arr.length < targetLength) { 
@@ -1150,9 +1165,11 @@ export default function PortfolioApp() {
     return arr.slice(0, targetLength);
   }, [baseProjects, isMobile]);
 
+  // HIER IST DER 2. PERFORMANCE-BOOSTER: 
+  // Nur noch 5 Kopien des Grids statt 12. Das spart massiv Arbeitsspeicher!
   const displayProjects = useMemo(() => {
     if (isMobile) return perfectSet;
-    return Array(12).fill(perfectSet).flat().map((p, i) => ({ ...p, uniqueId: `${p.id}-${i}` }));
+    return Array(5).fill(perfectSet).flat().map((p, i) => ({ ...p, uniqueId: `${p.id}-${i}` }));
   }, [perfectSet, isMobile]);
 
   useEffect(() => {
@@ -1174,7 +1191,8 @@ export default function PortfolioApp() {
     const initTimer = setTimeout(() => {
       calculateHeight();
       if (singleSetHeight > 0 && window.scrollY === 0) {
-        window.scrollTo({ top: singleSetHeight * 5, behavior: 'instant' });
+        // Starte jetzt bei Höhe 2 (damit man sofort nach oben und unten scrollen kann)
+        window.scrollTo({ top: singleSetHeight * 2, behavior: 'instant' });
       }
     }, 100);
 
@@ -1184,9 +1202,10 @@ export default function PortfolioApp() {
 
       const scrollY = window.scrollY;
 
-      if (scrollY < singleSetHeight * 3) {
+      // Neue Scroll-Mathematik für 5 Kopien:
+      if (scrollY < singleSetHeight * 1) {
         window.scrollTo({ top: scrollY + singleSetHeight, behavior: 'instant' });
-      } else if (scrollY > singleSetHeight * 8) {
+      } else if (scrollY > singleSetHeight * 3) {
         window.scrollTo({ top: scrollY - singleSetHeight, behavior: 'instant' });
       }
     };
@@ -1226,7 +1245,6 @@ export default function PortfolioApp() {
           animation: fadeInSmooth 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
         }
 
-        /* HIER IST DIE MATHE FÜR DAS PERFEKTE RASTER (Nur auf Desktop) */
         @media (min-width: 768px) {
           .flex-editorial {
             flex: var(--desktop-flex) 1 0% !important;
@@ -1234,7 +1252,6 @@ export default function PortfolioApp() {
         }
       `}</style>
 
-      {/* Sprach-Switch ans Menü übergeben */}
       <FloatingMenu 
         onGoHome={handleGoHome} 
         onViewChange={handleViewChange} 
@@ -1243,7 +1260,6 @@ export default function PortfolioApp() {
         setLanguage={setLanguage}
       />
 
-      {/* Sprache an alle Seiten übergeben */}
       {activeProject ? (
         <ProjectView project={activeProject} language={language} />
       ) : currentView === 'about' ? (
@@ -1262,7 +1278,7 @@ export default function PortfolioApp() {
                 <ProjectCarousel key={project.uniqueId || project.id} id={`item-0-${idx}`} project={project} onClick={handleProjectClick} />
               ))
             ) : (
-              Array(12).fill(null).map((_, setIndex) => (
+              Array(5).fill(null).map((_, setIndex) => (
                 <React.Fragment key={setIndex}>
                   {displayProjects
                     .slice(setIndex * perfectSet.length, (setIndex + 1) * perfectSet.length)
