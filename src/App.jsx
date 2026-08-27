@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Menu, X, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
 
-// --- PERFORMANCE-BOOSTER 2.0 ---
+// --- PERFORMANCE-BOOSTER 3.0 (Anti-Flackern & GPU-Beschleunigung) ---
 const MediaItem = ({ url, alt, className, isPriority }) => {
   const isVideo = url && (url.toLowerCase().endsWith('.mp4') || url.includes('.mp4'));
   const mediaRef = useRef(null);
@@ -13,12 +13,15 @@ const MediaItem = ({ url, alt, className, isPriority }) => {
       (entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
+            // Video startet durch den riesigen Puffer schon weit vor dem sichtbaren Bereich
             mediaRef.current?.play().catch(() => {});
           } else {
+            // Pausiert sofort, wenn es weggescrollt wird (Spart massiv RAM & CPU)
             mediaRef.current?.pause();
           }
         });
       },
+      // HIER GEÄNDERT: 800px Puffer! Das Video ist längst bereit, wenn du hinscrollst.
       { rootMargin: '800px' } 
     );
 
@@ -36,6 +39,8 @@ const MediaItem = ({ url, alt, className, isPriority }) => {
         loop 
         muted 
         playsInline 
+        preload="metadata" // Lädt vorab nur 1 Frame, spart Daten
+        // Zwingt alte Laptops dazu, die Grafikkarte (GPU) zu nutzen -> Kein Flackern mehr!
         style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
       />
     );
@@ -46,6 +51,7 @@ const MediaItem = ({ url, alt, className, isPriority }) => {
       src={url} 
       alt={alt || "portfolio media"} 
       className={`${className} object-cover`}
+      // Lädt das Bild entweder sofort (eager) oder verzögert (lazy), um weiße Boxen zu verhindern
       loading={isPriority ? "eager" : "lazy"} 
       decoding={isPriority ? "sync" : "async"}
       style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
@@ -525,7 +531,7 @@ const ProjectCarousel = ({ project, onClick, id }) => {
   const scrollRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   
-  // HIER GEÄNDERT: Der Schalter für das "Geister-Karussell"
+  // HIER GEÄNDERT: Der smarte Sensor für das "Geister-Karussell"
   const [hasInteracted, setHasInteracted] = useState(false);
 
   const scroll = (direction, e) => {
@@ -563,7 +569,7 @@ const ProjectCarousel = ({ project, onClick, id }) => {
       <div 
         className="relative w-full aspect-[4/5] bg-white overflow-hidden group cursor-pointer rounded-xl"
         onClick={() => onClick(project)}
-        // HIER GEÄNDERT: Sobald man die Box berührt, wachen die Geister-Bilder auf und laden rein
+        // HIER IST DER TRICK: Die restlichen Bilder wachen erst auf, wenn du mit der Maus drüberfährst
         onMouseEnter={() => setHasInteracted(true)}
         onTouchStart={() => setHasInteracted(true)}
       >
@@ -573,17 +579,15 @@ const ProjectCarousel = ({ project, onClick, id }) => {
         >
           {project.carousel.map((imgUrl, idx) => (
             <div key={idx} className="min-w-full h-full snap-center relative">
-              
-              {/* HIER GEÄNDERT: Nur das 1. Bild wird sofort geladen. Bild 2,3,4 bleiben leer, bis man drüberfährt! */}
-              {(idx === 0 || hasInteracted) ? (
+              {/* Nur das 1. Bild ist sofort da. Die anderen laden sofort im Hintergrund los, sobald du die Box berührst */}
+              {(idx === 0 || hasInteracted) && (
                 <MediaItem 
                   url={imgUrl} 
                   alt={`${project.title} - media ${idx + 1}`} 
                   className="w-full h-full object-cover" 
-                  isPriority={idx === 0} 
+                  isPriority={idx === 0 || hasInteracted} 
                 />
-              ) : null}
-              
+              )}
             </div>
           ))}
         </div>
@@ -703,7 +707,7 @@ const FloatingMenu = ({ onGoHome, onViewChange, onCategorySelect, language, setL
                 <ChevronDown size={18} className={`transition-transform duration-300 ${categoriesOpen ? 'rotate-180' : ''}`} />
               </button>
               
-              <div className={`overflow-hidden transition-all duration-300 flex flex-col gap-3 pl-4 ${categoriesOpen ? 'max-h-72 mt-2 opacity-100' : 'max-h-0 opacity-0': 'max-h-0 opacity-0'}`}>
+              <div className={`overflow-hidden transition-all duration-300 flex flex-col gap-3 pl-4 ${categoriesOpen ? 'max-h-72 mt-2 opacity-100' : 'max-h-0 opacity-0'}`}>
                 <button onClick={() => handleCategoryClick(null)} className="text-left text-white/70 hover:text-white text-sm tracking-wide focus:outline-none font-normal">{t.all}</button>
                 <button onClick={() => handleCategoryClick('posters')} className="text-left text-white/70 hover:text-white text-sm tracking-wide focus:outline-none font-normal">{t.posters}</button>
                 <button onClick={() => handleCategoryClick('branding')} className="text-left text-white/70 hover:text-white text-sm tracking-wide focus:outline-none font-normal">{t.branding}</button>
@@ -1138,6 +1142,7 @@ export default function PortfolioApp() {
   const [hash, setHash] = useState(typeof window !== 'undefined' ? window.location.hash : '');
   const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
   
+  // Globale Sprach-Einstellung (Standard: 'de')
   const [language, setLanguage] = useState('de');
 
   useEffect(() => {
@@ -1178,6 +1183,7 @@ export default function PortfolioApp() {
     if (isMobile) return baseProjects;
     let arr = [...baseProjects];
     
+    // BERECHNET DAS NÖTIGE VIELFACHE VON 15 FÜR LÜCKENLOSES GRID
     const targetLength = Math.max(15, Math.ceil(arr.length / 15) * 15);
     
     while (arr.length < targetLength) { 
@@ -1186,6 +1192,7 @@ export default function PortfolioApp() {
     return arr.slice(0, targetLength);
   }, [baseProjects, isMobile]);
 
+  // HIER GEÄNDERT: Wir laden nur noch das ABSOLUTE MINIMUM an Kopien (3). Spart noch mehr RAM!
   const displayProjects = useMemo(() => {
     if (isMobile) return perfectSet;
     return Array(3).fill(perfectSet).flat().map((p, i) => ({ ...p, uniqueId: `${p.id}-${i}` }));
@@ -1262,6 +1269,7 @@ export default function PortfolioApp() {
           animation: fadeInSmooth 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
         }
 
+        /* HIER IST DIE MATHE FÜR DAS PERFEKTE RASTER (Nur auf Desktop) */
         @media (min-width: 768px) {
           .flex-editorial {
             flex: var(--desktop-flex) 1 0% !important;
@@ -1269,6 +1277,7 @@ export default function PortfolioApp() {
         }
       `}</style>
 
+      {/* Sprach-Switch ans Menü übergeben */}
       <FloatingMenu 
         onGoHome={handleGoHome} 
         onViewChange={handleViewChange} 
@@ -1277,6 +1286,7 @@ export default function PortfolioApp() {
         setLanguage={setLanguage}
       />
 
+      {/* Sprache an alle Seiten übergeben */}
       {activeProject ? (
         <ProjectView project={activeProject} language={language} />
       ) : currentView === 'about' ? (
