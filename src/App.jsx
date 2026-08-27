@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Menu, X, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
 
-// --- PERFORMANCE-BOOSTER 4.0 (Ultimative Infinite-Scroll Optimierung) ---
+// --- PERFORMANCE-BOOSTER 3.0 (Anti-Flackern & GPU-Beschleunigung) ---
 const MediaItem = ({ url, alt, className, isPriority }) => {
   const isVideo = url && (url.toLowerCase().endsWith('.mp4') || url.includes('.mp4'));
   const mediaRef = useRef(null);
@@ -36,8 +36,7 @@ const MediaItem = ({ url, alt, className, isPriority }) => {
         loop 
         muted 
         playsInline 
-        // HIER GEÄNDERT: "none" saugt absolut keine Daten, bis es sichtbar wird
-        preload="none" 
+        preload="metadata" 
         style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
       />
     );
@@ -50,7 +49,7 @@ const MediaItem = ({ url, alt, className, isPriority }) => {
       className={`${className} object-cover`}
       loading={isPriority ? "eager" : "lazy"} 
       decoding={isPriority ? "sync" : "async"}
-      // HIER GEÄNDERT: translateZ entfernt. Alte Macs ersticken sonst am Grafikspeicher!
+      style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
     />
   );
 };
@@ -490,7 +489,7 @@ const initialProjects = [
     category: 'branding',
     description: {
       en: "This proposed branding for the “Raum für Demokratie” (Space for Democracy) at the Academy of Fine Arts Vienna was developed as part of the “Klasse für Ideen” initiative. The project is conceived as a space for socio-political exchange, bringing together formats such as talks, workshops and debates, and serving as a reminder that democracy cannot be taken for granted, but must be actively valued and protected. The visual concept is based on a dynamic system in which the respective medium, ranging from A1 posters to social media screens, always functions as a floor plan of the space. Black circles symbolise people; their arrangement generates the layout and makes the respective event format immediately recognisable. As a defining key visual, the circle also carries over into the physical identity of the space and is reflected in round seat cushions, speaking cards and name badges.",
-      de: "Dieser Branding-Vorschlag für den „Raum für Demokratie“ an der Akademie der bildenden Künste Wien wurde im Rahmen der „Klasse für Ideen“ entwickelt. Das Projekt versteht sich als Raum für gesellschaftspolitischen Austausch, der Formate wie Vorträge, Workshops und Debatten zusammenbringt und daran erinnert, dass Demokratie keine Selbstverständlichkeit ist, sondern aktiv geschätzt und geschützt werden muss. Das visuelle Konzept basiert auf einem dynamischen System, bei dem das jeweilige Medium – vom A1-Plakat bis zum Social-Media-Screen – immer als Grundriss des Raumes fungiert. Schwarze Kreise symbolisieren Menschen; ihre Anordnung generiert das Layout und macht das jeweilige Veranstaltungsformat sofort erkennbar. Als prägendes Schlüsselbild überträgt sich der Kreis auch in die physische Identität des Raumes und findet sich in runden Sitzkissen, Sprechkarten und Namensschildern wieder."
+      de: "Dieser Branding-Vorschlag für den „Raum für Demokratie“ an der Akademie der bildenden Künste Wien wurde im Rahmen der „Klasse für Ideen“ entwickelt. Das Projekt versteht sich als Raum für gesellschaftspolitischen Austausch, der Formate wie Vorträge, Workshops und Debatten zusammenbringt und erinnert daran, dass Demokratie keine Selbstverständlichkeit ist, sondern aktiv geschätzt und geschützt werden muss. Das visuelle Konzept basiert auf einem dynamischen System, bei dem das jeweilige Medium – vom A1-Plakat bis zum Social-Media-Screen – immer als Grundriss des Raumes fungiert. Schwarze Kreise symbolisieren Menschen; ihre Anordnung generiert das Layout und macht das jeweilige Veranstaltungsformat sofort erkennbar. Als prägendes Schlüsselbild überträgt sich der Kreis auch in die physische Identität des Raumes und findet sich in runden Sitzkissen, Sprechkarten und Namensschildern wieder."
     },
     carousel: [
       "/demok-discussions.mp4",
@@ -743,6 +742,7 @@ const ProjectView = ({ project, language }) => {
   }, [project]);
 
   return (
+    // HIER GEÄNDERT: pb-2 statt pb-24 sorgt für 8px Abstand nach unten, genau wie links und rechts
     <div className="min-h-screen pb-2 pt-24">
       <div className="px-4 md:px-6 mb-16">
         <h1 className="text-4xl md:text-6xl font-medium tracking-tight mb-3">
@@ -1130,22 +1130,15 @@ const ImprintPage = ({ language }) => {
   );
 };
 
-// --- HAUPT APP (INFINITE SCROLL) ---
+// --- HAUPT APP (Klassisches Grid ohne Infinite Scroll) ---
 export default function PortfolioApp() {
   const [hash, setHash] = useState(typeof window !== 'undefined' ? window.location.hash : '');
-  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
   const [language, setLanguage] = useState('de');
 
   useEffect(() => {
     const handleHashChange = () => setHash(window.location.hash);
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
-  }, []);
-
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   let currentView = 'home';
@@ -1170,78 +1163,10 @@ export default function PortfolioApp() {
     ? initialProjects.filter(p => p.category === activeCategory)
     : initialProjects;
 
-  const perfectSet = useMemo(() => {
-    if (isMobile) return baseProjects;
-    let arr = [...baseProjects];
-    
-    // HIER GEÄNDERT (TURBO 1): Mathematik für 4 Spalten!
-    // Auf Desktop multipliziert es auf das nächste Vielfache von 12 (statt 15). 
-    // Das spart 18 DOM-Knoten auf einen Schlag!
-    const targetLength = Math.max(12, Math.ceil(arr.length / 12) * 12);
-    
-    while (arr.length < targetLength) { 
-      arr = [...arr, ...baseProjects]; 
-    }
-    return arr.slice(0, targetLength);
-  }, [baseProjects, isMobile]);
-
-  const displayProjects = useMemo(() => {
-    if (isMobile) return perfectSet;
-    return Array(3).fill(perfectSet).flat().map((p, i) => ({ ...p, uniqueId: `${p.id}-${i}` }));
-  }, [perfectSet, isMobile]);
-
+  // Scrollt beim Wechsel der Ansicht ganz sanft nach oben
   useEffect(() => {
-    if (isMobile || activeProject || currentView !== 'home') {
-      window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); 
-      return;
-    }
-
-    let singleSetHeight = 0;
-    let ticking = false; // TURBO 3: Scroll-Bremse Flag
-
-    const calculateHeight = () => {
-      const item1 = document.getElementById('item-0-0');
-      const item2 = document.getElementById('item-1-0');
-      if (item1 && item2) {
-        singleSetHeight = item2.offsetTop - item1.offsetTop;
-      }
-    };
-
-    const initTimer = setTimeout(() => {
-      calculateHeight();
-      if (singleSetHeight > 0 && window.scrollY === 0) {
-        window.scrollTo({ top: singleSetHeight, behavior: 'instant' });
-      }
-    }, 100);
-
-    const handleScroll = () => {
-      // TURBO 3: Führt das Ruckeln-verursachende Rechnen nur noch passend zur Bildrate (60hz) deines Laptops aus
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          if (singleSetHeight === 0) calculateHeight();
-          if (singleSetHeight > 0) {
-            const scrollY = window.scrollY;
-            if (scrollY < singleSetHeight * 0.5) {
-              window.scrollTo({ top: scrollY + singleSetHeight, behavior: 'instant' });
-            } else if (scrollY > singleSetHeight * 1.5) {
-              window.scrollTo({ top: scrollY - singleSetHeight, behavior: 'instant' });
-            }
-          }
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', calculateHeight);
-
-    return () => {
-      clearTimeout(initTimer);
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', calculateHeight);
-    };
-  }, [isMobile, activeProject, currentView, displayProjects, hash]);
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); 
+  }, [currentView, activeProject, activeCategory]);
 
   return (
     <div className="bg-gray-200 min-h-screen text-black selection:bg-black selection:text-white" style={{ fontFamily: "'IBM Plex Sans', sans-serif" }}>
@@ -1294,32 +1219,22 @@ export default function PortfolioApp() {
       ) : currentView === 'imprint' ? (
         <ImprintPage language={language} />
       ) : (
+        // HIER GEÄNDERT: pb-2 statt pb-32 für denselben Abstand nach unten wie an der Seite
         <main className="p-2 md:pt-32 md:pb-2">
-          {/* HIER GEÄNDERT: lg:grid-cols-4 für 4 Projekte nebeneinander */}
+          {/* HIER GEÄNDERT: lg:grid-cols-4 für 4 Elemente auf Desktop */}
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-2">
-            {isMobile ? (
-              displayProjects.map((project, idx) => (
-                <ProjectCarousel key={project.uniqueId || project.id} id={`item-0-${idx}`} project={project} onClick={handleProjectClick} />
-              ))
-            ) : (
-              Array(3).fill(null).map((_, setIndex) => (
-                <React.Fragment key={setIndex}>
-                  {displayProjects
-                    .slice(setIndex * perfectSet.length, (setIndex + 1) * perfectSet.length)
-                    .map((project, idx) => (
-                      <ProjectCarousel 
-                        key={`${setIndex}-${idx}`} 
-                        id={`item-${setIndex}-${idx}`} 
-                        project={project} 
-                        onClick={handleProjectClick} 
-                      />
-                  ))}
-                </React.Fragment>
-              ))
-            )}
+            {baseProjects.map((project, idx) => (
+              <ProjectCarousel 
+                key={project.id} 
+                id={`item-${idx}`} 
+                project={project} 
+                onClick={handleProjectClick} 
+              />
+            ))}
           </div>
         </main>
       )}
     </div>
   );
 }
+
