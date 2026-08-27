@@ -13,14 +13,12 @@ const MediaItem = ({ url, alt, className, isPriority }) => {
       (entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            // Video startet schon weit vor dem sichtbaren Bereich, um Flackern zu verhindern
             mediaRef.current?.play().catch(() => {});
           } else {
             mediaRef.current?.pause();
           }
         });
       },
-      // HIER GEÄNDERT: 800px Pufferzone! Das Video ist längst bereit, wenn es ins Bild kommt.
       { rootMargin: '800px' } 
     );
 
@@ -38,7 +36,6 @@ const MediaItem = ({ url, alt, className, isPriority }) => {
         loop 
         muted 
         playsInline 
-        // HIER GEÄNDERT: Zwingt die Grafikkarte, das Video durchgehend bereit zu halten (Anti-Flacker-Trick)
         style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
       />
     );
@@ -49,7 +46,6 @@ const MediaItem = ({ url, alt, className, isPriority }) => {
       src={url} 
       alt={alt || "portfolio media"} 
       className={`${className} object-cover`}
-      // HIER GEÄNDERT: Das allererste Bild lädt sofort (eager), die restlichen verzögert (lazy). Keine weißen Boxen mehr!
       loading={isPriority ? "eager" : "lazy"} 
       decoding={isPriority ? "sync" : "async"}
       style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
@@ -528,6 +524,9 @@ const initialProjects = [
 const ProjectCarousel = ({ project, onClick, id }) => {
   const scrollRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  
+  // HIER GEÄNDERT: Der Schalter für das "Geister-Karussell"
+  const [hasInteracted, setHasInteracted] = useState(false);
 
   const scroll = (direction, e) => {
     e.stopPropagation();
@@ -564,6 +563,9 @@ const ProjectCarousel = ({ project, onClick, id }) => {
       <div 
         className="relative w-full aspect-[4/5] bg-white overflow-hidden group cursor-pointer rounded-xl"
         onClick={() => onClick(project)}
+        // HIER GEÄNDERT: Sobald man die Box berührt, wachen die Geister-Bilder auf und laden rein
+        onMouseEnter={() => setHasInteracted(true)}
+        onTouchStart={() => setHasInteracted(true)}
       >
         <div 
           ref={scrollRef}
@@ -571,8 +573,17 @@ const ProjectCarousel = ({ project, onClick, id }) => {
         >
           {project.carousel.map((imgUrl, idx) => (
             <div key={idx} className="min-w-full h-full snap-center relative">
-              {/* HIER GEÄNDERT: isPriority wird mitgegeben, damit das allererste Bild im Karussell sofort lädt! */}
-              <MediaItem url={imgUrl} alt={`${project.title} - media ${idx + 1}`} className="w-full h-full object-cover" isPriority={idx === 0} />
+              
+              {/* HIER GEÄNDERT: Nur das 1. Bild wird sofort geladen. Bild 2,3,4 bleiben leer, bis man drüberfährt! */}
+              {(idx === 0 || hasInteracted) ? (
+                <MediaItem 
+                  url={imgUrl} 
+                  alt={`${project.title} - media ${idx + 1}`} 
+                  className="w-full h-full object-cover" 
+                  isPriority={idx === 0} 
+                />
+              ) : null}
+              
             </div>
           ))}
         </div>
@@ -692,7 +703,7 @@ const FloatingMenu = ({ onGoHome, onViewChange, onCategorySelect, language, setL
                 <ChevronDown size={18} className={`transition-transform duration-300 ${categoriesOpen ? 'rotate-180' : ''}`} />
               </button>
               
-              <div className={`overflow-hidden transition-all duration-300 flex flex-col gap-3 pl-4 ${categoriesOpen ? 'max-h-72 mt-2 opacity-100' : 'max-h-0 opacity-0'}`}>
+              <div className={`overflow-hidden transition-all duration-300 flex flex-col gap-3 pl-4 ${categoriesOpen ? 'max-h-72 mt-2 opacity-100' : 'max-h-0 opacity-0': 'max-h-0 opacity-0'}`}>
                 <button onClick={() => handleCategoryClick(null)} className="text-left text-white/70 hover:text-white text-sm tracking-wide focus:outline-none font-normal">{t.all}</button>
                 <button onClick={() => handleCategoryClick('posters')} className="text-left text-white/70 hover:text-white text-sm tracking-wide focus:outline-none font-normal">{t.posters}</button>
                 <button onClick={() => handleCategoryClick('branding')} className="text-left text-white/70 hover:text-white text-sm tracking-wide focus:outline-none font-normal">{t.branding}</button>
@@ -735,7 +746,7 @@ const ProjectView = ({ project, language }) => {
   }, [project]);
 
   return (
-    <div className="min-h-screen pb-2 pt-24">
+    <div className="min-h-screen pb-24 pt-24">
       <div className="px-4 md:px-6 mb-16">
         <h1 className="text-4xl md:text-6xl font-medium tracking-tight mb-3">
           {project.title}
@@ -764,8 +775,12 @@ const ProjectView = ({ project, language }) => {
                       aspectRatio: ratioValue
                     }}
                   >
-                    {/* Detailbilder dürfen sofort laden, wir befinden uns eh schon in der Detailansicht */}
-                    <MediaItem url={media.url} alt={`${project.title} detail ${idx}-${colIdx}`} className="absolute inset-0 w-full h-full object-cover" isPriority={true} />
+                    <MediaItem 
+                      url={media.url} 
+                      alt={`${project.title} detail ${idx}-${colIdx}`} 
+                      className="absolute inset-0 w-full h-full object-cover" 
+                      isPriority={true} 
+                    />
                   </div>
                 );
               })}
@@ -1123,7 +1138,6 @@ export default function PortfolioApp() {
   const [hash, setHash] = useState(typeof window !== 'undefined' ? window.location.hash : '');
   const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
   
-  // Globale Sprach-Einstellung (Standard: 'de')
   const [language, setLanguage] = useState('de');
 
   useEffect(() => {
@@ -1164,7 +1178,6 @@ export default function PortfolioApp() {
     if (isMobile) return baseProjects;
     let arr = [...baseProjects];
     
-    // BERECHNET DAS NÖTIGE VIELFACHE VON 15 FÜR LÜCKENLOSES GRID
     const targetLength = Math.max(15, Math.ceil(arr.length / 15) * 15);
     
     while (arr.length < targetLength) { 
@@ -1173,7 +1186,6 @@ export default function PortfolioApp() {
     return arr.slice(0, targetLength);
   }, [baseProjects, isMobile]);
 
-  // HIER GEÄNDERT: Wir laden nur noch das ABSOLUTE MINIMUM an Kopien (3).
   const displayProjects = useMemo(() => {
     if (isMobile) return perfectSet;
     return Array(3).fill(perfectSet).flat().map((p, i) => ({ ...p, uniqueId: `${p.id}-${i}` }));
@@ -1208,7 +1220,6 @@ export default function PortfolioApp() {
 
       const scrollY = window.scrollY;
 
-      // HIER GEÄNDERT: Neue Scroll-Mathematik für genau 3 Kopien (Nahtloser Sprung)
       if (scrollY < singleSetHeight * 0.5) {
         window.scrollTo({ top: scrollY + singleSetHeight, behavior: 'instant' });
       } else if (scrollY > singleSetHeight * 1.5) {
@@ -1258,7 +1269,6 @@ export default function PortfolioApp() {
         }
       `}</style>
 
-      {/* Sprach-Switch ans Menü übergeben */}
       <FloatingMenu 
         onGoHome={handleGoHome} 
         onViewChange={handleViewChange} 
@@ -1267,7 +1277,6 @@ export default function PortfolioApp() {
         setLanguage={setLanguage}
       />
 
-      {/* Sprache an alle Seiten übergeben */}
       {activeProject ? (
         <ProjectView project={activeProject} language={language} />
       ) : currentView === 'about' ? (
