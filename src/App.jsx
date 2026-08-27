@@ -489,7 +489,7 @@ const initialProjects = [
     category: 'branding',
     description: {
       en: "This proposed branding for the “Raum für Demokratie” (Space for Democracy) at the Academy of Fine Arts Vienna was developed as part of the “Klasse für Ideen” initiative. The project is conceived as a space for socio-political exchange, bringing together formats such as talks, workshops and debates, and serving as a reminder that democracy cannot be taken for granted, but must be actively valued and protected. The visual concept is based on a dynamic system in which the respective medium, ranging from A1 posters to social media screens, always functions as a floor plan of the space. Black circles symbolise people; their arrangement generates the layout and makes the respective event format immediately recognisable. As a defining key visual, the circle also carries over into the physical identity of the space and is reflected in round seat cushions, speaking cards and name badges.",
-      de: "Dieser Branding-Vorschlag für den „Raum für Demokratie“ an der Akademie der bildenden Künste Wien wurde im Rahmen der „Klasse für Ideen“ entwickelt. Das Projekt versteht sich als Raum für gesellschaftspolitischen Austausch, der Formate wie Vorträge, Workshops und Debatten zusammenbringt und daran erinnert, dass Demokratie keine Selbstverständlichkeit ist, sondern aktiv geschätzt und geschützt werden muss. Das visuelle Konzept basiert auf einem dynamischen System, bei dem das jeweilige Medium – vom A1-Plakat bis zum Social-Media-Screen – immer als Grundriss des Raumes fungiert. Schwarze Kreise symbolisieren Menschen; ihre Anordnung generiert das Layout und macht das jeweilige Veranstaltungsformat sofort erkennbar. Als prägendes Schlüsselbild überträgt sich der Kreis auch in die physische Identität des Raumes und findet sich in runden Sitzkissen, Sprechkarten und Namensschildern wieder."
+      de: "Dieser Branding-Vorschlag für den „Raum für Demokratie“ an der Akademie der bildenden Künste Wien wurde im Rahmen der „Klasse für Ideen“ entwickelt. Das Projekt versteht sich als Raum für gesellschaftspolitischen Austausch, der Formate wie Vorträge, Workshops und Debatten zusammenbringt und erinnert daran, dass Demokratie keine Selbstverständlichkeit ist, sondern aktiv geschätzt und geschützt werden muss. Das visuelle Konzept basiert auf einem dynamischen System, bei dem das jeweilige Medium – vom A1-Plakat bis zum Social-Media-Screen – immer als Grundriss des Raumes fungiert. Schwarze Kreise symbolisieren Menschen; ihre Anordnung generiert das Layout und macht das jeweilige Veranstaltungsformat sofort erkennbar. Als prägendes Schlüsselbild überträgt sich der Kreis auch in die physische Identität des Raumes und findet sich in runden Sitzkissen, Sprechkarten und Namensschildern wieder."
     },
     carousel: [
       "/demok-discussions.mp4",
@@ -742,7 +742,8 @@ const ProjectView = ({ project, language }) => {
   }, [project]);
 
   return (
-    <div className="min-h-screen pb-24 pt-24">
+    // HIER GEÄNDERT: pb-2 statt pb-24 sorgt für 8px Abstand nach unten, genau wie links und rechts
+    <div className="min-h-screen pb-2 pt-24">
       <div className="px-4 md:px-6 mb-16">
         <h1 className="text-4xl md:text-6xl font-medium tracking-tight mb-3">
           {project.title}
@@ -1129,7 +1130,7 @@ const ImprintPage = ({ language }) => {
   );
 };
 
-// --- HAUPT APP (Ohne Infinite Scroll) ---
+// --- HAUPT APP (Klassisches Grid ohne Infinite Scroll) ---
 export default function PortfolioApp() {
   const [hash, setHash] = useState(typeof window !== 'undefined' ? window.location.hash : '');
   const [language, setLanguage] = useState('de');
@@ -1158,12 +1159,11 @@ export default function PortfolioApp() {
   const handleViewChange = (view) => { window.location.hash = `#view=${view}`; };
   const handleProjectClick = (project) => { window.location.hash = `#project=${project.slug}`; };
 
-  // HIER GEÄNDERT: Wir filtern die Projekte, aber wir kopieren sie NICHT mehr.
   const baseProjects = activeCategory 
     ? initialProjects.filter(p => p.category === activeCategory)
     : initialProjects;
 
-  // HIER GEÄNDERT: Einfaches Scroll-To-Top beim Seitenwechsel. Keine komplizierte Loop-Mathematik mehr!
+  // Scrollt beim Wechsel der Ansicht ganz sanft nach oben
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); 
   }, [currentView, activeProject, activeCategory]);
@@ -1219,9 +1219,10 @@ export default function PortfolioApp() {
       ) : currentView === 'imprint' ? (
         <ImprintPage language={language} />
       ) : (
-        <main className="p-2 md:pt-32 md:pb-32">
-          {/* HIER GEÄNDERT: Einfaches Grid ohne Klone. Es lädt nur noch 19 Elemente statt 60! */}
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-2">
+        // HIER GEÄNDERT: pb-2 statt pb-32 für denselben Abstand nach unten wie an der Seite
+        <main className="p-2 md:pt-32 md:pb-2">
+          {/* HIER GEÄNDERT: lg:grid-cols-4 für 4 Elemente auf Desktop */}
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-2">
             {baseProjects.map((project, idx) => (
               <ProjectCarousel 
                 key={project.id} 
