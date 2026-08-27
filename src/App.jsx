@@ -13,12 +13,15 @@ const MediaItem = ({ url, alt, className, isPriority }) => {
       (entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
+            // Video startet durch den riesigen Puffer schon weit vor dem sichtbaren Bereich
             mediaRef.current?.play().catch(() => {});
           } else {
+            // Pausiert sofort, wenn es weggescrollt wird (Spart massiv RAM & CPU)
             mediaRef.current?.pause();
           }
         });
       },
+      // HIER GEÄNDERT: 800px Puffer! Das Video ist längst bereit, wenn du hinscrollst.
       { rootMargin: '800px' } 
     );
 
@@ -190,7 +193,7 @@ const initialProjects = [
     details: [
       [
         { type: '4:5', url: "/eu-animation.mp4" },
-        { type: '16:9', url: "/eu-flagge.webp" }
+        { type: '16:9', url: "public/eu-flagge.webp" }
       ]
     ]
   },
@@ -489,7 +492,7 @@ const initialProjects = [
     category: 'branding',
     description: {
       en: "This proposed branding for the “Raum für Demokratie” (Space for Democracy) at the Academy of Fine Arts Vienna was developed as part of the “Klasse für Ideen” initiative. The project is conceived as a space for socio-political exchange, bringing together formats such as talks, workshops and debates, and serving as a reminder that democracy cannot be taken for granted, but must be actively valued and protected. The visual concept is based on a dynamic system in which the respective medium, ranging from A1 posters to social media screens, always functions as a floor plan of the space. Black circles symbolise people; their arrangement generates the layout and makes the respective event format immediately recognisable. As a defining key visual, the circle also carries over into the physical identity of the space and is reflected in round seat cushions, speaking cards and name badges.",
-      de: "Dieser Branding-Vorschlag für den „Raum für Demokratie“ an der Akademie der bildenden Künste Wien wurde im Rahmen der „Klasse für Ideen“ entwickelt. Das Projekt versteht sich als Raum für gesellschaftspolitischen Austausch, der Formate wie Vorträge, Workshops und Debatten zusammenbringt und erinnert daran, dass Demokratie keine Selbstverständlichkeit ist, sondern aktiv geschätzt und geschützt werden muss. Das visuelle Konzept basiert auf einem dynamischen System, bei dem das jeweilige Medium – vom A1-Plakat bis zum Social-Media-Screen – immer als Grundriss des Raumes fungiert. Schwarze Kreise symbolisieren Menschen; ihre Anordnung generiert das Layout und macht das jeweilige Veranstaltungsformat sofort erkennbar. Als prägendes Schlüsselbild überträgt sich der Kreis auch in die physische Identität des Raumes und findet sich in runden Sitzkissen, Sprechkarten und Namensschildern wieder."
+      de: "Dieser Branding-Vorschlag für den „Raum für Demokratie“ an der Akademie der bildenden Künste Wien wurde im Rahmen der „Klasse für Ideen“ entwickelt. Das Projekt versteht sich als Raum für gesellschaftspolitischen Austausch, der Formate wie Vorträge, Workshops und Debatten zusammenbringt und daran erinnert, dass Demokratie keine Selbstverständlichkeit ist, sondern aktiv geschätzt und geschützt werden muss. Das visuelle Konzept basiert auf einem dynamischen System, bei dem das jeweilige Medium – vom A1-Plakat bis zum Social-Media-Screen – immer als Grundriss des Raumes fungiert. Schwarze Kreise symbolisieren Menschen; ihre Anordnung generiert das Layout und macht das jeweilige Veranstaltungsformat sofort erkennbar. Als prägendes Schlüsselbild überträgt sich der Kreis auch in die physische Identität des Raumes und findet sich in runden Sitzkissen, Sprechkarten und Namensschildern wieder."
     },
     carousel: [
       "/demok-discussions.mp4",
@@ -525,8 +528,6 @@ const initialProjects = [
 const ProjectCarousel = ({ project, onClick, id }) => {
   const scrollRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  
-  const [hasInteracted, setHasInteracted] = useState(false);
 
   const scroll = (direction, e) => {
     e.stopPropagation();
@@ -563,8 +564,6 @@ const ProjectCarousel = ({ project, onClick, id }) => {
       <div 
         className="relative w-full aspect-[4/5] bg-white overflow-hidden group cursor-pointer rounded-xl"
         onClick={() => onClick(project)}
-        onMouseEnter={() => setHasInteracted(true)}
-        onTouchStart={() => setHasInteracted(true)}
       >
         <div 
           ref={scrollRef}
@@ -572,14 +571,7 @@ const ProjectCarousel = ({ project, onClick, id }) => {
         >
           {project.carousel.map((imgUrl, idx) => (
             <div key={idx} className="min-w-full h-full snap-center relative">
-              {(idx === 0 || hasInteracted) && (
-                <MediaItem 
-                  url={imgUrl} 
-                  alt={`${project.title} - media ${idx + 1}`} 
-                  className="w-full h-full object-cover" 
-                  isPriority={idx === 0 || hasInteracted} 
-                />
-              )}
+              <MediaItem url={imgUrl} alt={`${project.title} - media ${idx + 1}`} className="w-full h-full object-cover" />
             </div>
           ))}
         </div>
@@ -660,22 +652,25 @@ const FloatingMenu = ({ onGoHome, onViewChange, onCategorySelect, language, setL
   };
 
   return (
-    <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[273px]">
+    // HIER GEÄNDERT: "select-none" macht das Menü immun gegen jegliche Cursor-Markierungen
+    <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[273px] select-none">
       <div className="bg-black/30 backdrop-blur-md shadow-xl overflow-hidden transition-all duration-500 ease-in-out rounded-[20px] text-white">
         
         <div 
           className="flex items-center justify-between px-6 h-[40px] cursor-pointer"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <div 
+          {/* HIER GEÄNDERT: Vom klickbaren <div> zu einem echten <button>. */}
+          <button 
+            type="button"
             onClick={(e) => {
               e.stopPropagation();
               handleHomeClick();
             }}
-            className="font-normal text-base tracking-wide hover:text-white/70 transition-colors h-full flex items-center"
+            className="font-normal text-base tracking-wide hover:text-white/70 transition-colors h-full flex items-center bg-transparent border-none p-0 focus:outline-none"
           >
             lukas liszka
-          </div>
+          </button>
           
           <div className="text-white h-full flex items-center justify-center transition-transform">
             {isOpen ? <X size={20} strokeWidth={1.5} /> : <Menu size={20} strokeWidth={1.5} />}
@@ -716,13 +711,13 @@ const FloatingMenu = ({ onGoHome, onViewChange, onCategorySelect, language, setL
             <div className="flex items-center gap-3">
               <button 
                 onClick={(e) => { e.stopPropagation(); setLanguage('de'); }}
-                className={`w-9 h-9 rounded-full border border-white text-xs font-medium flex items-center justify-center transition-colors ${language === 'de' ? 'bg-white text-black/80' : 'bg-transparent text-white hover:bg-white/20'}`}
+                className={`w-9 h-9 rounded-full border border-white text-xs font-medium flex items-center justify-center transition-colors focus:outline-none ${language === 'de' ? 'bg-white text-black/80' : 'bg-transparent text-white hover:bg-white/20'}`}
               >
                 DE
               </button>
               <button 
                 onClick={(e) => { e.stopPropagation(); setLanguage('en'); }}
-                className={`w-9 h-9 rounded-full border border-white text-xs font-medium flex items-center justify-center transition-colors ${language === 'en' ? 'bg-white text-black/80' : 'bg-transparent text-white hover:bg-white/20'}`}
+                className={`w-9 h-9 rounded-full border border-white text-xs font-medium flex items-center justify-center transition-colors focus:outline-none ${language === 'en' ? 'bg-white text-black/80' : 'bg-transparent text-white hover:bg-white/20'}`}
               >
                 EN
               </button>
@@ -742,7 +737,6 @@ const ProjectView = ({ project, language }) => {
   }, [project]);
 
   return (
-    // HIER GEÄNDERT: pb-2 statt pb-24 sorgt für 8px Abstand nach unten, genau wie links und rechts
     <div className="min-h-screen pb-2 pt-24">
       <div className="px-4 md:px-6 mb-16">
         <h1 className="text-4xl md:text-6xl font-medium tracking-tight mb-3">
@@ -1219,9 +1213,7 @@ export default function PortfolioApp() {
       ) : currentView === 'imprint' ? (
         <ImprintPage language={language} />
       ) : (
-        // HIER GEÄNDERT: pb-2 statt pb-32 für denselben Abstand nach unten wie an der Seite
         <main className="p-2 md:pt-32 md:pb-2">
-          {/* HIER GEÄNDERT: lg:grid-cols-4 für 4 Elemente auf Desktop */}
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-2">
             {baseProjects.map((project, idx) => (
               <ProjectCarousel 
@@ -1237,4 +1229,3 @@ export default function PortfolioApp() {
     </div>
   );
 }
-
