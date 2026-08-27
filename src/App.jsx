@@ -13,15 +13,12 @@ const MediaItem = ({ url, alt, className, isPriority }) => {
       (entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            // Video startet durch den riesigen Puffer schon weit vor dem sichtbaren Bereich
             mediaRef.current?.play().catch(() => {});
           } else {
-            // Pausiert sofort, wenn es weggescrollt wird (Spart massiv RAM & CPU)
             mediaRef.current?.pause();
           }
         });
       },
-      // HIER GEÄNDERT: 800px Puffer! Das Video ist längst bereit, wenn du hinscrollst.
       { rootMargin: '800px' } 
     );
 
@@ -39,8 +36,7 @@ const MediaItem = ({ url, alt, className, isPriority }) => {
         loop 
         muted 
         playsInline 
-        preload="metadata" // Lädt vorab nur 1 Frame, spart Daten
-        // Zwingt alte Laptops dazu, die Grafikkarte (GPU) zu nutzen -> Kein Flackern mehr!
+        preload="metadata" 
         style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
       />
     );
@@ -51,7 +47,6 @@ const MediaItem = ({ url, alt, className, isPriority }) => {
       src={url} 
       alt={alt || "portfolio media"} 
       className={`${className} object-cover`}
-      // Lädt das Bild entweder sofort (eager) oder verzögert (lazy), um weiße Boxen zu verhindern
       loading={isPriority ? "eager" : "lazy"} 
       decoding={isPriority ? "sync" : "async"}
       style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
@@ -531,7 +526,6 @@ const ProjectCarousel = ({ project, onClick, id }) => {
   const scrollRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   
-  // HIER GEÄNDERT: Der smarte Sensor für das "Geister-Karussell"
   const [hasInteracted, setHasInteracted] = useState(false);
 
   const scroll = (direction, e) => {
@@ -569,7 +563,6 @@ const ProjectCarousel = ({ project, onClick, id }) => {
       <div 
         className="relative w-full aspect-[4/5] bg-white overflow-hidden group cursor-pointer rounded-xl"
         onClick={() => onClick(project)}
-        // HIER IST DER TRICK: Die restlichen Bilder wachen erst auf, wenn du mit der Maus drüberfährst
         onMouseEnter={() => setHasInteracted(true)}
         onTouchStart={() => setHasInteracted(true)}
       >
@@ -579,7 +572,6 @@ const ProjectCarousel = ({ project, onClick, id }) => {
         >
           {project.carousel.map((imgUrl, idx) => (
             <div key={idx} className="min-w-full h-full snap-center relative">
-              {/* Nur das 1. Bild ist sofort da. Die anderen laden sofort im Hintergrund los, sobald du die Box berührst */}
               {(idx === 0 || hasInteracted) && (
                 <MediaItem 
                   url={imgUrl} 
@@ -1137,24 +1129,15 @@ const ImprintPage = ({ language }) => {
   );
 };
 
-// --- HAUPT APP ---
+// --- HAUPT APP (Ohne Infinite Scroll) ---
 export default function PortfolioApp() {
   const [hash, setHash] = useState(typeof window !== 'undefined' ? window.location.hash : '');
-  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
-  
-  // Globale Sprach-Einstellung (Standard: 'de')
   const [language, setLanguage] = useState('de');
 
   useEffect(() => {
     const handleHashChange = () => setHash(window.location.hash);
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
-  }, []);
-
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   let currentView = 'home';
@@ -1175,74 +1158,15 @@ export default function PortfolioApp() {
   const handleViewChange = (view) => { window.location.hash = `#view=${view}`; };
   const handleProjectClick = (project) => { window.location.hash = `#project=${project.slug}`; };
 
+  // HIER GEÄNDERT: Wir filtern die Projekte, aber wir kopieren sie NICHT mehr.
   const baseProjects = activeCategory 
     ? initialProjects.filter(p => p.category === activeCategory)
     : initialProjects;
 
-  const perfectSet = useMemo(() => {
-    if (isMobile) return baseProjects;
-    let arr = [...baseProjects];
-    
-    // BERECHNET DAS NÖTIGE VIELFACHE VON 15 FÜR LÜCKENLOSES GRID
-    const targetLength = Math.max(15, Math.ceil(arr.length / 15) * 15);
-    
-    while (arr.length < targetLength) { 
-      arr = [...arr, ...baseProjects]; 
-    }
-    return arr.slice(0, targetLength);
-  }, [baseProjects, isMobile]);
-
-  // HIER GEÄNDERT: Wir laden nur noch das ABSOLUTE MINIMUM an Kopien (3). Spart noch mehr RAM!
-  const displayProjects = useMemo(() => {
-    if (isMobile) return perfectSet;
-    return Array(3).fill(perfectSet).flat().map((p, i) => ({ ...p, uniqueId: `${p.id}-${i}` }));
-  }, [perfectSet, isMobile]);
-
+  // HIER GEÄNDERT: Einfaches Scroll-To-Top beim Seitenwechsel. Keine komplizierte Loop-Mathematik mehr!
   useEffect(() => {
-    if (isMobile || activeProject || currentView !== 'home') {
-      window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); 
-      return;
-    }
-
-    let singleSetHeight = 0;
-
-    const calculateHeight = () => {
-      const item1 = document.getElementById('item-0-0');
-      const item2 = document.getElementById('item-1-0');
-      if (item1 && item2) {
-        singleSetHeight = item2.offsetTop - item1.offsetTop;
-      }
-    };
-
-    const initTimer = setTimeout(() => {
-      calculateHeight();
-      if (singleSetHeight > 0 && window.scrollY === 0) {
-        window.scrollTo({ top: singleSetHeight, behavior: 'instant' });
-      }
-    }, 100);
-
-    const handleScroll = () => {
-      if (singleSetHeight === 0) calculateHeight();
-      if (singleSetHeight === 0) return;
-
-      const scrollY = window.scrollY;
-
-      if (scrollY < singleSetHeight * 0.5) {
-        window.scrollTo({ top: scrollY + singleSetHeight, behavior: 'instant' });
-      } else if (scrollY > singleSetHeight * 1.5) {
-        window.scrollTo({ top: scrollY - singleSetHeight, behavior: 'instant' });
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', calculateHeight);
-
-    return () => {
-      clearTimeout(initTimer);
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', calculateHeight);
-    };
-  }, [isMobile, activeProject, currentView, displayProjects, hash]);
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); 
+  }, [currentView, activeProject, activeCategory]);
 
   return (
     <div className="bg-gray-200 min-h-screen text-black selection:bg-black selection:text-white" style={{ fontFamily: "'IBM Plex Sans', sans-serif" }}>
@@ -1269,7 +1193,6 @@ export default function PortfolioApp() {
           animation: fadeInSmooth 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
         }
 
-        /* HIER IST DIE MATHE FÜR DAS PERFEKTE RASTER (Nur auf Desktop) */
         @media (min-width: 768px) {
           .flex-editorial {
             flex: var(--desktop-flex) 1 0% !important;
@@ -1277,7 +1200,6 @@ export default function PortfolioApp() {
         }
       `}</style>
 
-      {/* Sprach-Switch ans Menü übergeben */}
       <FloatingMenu 
         onGoHome={handleGoHome} 
         onViewChange={handleViewChange} 
@@ -1286,7 +1208,6 @@ export default function PortfolioApp() {
         setLanguage={setLanguage}
       />
 
-      {/* Sprache an alle Seiten übergeben */}
       {activeProject ? (
         <ProjectView project={activeProject} language={language} />
       ) : currentView === 'about' ? (
@@ -1299,27 +1220,16 @@ export default function PortfolioApp() {
         <ImprintPage language={language} />
       ) : (
         <main className="p-2 md:pt-32 md:pb-32">
+          {/* HIER GEÄNDERT: Einfaches Grid ohne Klone. Es lädt nur noch 19 Elemente statt 60! */}
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-2">
-            {isMobile ? (
-              displayProjects.map((project, idx) => (
-                <ProjectCarousel key={project.uniqueId || project.id} id={`item-0-${idx}`} project={project} onClick={handleProjectClick} />
-              ))
-            ) : (
-              Array(3).fill(null).map((_, setIndex) => (
-                <React.Fragment key={setIndex}>
-                  {displayProjects
-                    .slice(setIndex * perfectSet.length, (setIndex + 1) * perfectSet.length)
-                    .map((project, idx) => (
-                      <ProjectCarousel 
-                        key={`${setIndex}-${idx}`} 
-                        id={`item-${setIndex}-${idx}`} 
-                        project={project} 
-                        onClick={handleProjectClick} 
-                      />
-                  ))}
-                </React.Fragment>
-              ))
-            )}
+            {baseProjects.map((project, idx) => (
+              <ProjectCarousel 
+                key={project.id} 
+                id={`item-${idx}`} 
+                project={project} 
+                onClick={handleProjectClick} 
+              />
+            ))}
           </div>
         </main>
       )}
