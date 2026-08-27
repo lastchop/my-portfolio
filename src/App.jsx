@@ -57,35 +57,10 @@ const MediaItem = ({ url, alt, className, isPriority }) => {
   );
 };
 
-// --- MOCK DATA ---
+// --- MOCK DATA (NEU SORTIERT & NEU NUMMERIERT) ---
 const initialProjects = [
   {
     id: 'p1',
-    slug: 'nein-zum-lobautunnel',
-    title: 'nein zum lobautunnel',
-    category: 'posters',
-    description: {
-      en: "The planned Lobau Tunnel is intended to run as a motorway route directly beneath the sensitive ecosystem of the Donau-Auen National Park. My poster design takes a clear stand against the project: putting a definitive stop to it is crucial in order to protect valuable groundwater reserves, prevent additional car traffic and consistently channel investment into a sustainable transport transition.",
-      de: "Der geplante Lobautunnel soll als Autobahntrasse direkt unter dem sensiblen Ökosystem des Nationalparks Donau-Auen verlaufen. Mein Plakatentwurf bezieht klar Stellung gegen das Projekt: Ein endgültiger Baustopp ist unabdingbar, um wertvolle Grundwasserreserven zu schützen, zusätzlichen Autoverkehr zu verhindern und Investitionen konsequent in eine nachhaltige Verkehrswende zu lenken."
-    },
-    carousel: [
-      "/lobautunnel-animation.mp4",
-      "/lobautunnel-mockup.webp",
-    ], 
-    details: [
-      [
-        { type: '16:9', url: "/lobautunnel-mockup1.webp" },
-        { type: '4:5', url: "/lobautunnel-mockup.webp" }
-      ],
-      [
-        { type: '4:5', url: "/lobautunnel-animation.mp4" },
-        { type: '4:5', url: "/lobautunnel-animation.mp4" },
-        { type: '4:5', url: "/lobautunnel-animation.mp4" }
-      ]
-    ]
-  },
-  {
-    id: 'p2',
     slug: 'niemann-plakat',
     title: 'niemann plakat',
     category: 'posters',
@@ -116,6 +91,31 @@ const initialProjects = [
     ]
   },
   {
+    id: 'p2',
+    slug: 'nein-zum-lobautunnel',
+    title: 'nein zum lobautunnel',
+    category: 'posters',
+    description: {
+      en: "The planned Lobau Tunnel is intended to run as a motorway route directly beneath the sensitive ecosystem of the Donau-Auen National Park. My poster design takes a clear stand against the project: putting a definitive stop to it is crucial in order to protect valuable groundwater reserves, prevent additional car traffic and consistently channel investment into a sustainable transport transition.",
+      de: "Der geplante Lobautunnel soll als Autobahntrasse direkt unter dem sensiblen Ökosystem des Nationalparks Donau-Auen verlaufen. Mein Plakatentwurf bezieht klar Stellung gegen das Projekt: Ein endgültiger Baustopp ist unabdingbar, um wertvolle Grundwasserreserven zu schützen, zusätzlichen Autoverkehr zu verhindern und Investitionen konsequent in eine nachhaltige Verkehrswende zu lenken."
+    },
+    carousel: [
+      "/lobautunnel-animation.mp4",
+      "/lobautunnel-mockup.webp",
+    ], 
+    details: [
+      [
+        { type: '16:9', url: "/lobautunnel-mockup1.webp" },
+        { type: '4:5', url: "/lobautunnel-mockup.webp" }
+      ],
+      [
+        { type: '4:5', url: "/lobautunnel-animation.mp4" },
+        { type: '4:5', url: "/lobautunnel-animation.mp4" },
+        { type: '4:5', url: "/lobautunnel-animation.mp4" }
+      ]
+    ]
+  },
+  {
     id: 'p3',
     slug: 'waehlengehen',
     title: 'wählengehen',
@@ -136,21 +136,25 @@ const initialProjects = [
   },
   {
     id: 'p4',
-    slug: 'sailor-gin',
-    title: 'sailor gin',
-    category: 'packaging',
+    slug: 'wunderlich-christmas-planner',
+    title: 'wunderlich christmas planner',
+    category: 'branding',
     description: {
-      en: "A packaging concept for gin was developed for a design competition organised by Etivera. Inspired by the history of gin as a popular drink amongst the British Navy in the 18th century, the bottle itself was transformed into a sailor. A narrative-driven design with high brand recognition.",
-      de: "Für einen von Etivera organisierten Designwettbewerb wurde ein Verpackungskonzept für Gin entwickelt. Inspiriert von der Geschichte des Gins als beliebtes Getränk der britischen Marine im 18. Jahrhundert, wurde die Flasche selbst in einen Seemann verwandelt. Ein narratives Design mit hohem Wiedererkennungswert."
+      en: "The aim of the logo design was to combine an elegant monogram with the emotional world of gift-giving. The result is a minimalist, festive symbol that brings together planning and the Christmas spirit.",
+      de: "Ziel des Logodesigns war es, ein elegantes Monogramm mit der emotionalen Welt des Schenkens zu verbinden. Das Ergebnis ist ein minimalistisches, festliches Symbol, das Planung und Weihnachtsstimmung zusammenbringt."
     },
     carousel: [
-      "/sailor-gin-animation.mp4",
-      "/sailor-gin-mockup1.webp",
+      "/wunderlich-logo.webp",
+      "/wunderlich-prozess.webp",
+      "/wunderlich-papier.webp",
     ], 
     details: [
       [
-        { type: '4:5', url: "/sailor-gin-animation.mp4" },
-        { type: '16:9', url: "/sailor-gin-mockup.webp" }
+        { type: '4:5', url: "/wunderlich-logo.webp" },
+        { type: '16:9', url: "/wunderlich-prozess-1.webp" }
+      ],
+      [
+        { type: '16:9', url: "/wunderlich-papier1.webp" }
       ]
     ]
   },
@@ -271,31 +275,33 @@ const initialProjects = [
   },
   {
     id: 'p10',
-    slug: 'forum-stadtpark',
-    title: 'forum stadtpark',
+    slug: 'gleisig',
+    title: 'gllleisig',
     category: 'branding',
     description: {
-      en: "As part of our final-year project at the College of Graphic and Communication Design at the Graphische in Vienna, Matthäus Jandl, Markus Leb and I developed a rebranding proposal for the Forum Stadtpark in Graz. The logo is based on the venue’s seven programme areas and is versatile by changing depending on the event. This resulted in a playful, flexible visual system that works equally well for printed materials and for the wayfinding system within the building.",
-      de: "Im Rahmen unseres Diplomprojekts am Kolleg für Grafik- und Kommunikationsdesign an der Graphischen in Wien haben Matthäus Jandl, Markus Leb und ich einen Rebranding-Vorschlag für das Forum Stadtpark in Graz entwickelt. Das Logo basiert auf den sieben Programmbereichen des Hauses und ist wandelbar, je nach Veranstaltung. So entstand ein spielerisches, flexibles visuelles System, das für Drucksorten ebenso gut funktioniert wie für das Leitsystem im Gebäude."
+      en: "A design concept was developed for the Wiener Linien Rave Festival, based on the analogue ticket as its visual starting point. The idea translates an everyday object into a cultural context and links urban mobility with club culture. Design in collaboration with @p.stuetz.",
+      de: "Für das Wiener Linien Rave Festival wurde ein Designkonzept entwickelt, das den analogen Fahrschein als visuellen Ausgangspunkt nimmt. Die Idee übersetzt einen Alltagsgegenstand in einen kulturellen Kontext und verbindet urbane Mobilität mit Clubkultur. Design in Zusammenarbeit mit @p.stuetz."
     },
     carousel: [
-      "/forum-icon.webp",
-      "/forum-plakat.webp",
-      "/forum-versionen.webp",
-      "/forum-orientierung-4x5.webp",
+      "/gleisig-tickets.webp",
+      "/gleisig-fahrplan.webp",
+      "/gleisig-bim1.webp",
+      "/gleisig-plakat1.webp",
     ], 
     details: [
       [
-        { type: '4:5', url: "/forum-plakat.webp" },
-        { type: '16:9', url: "/forum-versionen1.webp" }
+        { type: '16:9', url: "/gleisig-bim.webp" }
       ],
       [
-        { type: '16:9', url: "/forum-orientierung.webp" },
-        { type: '5', url: "/forum-orientierung1.webp" }
+        { type: '16:9', url: "/gleisig-uebersicht.webp" },
+        { type: '4:5', url: "/gleisig-tickets.webp" }
+      ],
+       [
+        { type: '16:9', url: "/gleisig-plakat.webp" }
       ],
       [
-        { type: '16:9', url: "/forum-website.webp" },
-        { type: '5', url: "/forum-haus.webp" }
+        { type: '16:9', url: "/gleisig-uebersicht1.webp" },
+        { type: '4:5', url: "/gleisig-fahrplan.webp" }
       ]
     ]
   },
@@ -368,33 +374,31 @@ const initialProjects = [
   },
   {
     id: 'p14',
-    slug: 'gleisig',
-    title: 'gllleisig',
+    slug: 'forum-stadtpark',
+    title: 'forum stadtpark',
     category: 'branding',
     description: {
-      en: "A design concept was developed for the Wiener Linien Rave Festival, based on the analogue ticket as its visual starting point. The idea translates an everyday object into a cultural context and links urban mobility with club culture. Design in collaboration with @p.stuetz.",
-      de: "Für das Wiener Linien Rave Festival wurde ein Designkonzept entwickelt, das den analogen Fahrschein als visuellen Ausgangspunkt nimmt. Die Idee übersetzt einen Alltagsgegenstand in einen kulturellen Kontext und verbindet urbane Mobilität mit Clubkultur. Design in Zusammenarbeit mit @p.stuetz."
+      en: "As part of our final-year project at the College of Graphic and Communication Design at the Graphische in Vienna, Matthäus Jandl, Markus Leb and I developed a rebranding proposal for the Forum Stadtpark in Graz. The logo is based on the venue’s seven programme areas and is versatile by changing depending on the event. This resulted in a playful, flexible visual system that works equally well for printed materials and for the wayfinding system within the building.",
+      de: "Im Rahmen unseres Diplomprojekts am Kolleg für Grafik- und Kommunikationsdesign an der Graphischen in Wien haben Matthäus Jandl, Markus Leb und ich einen Rebranding-Vorschlag für das Forum Stadtpark in Graz entwickelt. Das Logo basiert auf den sieben Programmbereichen des Hauses und ist wandelbar, je nach Veranstaltung. So entstand ein spielerisches, flexibles visuelles System, das für Drucksorten ebenso gut funktioniert wie für das Leitsystem im Gebäude."
     },
     carousel: [
-      "/gleisig-tickets.webp",
-      "/gleisig-fahrplan.webp",
-      "/gleisig-bim1.webp",
-      "/gleisig-plakat1.webp",
+      "/forum-icon.webp",
+      "/forum-plakat.webp",
+      "/forum-versionen.webp",
+      "/forum-orientierung-4x5.webp",
     ], 
     details: [
       [
-        { type: '16:9', url: "/gleisig-bim.webp" }
+        { type: '4:5', url: "/forum-plakat.webp" },
+        { type: '16:9', url: "/forum-versionen1.webp" }
       ],
       [
-        { type: '16:9', url: "/gleisig-uebersicht.webp" },
-        { type: '4:5', url: "/gleisig-tickets.webp" }
-      ],
-       [
-        { type: '16:9', url: "/gleisig-plakat.webp" }
+        { type: '16:9', url: "/forum-orientierung.webp" },
+        { type: '5', url: "/forum-orientierung1.webp" }
       ],
       [
-        { type: '16:9', url: "/gleisig-uebersicht1.webp" },
-        { type: '4:5', url: "/gleisig-fahrplan.webp" }
+        { type: '16:9', url: "/forum-website.webp" },
+        { type: '5', url: "/forum-haus.webp" }
       ]
     ]
   },
@@ -420,25 +424,21 @@ const initialProjects = [
   },
   {
     id: 'p16',
-    slug: 'wunderlich-christmas-planner',
-    title: 'wunderlich christmas planner',
-    category: 'branding',
+    slug: 'sailor-gin',
+    title: 'sailor gin',
+    category: 'packaging',
     description: {
-      en: "The aim of the logo design was to combine an elegant monogram with the emotional world of gift-giving. The result is a minimalist, festive symbol that brings together planning and the Christmas spirit.",
-      de: "Ziel des Logodesigns war es, ein elegantes Monogramm mit der emotionalen Welt des Schenkens zu verbinden. Das Ergebnis ist ein minimalistisches, festliches Symbol, das Planung und Weihnachtsstimmung zusammenbringt."
+      en: "A packaging concept for gin was developed for a design competition organised by Etivera. Inspired by the history of gin as a popular drink amongst the British Navy in the 18th century, the bottle itself was transformed into a sailor. A narrative-driven design with high brand recognition.",
+      de: "Für einen von Etivera organisierten Designwettbewerb wurde ein Verpackungskonzept für Gin entwickelt. Inspiriert von der Geschichte des Gins als beliebtes Getränk der britischen Marine im 18. Jahrhundert, wurde die Flasche selbst in einen Seemann verwandelt. Ein narratives Design mit hohem Wiedererkennungswert."
     },
     carousel: [
-      "/wunderlich-logo.webp",
-      "/wunderlich-prozess.webp",
-      "/wunderlich-papier.webp",
+      "/sailor-gin-animation.mp4",
+      "/sailor-gin-mockup1.webp",
     ], 
     details: [
       [
-        { type: '4:5', url: "/wunderlich-logo.webp" },
-        { type: '16:9', url: "/wunderlich-prozess-1.webp" }
-      ],
-      [
-        { type: '16:9', url: "/wunderlich-papier1.webp" }
+        { type: '4:5', url: "/sailor-gin-animation.mp4" },
+        { type: '16:9', url: "/sailor-gin-mockup.webp" }
       ]
     ]
   },
@@ -469,7 +469,7 @@ const initialProjects = [
   {
     id: 'p18',
     slug: 'be-nice-get-nice',
-    title: 'be nice, get nice',
+    title: 'be-nice, get nice',
     category: 'illustration',
     description: {
       en: "An animation on the theme of happiness and how it can be passed on.",
@@ -492,7 +492,7 @@ const initialProjects = [
     category: 'branding',
     description: {
       en: "This proposed branding for the “Raum für Demokratie” (Space for Democracy) at the Academy of Fine Arts Vienna was developed as part of the “Klasse für Ideen” initiative. The project is conceived as a space for socio-political exchange, bringing together formats such as talks, workshops and debates, and serving as a reminder that democracy cannot be taken for granted, but must be actively valued and protected. The visual concept is based on a dynamic system in which the respective medium, ranging from A1 posters to social media screens, always functions as a floor plan of the space. Black circles symbolise people; their arrangement generates the layout and makes the respective event format immediately recognisable. As a defining key visual, the circle also carries over into the physical identity of the space and is reflected in round seat cushions, speaking cards and name badges.",
-      de: "Dieser Branding-Vorschlag für den „Raum für Demokratie“ an der Akademie der bildenden Künste Wien wurde im Rahmen der „Klasse für Ideen“ entwickelt. Das Projekt versteht sich als Raum für gesellschaftspolitischen Austausch, der Formate wie Vorträge, Workshops und Debatten zusammenbringt und daran erinnert, dass Demokratie keine Selbstverständlichkeit ist, sondern aktiv geschätzt und geschützt werden muss. Das visuelle Konzept basiert auf einem dynamischen System, bei dem das jeweilige Medium – vom A1-Plakat bis zum Social-Media-Screen – immer als Grundriss des Raumes fungiert. Schwarze Kreise symbolisieren Menschen; ihre Anordnung generiert das Layout und macht das jeweilige Veranstaltungsformat sofort erkennbar. Als prägendes Schlüsselbild überträgt sich der Kreis auch in die physische Identität des Raumes und findet sich in runden Sitzkissen, Sprechkarten und Namensschildern wieder."
+      de: "Dieser Branding-Vorschlag für den „Raum für Demokratie“ an der Akademie der bildenden Künste Wien wurde im Rahmen der „Klasse für Ideen“ entwickelt. Das Projekt versteht sich als Raum für gesellschaftspolitischen Austausch, der Formate wie Vorträge, Workshops und Debatten zusammenbringt und erinnert daran, dass Demokratie keine Selbstverständlichkeit ist, sondern aktiv geschätzt und geschützt werden muss. Das visuelle Konzept basiert auf einem dynamischen System, bei dem das jeweilige Medium – vom A1-Plakat bis zum Social-Media-Screen – immer als Grundriss des Raumes fungiert. Schwarze Kreise symbolisieren Menschen; ihre Anordnung generiert das Layout und macht das jeweilige Veranstaltungsformat sofort erkennbar. Als prägendes Schlüsselbild überträgt sich der Kreis auch in die physische Identität des Raumes und findet sich in runden Sitzkissen, Sprechkarten und Namensschildern wieder."
     },
     carousel: [
       "/demok-discussions.mp4",
