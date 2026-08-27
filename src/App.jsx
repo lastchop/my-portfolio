@@ -190,7 +190,7 @@ const initialProjects = [
     details: [
       [
         { type: '4:5', url: "/eu-animation.mp4" },
-        { type: '16:9', url: "public/eu-flagge.webp" }
+        { type: '16:9', url: "/eu-flagge.webp" }
       ]
     ]
   },
