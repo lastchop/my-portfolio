@@ -1086,7 +1086,6 @@ const ImprintPage = ({ language }) => {
     law: language === 'de' ? 'Anwendbare Rechtsvorschriften: Gewerbeordnung (www.ris.bka.gv.at)' : 'Applicable legal regulations: Gewerbeordnung (www.ris.bka.gv.at)',
     auth: language === 'de' ? 'Aufsichtsbehörde/Gewerbebehörde:' : 'Supervisory authority/trade authority:',
     job: language === 'de' ? 'Berufsbezeichnung: Grafikdesigner' : 'Job title: Graphic Designer',
-    
     copyrightTitle: language === 'de' ? 'urheberrecht' : 'copyright',
     copyrightText: language === 'de' 
       ? 'Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem österreichischen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht-kommerziellen Gebrauch gestattet.'
@@ -1162,7 +1161,6 @@ const ImprintPage = ({ language }) => {
               <div>
                 <h3 className="text-lg font-medium text-black mb-1">{t.legal}</h3>
                 <p className="text-lg text-gray-700 leading-snug">
-                  {t.vat}<br />
                   {t.purpose}<br />
                   {t.chamber} WKO Wien, Fachgruppe Werbung und Marktkommunikation<br />
                   {t.law}<br />
