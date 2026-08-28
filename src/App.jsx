@@ -1074,7 +1074,9 @@ const ImprintPage = ({ language }) => {
   const t = {
     title: language === 'de' ? 'impressum & datenschutz' : 'imprint & privacy policy',
     imprint: language === 'de' ? 'impressum' : 'imprint',
-    imprintText: language === 'de' ? 'Informationspflicht laut § 5 ECG und Offenlegungspflicht laut § 25 Medieng.' : 'Information according to § 5 ECG and disclosure according to § 25 Medieng.',
+    imprintText: language === 'de' 
+      ? 'Informationspflicht laut § 5 ECG und Offenlegungspflicht laut § 25 Medieng.' 
+      : 'Information according to § 5 ECG and disclosure according to § 25 Medieng.',
     provider: language === 'de' ? 'diensteanbieter, medieninhaber und herausgeber:' : 'service provider, media owner and publisher:',
     contact: language === 'de' ? 'kontakt:' : 'contact:',
     legal: language === 'de' ? 'rechtliche informationen:' : 'legal information:',
@@ -1084,38 +1086,141 @@ const ImprintPage = ({ language }) => {
     law: language === 'de' ? 'Anwendbare Rechtsvorschriften: Gewerbeordnung (www.ris.bka.gv.at)' : 'Applicable legal regulations: Gewerbeordnung (www.ris.bka.gv.at)',
     auth: language === 'de' ? 'Aufsichtsbehörde/Gewerbebehörde:' : 'Supervisory authority/trade authority:',
     job: language === 'de' ? 'Berufsbezeichnung: Grafikdesigner' : 'Job title: Graphic Designer',
+    
+    copyrightTitle: language === 'de' ? 'urheberrecht' : 'copyright',
+    copyrightText: language === 'de' 
+      ? 'Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem österreichischen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht-kommerziellen Gebrauch gestattet.'
+      : 'The content and works created by the site operators on these pages are subject to Austrian copyright law. The reproduction, editing, distribution, and any kind of exploitation outside the limits of copyright law require the written consent of the respective author or creator. Downloads and copies of this site are only permitted for private, non-commercial use.',
+    
+    disclaimerTitle: language === 'de' ? 'haftungsausschluss' : 'disclaimer',
+    disclaimerText: language === 'de'
+      ? 'Die Inhalte dieser Website wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte kann jedoch keine Gewähr übernommen werden. Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen.'
+      : 'The contents of this website were created with great care. However, we cannot accept any liability for the accuracy, completeness, and timeliness of the content. Our website contains links to external third-party websites over whose contents we have no influence. Therefore, we cannot accept any liability for these external contents.',
+    
+    privacyTitle: language === 'de' ? 'datenschutzerklärung' : 'privacy policy',
+    privacy1Title: language === 'de' ? '1. allgemeine hinweise' : '1. general information',
+    privacy1Text: language === 'de'
+      ? 'Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit deinen personenbezogenen Daten passiert, wenn du diese Website besuchst. Personenbezogene Daten sind alle Daten, mit denen du persönlich identifiziert werden kannst.'
+      : 'The following notes provide a simple overview of what happens to your personal data when you visit this website. Personal data is any data with which you could be personally identified.',
+    
+    privacy2Title: language === 'de' ? '2. verantwortlicher' : '2. controller',
+    privacy2Text: language === 'de'
+      ? 'Verantwortlich für die Datenverarbeitung auf dieser Website ist:'
+      : 'The controller responsible for data processing on this website is:',
+      
+    privacy3Title: language === 'de' ? '3. datenerfassung (server-log-dateien)' : '3. data collection (server log files)',
+    privacy3Text: language === 'de'
+      ? 'Der Provider dieser Website erhebt und speichert automatisch Informationen in so genannten Server-Log-Dateien, die dein Browser automatisch an uns übermittelt. Dies sind: Browsertyp und -version, verwendetes Betriebssystem, Referrer URL, Hostname des zugreifenden Rechners, Uhrzeit der Serveranfrage und IP-Adresse. Eine Zusammenführung dieser Daten mit anderen Datenquellen wird nicht vorgenommen. Die Erfassung dieser Daten erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. Der Betreiber der Website hat ein berechtigtes Interesse an der technisch fehlerfreien Darstellung und der Optimierung seiner Website – hierzu müssen die Server-Log-Files erfasst werden.'
+      : 'The provider of this website automatically collects and stores information in so-called server log files, which your browser automatically transmits to us. These are: browser type and browser version, operating system used, referrer URL, host name of the accessing computer, time of the server request, and IP address. This data is not combined with other data sources. The collection of this data is based on Art. 6(1)(f) GDPR. The website operator has a legitimate interest in the technically error-free presentation and optimization of the website – for this purpose, the server log files must be recorded.',
+      
+    privacy4Title: language === 'de' ? '4. kontaktaufnahme' : '4. contacting us',
+    privacy4Text: language === 'de'
+      ? 'Wenn du mir per Kontaktformular oder E-Mail Anfragen zukommen lässt, werden deine Angaben aus dem Anfrageformular inklusive der von dir dort angegebenen Kontaktdaten zwecks Bearbeitung der Anfrage und für den Fall von Anschlussfragen bei mir gespeichert. Diese Daten gebe ich nicht ohne deine Einwilligung weiter.'
+      : 'If you send inquiries via the contact form or e-mail, your details from the inquiry form, including the contact details you provided there, will be stored by me for the purpose of processing the inquiry and in case of follow-up questions. I do not pass on this data without your consent.',
+      
+    privacy5Title: language === 'de' ? '5. deine rechte' : '5. your rights',
+    privacy5Text: language === 'de'
+      ? 'Du hast jederzeit das Recht, unentgeltlich Auskunft über Herkunft, Empfänger und Zweck deiner gespeicherten personenbezogenen Daten zu erhalten. Du hast außerdem ein Recht, die Berichtigung oder Löschung dieser Daten zu verlangen. Wenn du eine Einwilligung zur Datenverarbeitung erteilt hast, kannst du diese Einwilligung jederzeit für die Zukunft widerrufen. Des Weiteren steht dir ein Beschwerderecht bei der zuständigen Aufsichtsbehörde zu.'
+      : 'You have the right to receive information about the origin, recipient, and purpose of your stored personal data at any time free of charge. You also have the right to request the correction or deletion of this data. If you have given your consent to data processing, you can revoke this consent at any time for the future. Furthermore, you have the right to lodge a complaint with the competent supervisory authority.'
   };
 
   return (
     <div className="min-h-screen pb-24 pt-32 px-6 md:px-12 flex justify-center">
       <div className="max-w-3xl w-full mb-16">
-        <h1 className="text-4xl md:text-6xl font-medium tracking-tight mb-12">
+        <h1 className="text-4xl md:text-6xl font-medium tracking-tight mb-16">
           {t.title}
         </h1>
-        <div className="space-y-12">
-          <section className="flex flex-col gap-6">
-            <div>
-              <h2 className="text-lg font-medium text-black mb-1">{t.imprint}</h2>
-              <p className="text-lg text-gray-700 leading-snug">{t.imprintText}</p>
+        
+        <div className="space-y-16">
+          {/* IMPRESSUM / IMPRINT */}
+          <section className="flex flex-col gap-8">
+            <h2 className="text-2xl font-medium text-black border-b border-black/10 pb-2">
+              {t.imprint}
+            </h2>
+            
+            <div className="flex flex-col gap-6">
+              <div>
+                <p className="text-lg text-gray-700 leading-snug">{t.imprintText}</p>
+              </div>
+              
+              <div>
+                <h3 className="text-lg font-medium text-black mb-1">{t.provider}</h3>
+                <p className="text-lg text-gray-700 leading-snug">
+                  [Placeholder: Lukas Liszka]<br />
+                  [Placeholder: Street 12]<br />
+                  [Placeholder: 1010 Vienna, Austria]
+                </p>
+              </div>
+              
+              <div>
+                <h3 className="text-lg font-medium text-black mb-1">{t.contact}</h3>
+                <p className="text-lg text-gray-700 leading-snug">
+                  Email: [Placeholder: hello@lukasliszka.com]<br />
+                  Phone: [Placeholder: +43 123 456789]
+                </p>
+              </div>
+              
+              <div>
+                <h3 className="text-lg font-medium text-black mb-1">{t.legal}</h3>
+                <p className="text-lg text-gray-700 leading-snug">
+                  {t.vat} [Placeholder: ATU12345678]<br />
+                  {t.purpose}<br />
+                  {t.chamber} [Placeholder: WKO Wien, Fachgruppe Werbung und Marktkommunikation]<br />
+                  {t.law}<br />
+                  {t.auth} [Placeholder: Magistratisches Bezirksamt des X. Bezirkes]<br />
+                  {t.job}
+                </p>
+              </div>
+              
+              <div>
+                <h3 className="text-lg font-medium text-black mb-1">{t.copyrightTitle}</h3>
+                <p className="text-lg text-gray-700 leading-snug">{t.copyrightText}</p>
+              </div>
+              
+              <div>
+                <h3 className="text-lg font-medium text-black mb-1">{t.disclaimerTitle}</h3>
+                <p className="text-lg text-gray-700 leading-snug">{t.disclaimerText}</p>
+              </div>
             </div>
-            <div>
-              <h2 className="text-lg font-medium text-black mb-1">{t.provider}</h2>
-              <p className="text-lg text-gray-700 leading-snug">[Placeholder: Lukas Liszka]<br />[Placeholder: Street 12]<br />[Placeholder: 1010 Vienna, Austria]</p>
-            </div>
-            <div>
-              <h2 className="text-lg font-medium text-black mb-1">{t.contact}</h2>
-              <p className="text-lg text-gray-700 leading-snug">Email: [Placeholder: hello@lukasliszka.com]<br />Phone: [Placeholder: +43 123 456789]</p>
-            </div>
-            <div>
-              <h2 className="text-lg font-medium text-black mb-1">{t.legal}</h2>
-              <p className="text-lg text-gray-700 leading-snug">
-                {t.vat} [Placeholder: ATU12345678]<br />
-                {t.purpose}<br />
-                {t.chamber} [Placeholder: WKO Wien, Fachgruppe Werbung und Marktkommunikation]<br />
-                {t.law}<br />
-                {t.auth} [Placeholder: Magistratisches Bezirksamt des X. Bezirkes]<br />
-                {t.job}
-              </p>
+          </section>
+
+          {/* DATENSCHUTZ / PRIVACY POLICY */}
+          <section className="flex flex-col gap-8">
+            <h2 className="text-2xl font-medium text-black border-b border-black/10 pb-2">
+              {t.privacyTitle}
+            </h2>
+            
+            <div className="flex flex-col gap-6">
+              <div>
+                <h3 className="text-lg font-medium text-black mb-1">{t.privacy1Title}</h3>
+                <p className="text-lg text-gray-700 leading-snug">{t.privacy1Text}</p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-medium text-black mb-1">{t.privacy2Title}</h3>
+                <p className="text-lg text-gray-700 leading-snug">
+                  {t.privacy2Text}<br /><br />
+                  [Placeholder: Lukas Liszka]<br />
+                  [Placeholder: Street 12]<br />
+                  [Placeholder: 1010 Vienna, Austria]<br />
+                  Email: [Placeholder: hello@lukasliszka.com]
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-medium text-black mb-1">{t.privacy3Title}</h3>
+                <p className="text-lg text-gray-700 leading-snug">{t.privacy3Text}</p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-medium text-black mb-1">{t.privacy4Title}</h3>
+                <p className="text-lg text-gray-700 leading-snug">{t.privacy4Text}</p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-medium text-black mb-1">{t.privacy5Title}</h3>
+                <p className="text-lg text-gray-700 leading-snug">{t.privacy5Text}</p>
+              </div>
             </div>
           </section>
         </div>
@@ -1123,6 +1228,7 @@ const ImprintPage = ({ language }) => {
     </div>
   );
 };
+
 
 // --- HAUPT APP (Klassisches Grid ohne Infinite Scroll) ---
 export default function PortfolioApp() {
