@@ -1080,7 +1080,7 @@ const ImprintPage = ({ language }) => {
     provider: language === 'de' ? 'diensteanbieter, medieninhaber und herausgeber:' : 'service provider, media owner and publisher:',
     contact: language === 'de' ? 'kontakt:' : 'contact:',
     legal: language === 'de' ? 'rechtliche informationen:' : 'legal information:',
-    vat: language === 'de' ? 'UID-Nummer:' : 'VAT number:',
+
     purpose: language === 'de' ? 'Unternehmensgegenstand: Grafikdesign' : 'Business purpose: Graphic Design',
     chamber: language === 'de' ? 'Mitglied der WKO:' : 'Member of WKO:',
     law: language === 'de' ? 'Anwendbare Rechtsvorschriften: Gewerbeordnung (www.ris.bka.gv.at)' : 'Applicable legal regulations: Gewerbeordnung (www.ris.bka.gv.at)',
