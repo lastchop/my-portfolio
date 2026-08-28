@@ -1147,16 +1147,15 @@ const ImprintPage = ({ language }) => {
                 <h3 className="text-lg font-medium text-black mb-1">{t.provider}</h3>
                 <p className="text-lg text-gray-700 leading-snug">
                   [Placeholder: Lukas Liszka]<br />
-                  [Placeholder: Street 12]<br />
-                  [Placeholder: 1010 Vienna, Austria]
+                  [Placeholder: Bruno-Marek-Allee 13]<br />
+                  [Placeholder: 1020 Vienna, Austria]
                 </p>
               </div>
               
               <div>
                 <h3 className="text-lg font-medium text-black mb-1">{t.contact}</h3>
                 <p className="text-lg text-gray-700 leading-snug">
-                  Email: [Placeholder: hello@lukasliszka.com]<br />
-                  Phone: [Placeholder: +43 123 456789]
+                  Email: [Placeholder: liszka.lukas@gmx.at]<br />
                 </p>
               </div>
               
@@ -1201,9 +1200,9 @@ const ImprintPage = ({ language }) => {
                 <p className="text-lg text-gray-700 leading-snug">
                   {t.privacy2Text}<br /><br />
                   [Placeholder: Lukas Liszka]<br />
-                  [Placeholder: Street 12]<br />
-                  [Placeholder: 1010 Vienna, Austria]<br />
-                  Email: [Placeholder: hello@lukasliszka.com]
+                  [Placeholder: Bruno-Marek-allee 13]<br />
+                  [Placeholder: 1020 Vienna, Austria]<br />
+                  Email: [Placeholder: liszka.lukas@gmx.at]
                 </p>
               </div>
 
