@@ -194,7 +194,7 @@ const initialProjects = [
     details: [
       [
         { type: '4:5', url: "/eu-animation.mp4" },
-        { type: '16:9', url: "/eu-flagge.webp" }
+        { type: '16:9', url: "public/eu-flagge.webp" }
       ]
     ]
   },
@@ -621,13 +621,6 @@ const ProjectCarousel = ({ project, onClick, id }) => {
             </button>
           </>
         )}
-      </div>
-      
-      <div 
-        className="md:hidden mt-3 text-left cursor-pointer px-1" 
-        onClick={() => onClick(project)}
-      >
-        <h3 className="text-black text-sm font-medium tracking-wide">{project.title}</h3>
       </div>
     </div>
   );
@@ -1253,8 +1246,8 @@ export default function PortfolioApp() {
       ) : currentView === 'imprint' ? (
         <ImprintPage language={language} />
       ) : (
-        <main className="p-2 md:pt-32 md:pb-2">
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-2">
+        <main className="p-2 pt-24 md:pt-32 md:pb-2">
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-2">
             {baseProjects.map((project, idx) => (
               <ProjectCarousel 
                 key={project.id} 
