@@ -54,7 +54,7 @@ const MediaItem = ({ url, alt, className, isPriority }) => {
   );
 };
 
-// --- MOCK DATA (NEU SORTIERT & NEU NUMMERIERT) ---
+// --- MOCK DATA ---
 const initialProjects = [
   {
     id: 'p1',
@@ -138,7 +138,7 @@ const initialProjects = [
     category: 'branding',
     description: {
       en: "The aim of the logo design was to combine an elegant monogram with the emotional world of gift-giving. The result is a minimalist, festive symbol that brings together planning and the Christmas spirit.",
-      de: "Ziel des Logodesigns war es, ein elegantes Monogramm mit der emotionalen Welt of Schenkens zu verbinden. Das Ergebnis ist ein minimalistisches, festliches Symbol, das Planung und Weihnachtsstimmung zusammenbringt."
+      de: "Ziel des Logodesigns war es, ein elegantes Monogramm mit der emotionalen Welt des Schenkens zu verbinden. Das Ergebnis ist ein minimalistisches, festliches Symbol, das Planung und Weihnachtsstimmung zusammenbringt."
     },
     carousel: [
       "/wunderlich-logo.webp",
@@ -517,11 +517,29 @@ const initialProjects = [
       ]
     ]
   },
+  {
+    id: 'p20',
+    slug: 'behind-closed-curtains',
+    title: 'behind closed curtains',
+    category: 'illustration',
+    description: {
+      en: "The secret observer: An animation about America's quiet hunger for information behind closed blinds.",
+      de: "Der heimliche Beobachter: Eine Animation über Amerikas stillen Informationshunger hinter verschlossenen Jalousien."
+    },
+    carousel: [
+      "/spion.mp4",
+    ], 
+    details: [
+      [
+        { type: '4:5', url: "/spion.mp4" },
+        { type: '16:9', url: "/spion-1.webp" }
+      ],
+    ]
+  },
 ];
 
 // --- KOMPONENTEN ---
 
-// 1. Das interaktive Karussell für das Grid
 const ProjectCarousel = ({ project, onClick, id }) => {
   const scrollRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -615,7 +633,6 @@ const ProjectCarousel = ({ project, onClick, id }) => {
   );
 };
 
-// 2. Das schwebende Menü
 const FloatingMenu = ({ onGoHome, onViewChange, onCategorySelect, language, setLanguage }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [categoriesOpen, setCategoriesOpen] = useState(false);
@@ -642,7 +659,6 @@ const FloatingMenu = ({ onGoHome, onViewChange, onCategorySelect, language, setL
     branding: language === 'de' ? 'branding' : 'branding',
     illustrations: language === 'de' ? 'illustrationen' : 'illustrations',
     packaging: language === 'de' ? 'verpackungsdesign' : 'packaging',
-    services: language === 'de' ? 'leistungen' : 'services',
     about: language === 'de' ? 'über mich' : 'about me',
     contact: language === 'de' ? 'kontakt' : 'contact',
     imprint: language === 'de' ? 'impressum & datenschutz' : 'imprint & privacy policy',
@@ -698,7 +714,6 @@ const FloatingMenu = ({ onGoHome, onViewChange, onCategorySelect, language, setL
               </div>
             </div>
 
-            <button onClick={() => handleNavClick('services')} className="text-left text-base hover:text-white/70 transition-colors py-1 font-normal focus:outline-none">{t.services}</button>
             <button onClick={() => handleNavClick('about')} className="text-left text-base hover:text-white/70 transition-colors py-1 font-normal focus:outline-none">{t.about}</button>
             <button onClick={() => handleNavClick('contact')} className="text-left text-base hover:text-white/70 transition-colors py-1 font-normal focus:outline-none">{t.contact}</button>
             <button onClick={() => handleNavClick('imprint')} className="text-left text-base hover:text-white/70 transition-colors py-1 font-normal focus:outline-none">{t.imprint}</button>
@@ -725,29 +740,24 @@ const FloatingMenu = ({ onGoHome, onViewChange, onCategorySelect, language, setL
   );
 };
 
-// 3. Projekt Detailseite - FULL WIDTH GRID
 const ProjectView = ({ project, language }) => {
   useEffect(() => {
-    // Wenn man auf der Seite ist, einmal initial oben starten
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); 
   }, [project]);
 
-  // HIER GEÄNDERT: Funktion zum Scrollen nach unten
   const handleScrollDown = () => {
     window.scrollBy({ top: window.innerHeight * 0.8, left: 0, behavior: 'smooth' });
   };
 
-  // HIER GEÄNDERT: Zeige Pfeil nur, wenn mehr als eine Zeile im Projekt existiert
   const hasMultipleRows = project.details && project.details.length > 1;
 
   return (
     <div className="min-h-screen pb-2 pt-24 relative">
       <div className="px-4 md:px-6 mb-16">
-        {/* HIER GEÄNDERT: select-none blockiert den Windows Textcursor für die Überschrift */}
+        {/* select-none added to prevent text selection cursor */}
         <h1 className="text-4xl md:text-6xl font-medium tracking-tight mb-3 select-none">
           {project.title}
         </h1>
-        {/* HIER GEÄNDERT: select-none blockiert den Windows Textcursor für die Beschreibung */}
         <p className="text-lg md:text-xl text-gray-700 leading-snug max-w-2xl select-none">
           {project.description[language]}
         </p>
@@ -786,7 +796,6 @@ const ProjectView = ({ project, language }) => {
         })}
       </div>
 
-      {/* HIER GEÄNDERT: Schwebender, mittiger Scroll-Button für lange Projekte */}
       {hasMultipleRows && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 hidden md:block">
           <button 
@@ -802,7 +811,6 @@ const ProjectView = ({ project, language }) => {
 };
 
 
-// 4. About Seite
 const AboutPage = ({ language }) => {
   useEffect(() => { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); }, []); 
   
@@ -886,102 +894,6 @@ const AboutPage = ({ language }) => {
   );
 };
 
-// 5. Services Seite
-const ServicesPage = ({ language }) => {
-  useEffect(() => { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); }, []); 
-  
-  const t = {
-    title: language === 'de' ? 'leistungen' : 'services',
-    h1: language === 'de' ? 'art direktion' : 'art direction',
-    p1: language === 'de' ? "Entwicklung einzigartiger visueller Konzepte und strategischer Designlösungen, zugeschnitten auf die Kernidentität deiner Marke. Führung der Bildsprache vom Konzept bis zur finalen Umsetzung." : "Crafting unique visual concepts and strategic design solutions tailored to your brand's core identity. Guiding the visual language from concept to final execution.",
-    h2: language === 'de' ? 'branding & identität' : 'branding & identity',
-    p2: language === 'de' ? "Vom Logodesign bis zu umfassenden Markenrichtlinien – Gestaltung kohärenter und einprägsamer Markenerlebnisse, die bei der Zielgruppe auf allen Kanälen Resonanz finden." : "From logo design to comprehensive brand guidelines, creating cohesive and memorable brand experiences that resonate with your target audience across all channels.",
-    h3: language === 'de' ? 'editorial design' : 'editorial design',
-    p3: language === 'de' ? "Layout und Satz für Bücher, Magazine und digitale Publikationen. Starker Fokus auf Typografie und Rastersysteme, um optimale Lesbarkeit und Ästhetik zu gewährleisten." : "Layout and typesetting for books, magazines, and digital publications. A strong focus on typography and grid systems to ensure optimal readability and aesthetic appeal.",
-    h4: language === 'de' ? 'ui/ux design' : 'ui/ux design',
-    p4: language === 'de' ? "Gestaltung intuitiver und ästhetisch ansprechender digitaler Benutzeroberflächen. Die Brücke zwischen funktionaler User Experience und zeitgemäßem visuellen Design." : "Designing intuitive and aesthetically pleasing digital interfaces. Bridging the gap between functional user experience and contemporary visual design.",
-    h5: language === 'de' ? 'verpackungsdesign' : 'packaging design',
-    p5: language === 'de' ? "Entwicklung physischer Verpackungskonzepte, die im Regal auffallen. Fokus auf nachhaltige Materialien, strukturelle Integrität und aufmerksamkeitsstarke Grafiken." : "Developing physical packaging concepts that stand out on the shelf. Focusing on sustainable materials, structural integrity, and eye-catching graphics.",
-  };
-
-  return (
-    <div className="min-h-screen pb-24 pt-32 px-6 md:px-12 flex justify-center">
-      <div className="max-w-3xl w-full mb-16">
-        <div className="flex items-start gap-6 mb-12">
-          <div className="w-8 shrink-0"></div>
-          <h1 className="text-4xl md:text-6xl font-medium tracking-tight">
-            {t.title}
-          </h1>
-        </div>
-        <div className="flex flex-col gap-12">
-          <div className="flex items-start gap-6">
-            <div className="w-8 h-8 shrink-0 mt-1">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-full h-full text-black">
-                <circle cx="12" cy="12" r="10"></circle>
-                <circle cx="12" cy="12" r="4"></circle>
-              </svg>
-            </div>
-            <div>
-              <h2 className="text-lg font-medium text-black mb-1">{t.h1}</h2>
-              <p className="text-lg text-gray-700 leading-snug">{t.p1}</p>
-            </div>
-          </div>
-          <div className="flex items-start gap-6">
-            <div className="w-8 h-8 shrink-0 mt-1">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-full h-full text-black">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                <line x1="3" y1="9" x2="21" y2="9"></line>
-              </svg>
-            </div>
-            <div>
-              <h2 className="text-lg font-medium text-black mb-1">{t.h2}</h2>
-              <p className="text-lg text-gray-700 leading-snug">{t.p2}</p>
-            </div>
-          </div>
-          <div className="flex items-start gap-6">
-            <div className="w-8 h-8 shrink-0 mt-1">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-full h-full text-black">
-                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-              </svg>
-            </div>
-            <div>
-              <h2 className="text-lg font-medium text-black mb-1">{t.h3}</h2>
-              <p className="text-lg text-gray-700 leading-snug">{t.p3}</p>
-            </div>
-          </div>
-          <div className="flex items-start gap-6">
-            <div className="w-8 h-8 shrink-0 mt-1">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-full h-full text-black">
-                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
-                <line x1="12" y1="18" x2="12.01" y2="18"></line>
-              </svg>
-            </div>
-            <div>
-              <h2 className="text-lg font-medium text-black mb-1">{t.h4}</h2>
-              <p className="text-lg text-gray-700 leading-snug">{t.p4}</p>
-            </div>
-          </div>
-          <div className="flex items-start gap-6">
-            <div className="w-8 h-8 shrink-0 mt-1">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-full h-full text-black">
-                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                <line x1="12" y1="22.08" x2="12" y2="12"></line>
-              </svg>
-            </div>
-            <div>
-              <h2 className="text-lg font-medium text-black mb-1">{t.h5}</h2>
-              <p className="text-lg text-gray-700 leading-snug">{t.p5}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// 6. Contact Seite
 const ContactPage = ({ language }) => {
   useEffect(() => { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); }, []); 
   
@@ -1085,7 +997,6 @@ const ContactPage = ({ language }) => {
   );
 };
 
-// 7. Imprint & Privacy Policy Seite
 const ImprintPage = ({ language }) => {
   useEffect(() => { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); }, []); 
 
@@ -1098,7 +1009,6 @@ const ImprintPage = ({ language }) => {
     provider: language === 'de' ? 'diensteanbieter, medieninhaber und herausgeber:' : 'service provider, media owner and publisher:',
     contact: language === 'de' ? 'kontakt:' : 'contact:',
     legal: language === 'de' ? 'rechtliche informationen:' : 'legal information:',
-
     purpose: language === 'de' ? 'Unternehmensgegenstand: Grafikdesign' : 'Business purpose: Graphic Design',
     chamber: language === 'de' ? 'Mitglied der WKO:' : 'Member of WKO:',
     law: language === 'de' ? 'Anwendbare Rechtsvorschriften: Gewerbeordnung (www.ris.bka.gv.at)' : 'Applicable legal regulations: Gewerbeordnung (www.ris.bka.gv.at)',
@@ -1108,33 +1018,27 @@ const ImprintPage = ({ language }) => {
     copyrightText: language === 'de' 
       ? 'Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem österreichischen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht-kommerziellen Gebrauch gestattet.'
       : 'The content and works created by the site operators on these pages are subject to Austrian copyright law. The reproduction, editing, distribution, and any kind of exploitation outside the limits of copyright law require the written consent of the respective author or creator. Downloads and copies of this site are only permitted for private, non-commercial use.',
-    
     disclaimerTitle: language === 'de' ? 'haftungsausschluss' : 'disclaimer',
     disclaimerText: language === 'de'
       ? 'Die Inhalte dieser Website wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte kann jedoch keine Gewähr übernommen werden. Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen.'
       : 'The contents of this website were created with great care. However, we cannot accept any liability for the accuracy, completeness, and timeliness of the content. Our website contains links to external third-party websites over whose contents we have no influence. Therefore, we cannot accept any liability for these external contents.',
-    
     privacyTitle: language === 'de' ? 'datenschutzerklärung' : 'privacy policy',
     privacy1Title: language === 'de' ? '1. allgemeine hinweise' : '1. general information',
     privacy1Text: language === 'de'
       ? 'Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit deinen personenbezogenen Daten passiert, wenn du diese Website besuchst. Personenbezogene Daten sind alle Daten, mit denen du persönlich identifiziert werden kannst.'
       : 'The following notes provide a simple overview of what happens to your personal data when you visit this website. Personal data is any data with which you could be personally identified.',
-    
     privacy2Title: language === 'de' ? '2. verantwortlicher' : '2. controller',
     privacy2Text: language === 'de'
       ? 'Verantwortlich für die Datenverarbeitung auf dieser Website ist:'
       : 'The controller responsible for data processing on this website is:',
-      
     privacy3Title: language === 'de' ? '3. datenerfassung (server-log-dateien)' : '3. data collection (server log files)',
     privacy3Text: language === 'de'
       ? 'Der Provider dieser Website erhebt und speichert automatisch Informationen in so genannten Server-Log-Dateien, die dein Browser automatisch an uns übermittelt. Dies sind: Browsertyp und -version, verwendetes Betriebssystem, Referrer URL, Hostname des zugreifenden Rechners, Uhrzeit der Serveranfrage und IP-Adresse. Eine Zusammenführung dieser Daten mit anderen Datenquellen wird nicht vorgenommen. Die Erfassung dieser Daten erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. Der Betreiber der Website hat ein berechtigtes Interesse an der technisch fehlerfreien Darstellung und der Optimierung seiner Website – hierzu müssen die Server-Log-Files erfasst werden.'
       : 'The provider of this website automatically collects and stores information in so-called server log files, which your browser automatically transmits to us. These are: browser type and browser version, operating system used, referrer URL, host name of the accessing computer, time of the server request, and IP address. This data is not combined with other data sources. The collection of this data is based on Art. 6(1)(f) GDPR. The website operator has a legitimate interest in the technically error-free presentation and optimization of the website – for this purpose, the server log files must be recorded.',
-      
     privacy4Title: language === 'de' ? '4. kontaktaufnahme' : '4. contacting us',
     privacy4Text: language === 'de'
       ? 'Wenn du mir per Kontaktformular oder E-Mail Anfragen zukommen lässt, werden deine Angaben aus dem Anfrageformular inklusive der von dir dort angegebenen Kontaktdaten zwecks Bearbeitung der Anfrage und für den Fall von Anschlussfragen bei mir gespeichert. Diese Daten gebe ich nicht ohne deine Einwilligung weiter.'
       : 'If you send inquiries via the contact form or e-mail, your details from the inquiry form, including the contact details you provided there, will be stored by me for the purpose of processing the inquiry and in case of follow-up questions. I do not pass on this data without your consent.',
-      
     privacy5Title: language === 'de' ? '5. deine rechte' : '5. your rights',
     privacy5Text: language === 'de'
       ? 'Du hast jederzeit das Recht, unentgeltlich Auskunft über Herkunft, Empfänger und Zweck deiner gespeicherten personenbezogenen Daten zu erhalten. Du hast außerdem ein Recht, die Berichtigung oder Löschung dieser Daten zu verlangen. Wenn du eine Einwilligung zur Datenverarbeitung erteilt hast, kannst du diese Einwilligung jederzeit für die Zukunft widerrufen. Des Weiteren steht dir ein Beschwerderecht bei der zuständigen Aufsichtsbehörde zu.'
@@ -1149,7 +1053,6 @@ const ImprintPage = ({ language }) => {
         </h1>
         
         <div className="space-y-16">
-          {/* IMPRESSUM / IMPRINT */}
           <section className="flex flex-col gap-8">
             <h2 className="text-2xl font-medium text-black border-b border-black/10 pb-2">
               {t.imprint}
@@ -1199,7 +1102,6 @@ const ImprintPage = ({ language }) => {
             </div>
           </section>
 
-          {/* DATENSCHUTZ / PRIVACY POLICY */}
           <section className="flex flex-col gap-8">
             <h2 className="text-2xl font-medium text-black border-b border-black/10 pb-2">
               {t.privacyTitle}
@@ -1249,8 +1151,7 @@ const ImprintPage = ({ language }) => {
 export default function PortfolioApp() {
   const [hash, setHash] = useState(typeof window !== 'undefined' ? window.location.hash : '');
   const [language, setLanguage] = useState('de');
-  
-  // HIER GEÄNDERT ZU 1: Speichert die exakte Scroll-Position der Startseite
+
   const scrollPositionRef = useRef(0);
 
   useEffect(() => {
@@ -1272,7 +1173,6 @@ export default function PortfolioApp() {
     activeCategory = hash.replace('#category=', '');
   }
 
-  // HIER GEÄNDERT ZU 1: Wenn wir schon auf Home sind, spring nach ganz oben. Ansonsten laden wir Home einfach neu
   const handleGoHome = () => { 
     if (!activeProject && currentView === 'home' && !activeCategory) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1284,7 +1184,6 @@ export default function PortfolioApp() {
   const handleCategorySelect = (category) => { window.location.hash = category ? `#category=${category}` : ''; };
   const handleViewChange = (view) => { window.location.hash = `#view=${view}`; };
   
-  // HIER GEÄNDERT ZU 1: Bevor das Projekt lädt, merken wir uns exakt, wo der User war
   const handleProjectClick = (project) => { 
     if (!activeProject && currentView === 'home' && !activeCategory) {
       scrollPositionRef.current = window.scrollY;
@@ -1296,7 +1195,6 @@ export default function PortfolioApp() {
     ? initialProjects.filter(p => p.category === activeCategory)
     : initialProjects;
 
-  // HIER GEÄNDERT ZU 1: Reagiert nun auch auf den "Zurück"-Button im Browser
   useEffect(() => {
     if (!activeProject && currentView === 'home' && !activeCategory) {
       setTimeout(() => {
@@ -1353,8 +1251,6 @@ export default function PortfolioApp() {
         <AboutPage language={language} />
       ) : currentView === 'contact' ? (
         <ContactPage language={language} />
-      ) : currentView === 'services' ? (
-        <ServicesPage language={language} />
       ) : currentView === 'imprint' ? (
         <ImprintPage language={language} />
       ) : (
