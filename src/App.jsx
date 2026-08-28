@@ -13,15 +13,12 @@ const MediaItem = ({ url, alt, className, isPriority }) => {
       (entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            // Video startet durch den riesigen Puffer schon weit vor dem sichtbaren Bereich
             mediaRef.current?.play().catch(() => {});
           } else {
-            // Pausiert sofort, wenn es weggescrollt wird (Spart massiv RAM & CPU)
             mediaRef.current?.pause();
           }
         });
       },
-      // HIER GEÄNDERT: 800px Puffer! Das Video ist längst bereit, wenn du hinscrollst.
       { rootMargin: '800px' } 
     );
 
@@ -141,7 +138,7 @@ const initialProjects = [
     category: 'branding',
     description: {
       en: "The aim of the logo design was to combine an elegant monogram with the emotional world of gift-giving. The result is a minimalist, festive symbol that brings together planning and the Christmas spirit.",
-      de: "Ziel des Logodesigns war es, ein elegantes Monogramm mit der emotionalen Welt des Schenkens zu verbinden. Das Ergebnis ist ein minimalistisches, festliches Symbol, das Planung und Weihnachtsstimmung zusammenbringt."
+      de: "Ziel des Logodesigns war es, ein elegantes Monogramm mit der emotionalen Welt of Schenkens zu verbinden. Das Ergebnis ist ein minimalistisches, festliches Symbol, das Planung und Weihnachtsstimmung zusammenbringt."
     },
     carousel: [
       "/wunderlich-logo.webp",
@@ -197,7 +194,7 @@ const initialProjects = [
     details: [
       [
         { type: '4:5', url: "/eu-animation.mp4" },
-        { type: '16:9', url: "/eu-flagge.webp" }
+        { type: '16:9', url: "public/eu-flagge.webp" }
       ]
     ]
   },
@@ -652,15 +649,13 @@ const FloatingMenu = ({ onGoHome, onViewChange, onCategorySelect, language, setL
   };
 
   return (
-    // HIER GEÄNDERT: "select-none" macht das Menü immun gegen jegliche Cursor-Markierungen
-    <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[273px] select-none">
+    <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[273px] select-none outline-none">
       <div className="bg-black/30 backdrop-blur-md shadow-xl overflow-hidden transition-all duration-500 ease-in-out rounded-[20px] text-white">
         
         <div 
           className="flex items-center justify-between px-6 h-[40px] cursor-pointer"
           onClick={() => setIsOpen(!isOpen)}
         >
-          {/* HIER GEÄNDERT: Vom klickbaren <div> zu einem echten <button>. */}
           <button 
             type="button"
             onClick={(e) => {
@@ -733,16 +728,27 @@ const FloatingMenu = ({ onGoHome, onViewChange, onCategorySelect, language, setL
 // 3. Projekt Detailseite - FULL WIDTH GRID
 const ProjectView = ({ project, language }) => {
   useEffect(() => {
+    // Wenn man auf der Seite ist, einmal initial oben starten
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); 
   }, [project]);
 
+  // HIER GEÄNDERT: Funktion zum Scrollen nach unten
+  const handleScrollDown = () => {
+    window.scrollBy({ top: window.innerHeight * 0.8, left: 0, behavior: 'smooth' });
+  };
+
+  // HIER GEÄNDERT: Zeige Pfeil nur, wenn mehr als eine Zeile im Projekt existiert
+  const hasMultipleRows = project.details && project.details.length > 1;
+
   return (
-    <div className="min-h-screen pb-2 pt-24">
+    <div className="min-h-screen pb-2 pt-24 relative">
       <div className="px-4 md:px-6 mb-16">
-        <h1 className="text-4xl md:text-6xl font-medium tracking-tight mb-3">
+        {/* HIER GEÄNDERT: select-none blockiert den Windows Textcursor für die Überschrift */}
+        <h1 className="text-4xl md:text-6xl font-medium tracking-tight mb-3 select-none">
           {project.title}
         </h1>
-        <p className="text-lg md:text-xl text-gray-700 leading-snug max-w-2xl">
+        {/* HIER GEÄNDERT: select-none blockiert den Windows Textcursor für die Beschreibung */}
+        <p className="text-lg md:text-xl text-gray-700 leading-snug max-w-2xl select-none">
           {project.description[language]}
         </p>
       </div>
@@ -779,6 +785,18 @@ const ProjectView = ({ project, language }) => {
           );
         })}
       </div>
+
+      {/* HIER GEÄNDERT: Schwebender, mittiger Scroll-Button für lange Projekte */}
+      {hasMultipleRows && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 hidden md:block">
+          <button 
+            onClick={handleScrollDown}
+            className="w-10 h-10 flex items-center justify-center bg-black/40 hover:bg-black/60 text-white rounded-full backdrop-blur-sm transition-all duration-300 shadow-lg"
+          >
+            <ChevronDown size={22} strokeWidth={2} />
+          </button>
+        </div>
+      )}
     </div>
   );
 };
@@ -1227,10 +1245,13 @@ const ImprintPage = ({ language }) => {
 };
 
 
-// --- HAUPT APP (Klassisches Grid ohne Infinite Scroll) ---
+// --- HAUPT APP ---
 export default function PortfolioApp() {
   const [hash, setHash] = useState(typeof window !== 'undefined' ? window.location.hash : '');
   const [language, setLanguage] = useState('de');
+  
+  // HIER GEÄNDERT ZU 1: Speichert die exakte Scroll-Position der Startseite
+  const scrollPositionRef = useRef(0);
 
   useEffect(() => {
     const handleHashChange = () => setHash(window.location.hash);
@@ -1251,18 +1272,39 @@ export default function PortfolioApp() {
     activeCategory = hash.replace('#category=', '');
   }
 
-  const handleGoHome = () => { window.location.hash = ''; };
+  // HIER GEÄNDERT ZU 1: Wenn wir schon auf Home sind, spring nach ganz oben. Ansonsten laden wir Home einfach neu
+  const handleGoHome = () => { 
+    if (!activeProject && currentView === 'home' && !activeCategory) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      scrollPositionRef.current = 0;
+    }
+    window.location.hash = ''; 
+  };
+  
   const handleCategorySelect = (category) => { window.location.hash = category ? `#category=${category}` : ''; };
   const handleViewChange = (view) => { window.location.hash = `#view=${view}`; };
-  const handleProjectClick = (project) => { window.location.hash = `#project=${project.slug}`; };
+  
+  // HIER GEÄNDERT ZU 1: Bevor das Projekt lädt, merken wir uns exakt, wo der User war
+  const handleProjectClick = (project) => { 
+    if (!activeProject && currentView === 'home' && !activeCategory) {
+      scrollPositionRef.current = window.scrollY;
+    }
+    window.location.hash = `#project=${project.slug}`; 
+  };
 
   const baseProjects = activeCategory 
     ? initialProjects.filter(p => p.category === activeCategory)
     : initialProjects;
 
-  // Scrollt beim Wechsel der Ansicht ganz sanft nach oben
+  // HIER GEÄNDERT ZU 1: Reagiert nun auch auf den "Zurück"-Button im Browser
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); 
+    if (!activeProject && currentView === 'home' && !activeCategory) {
+      setTimeout(() => {
+        window.scrollTo({ top: scrollPositionRef.current, behavior: 'instant' });
+      }, 0);
+    } else {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); 
+    }
   }, [currentView, activeProject, activeCategory]);
 
   return (
