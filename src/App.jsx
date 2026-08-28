@@ -478,7 +478,7 @@ const initialProjects = [
     id: 'p18',
     slug: 'be-nice-get-nice',
     title: 'be-nice, get nice',
-    category: 'illustration',
+    category: 'illustrations',
     description: {
       en: "An animation on the theme of happiness and how it can be passed on.",
       de: "Eine Animation zum Thema Glück und wie es weitergegeben werden kann."
