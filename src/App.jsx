@@ -54,7 +54,7 @@ const MediaItem = ({ url, alt, className, isPriority }) => {
   );
 };
 
-// --- MOCK DATA ---
+// --- MOCK DATA (NEU SORTIERT & NEU NUMMERIERT) ---
 const initialProjects = [
   {
     id: 'p1',
@@ -441,49 +441,6 @@ const initialProjects = [
   },
   {
     id: 'p17',
-    slug: 'gastvortrag-plakat',
-    title: 'gastvortrag plakat',
-    category: 'posters',
-    description: {
-      en: "Design of the poster for the guest lecture by Studio Beton, Bruch and Es at the Klasse für Ideen.",
-      de: "Gestaltung des Plakats für den Gastvortrag von Studio Beton, Bruch und Es an der Klasse für Ideen."
-    },
-    carousel: [
-      "/gastvortrag-plakat.webp",
-      "/gastvortrag.webp",
-      "/gastvortrag-snacks.mp4",
-      "/gastvortrag-gang.webp",
-      
-    ], 
-    details: [
-      [
-        { type: '4:5', url: "/gastvortrag-plakat.webp" },
-        { type: '4:5', url: "/gastvortrag-gang.webp" },
-        { type: '4:5', url: "/gastvortrag-snacks.mp4" }
-      ]
-    ]
-  },
-  {
-    id: 'p18',
-    slug: 'be-nice-get-nice',
-    title: 'be-nice, get nice',
-    category: 'illustration',
-    description: {
-      en: "An animation on the theme of happiness and how it can be passed on.",
-      de: "Eine Animation zum Thema Glück und wie es weitergegeben werden kann."
-    },
-    carousel: [
-      "/pendel-animation.mp4",
-    ], 
-    details: [
-      [
-        { type: '4:5', url: "/pendel-animation.mp4" },
-        { type: '16:9', url: "/pendel.webp" }
-      ],
-    ]
-  },
-  {
-    id: 'p19',
     slug: 'demok-raum-fuer-demokratie',
     title: 'demok - raum für demokratie',
     category: 'branding',
@@ -518,10 +475,53 @@ const initialProjects = [
     ]
   },
   {
+    id: 'p18',
+    slug: 'be-nice-get-nice',
+    title: 'be-nice, get nice',
+    category: 'illustration',
+    description: {
+      en: "An animation on the theme of happiness and how it can be passed on.",
+      de: "Eine Animation zum Thema Glück und wie es weitergegeben werden kann."
+    },
+    carousel: [
+      "/pendel-animation.mp4",
+    ], 
+    details: [
+      [
+        { type: '4:5', url: "/pendel-animation.mp4" },
+        { type: '16:9', url: "/pendel.webp" }
+      ],
+    ]
+  },
+  {
+    id: 'p19',
+    slug: 'gastvortrag-plakat',
+    title: 'gastvortrag plakat',
+    category: 'posters',
+    description: {
+      en: "Design of the poster for the guest lecture by Studio Beton, Bruch and Es at the Klasse für Ideen.",
+      de: "Gestaltung des Plakats für den Gastvortrag von Studio Beton, Bruch und Es an der Klasse für Ideen."
+    },
+    carousel: [
+      "/gastvortrag-plakat.webp",
+      "/gastvortrag.webp",
+      "/gastvortrag-snacks.mp4",
+      "/gastvortrag-gang.webp",
+      
+    ], 
+    details: [
+      [
+        { type: '4:5', url: "/gastvortrag-plakat.webp" },
+        { type: '4:5', url: "/gastvortrag-gang.webp" },
+        { type: '4:5', url: "/gastvortrag-snacks.mp4" }
+      ]
+    ]
+  },
+  {
     id: 'p20',
     slug: 'behind-closed-curtains',
     title: 'behind closed curtains',
-    category: 'illustration',
+    category: 'illustrations',
     description: {
       en: "The secret observer: An animation about America's quiet hunger for information behind closed blinds.",
       de: "Der heimliche Beobachter: Eine Animation über Amerikas stillen Informationshunger hinter verschlossenen Jalousien."
@@ -754,7 +754,6 @@ const ProjectView = ({ project, language }) => {
   return (
     <div className="min-h-screen pb-2 pt-24 relative">
       <div className="px-4 md:px-6 mb-16">
-        {/* select-none added to prevent text selection cursor */}
         <h1 className="text-4xl md:text-6xl font-medium tracking-tight mb-3 select-none">
           {project.title}
         </h1>
