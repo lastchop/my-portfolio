@@ -1146,16 +1146,16 @@ const ImprintPage = ({ language }) => {
               <div>
                 <h3 className="text-lg font-medium text-black mb-1">{t.provider}</h3>
                 <p className="text-lg text-gray-700 leading-snug">
-                  [Lukas Liszka]<br />
-                  [Bruno-Marek-Allee 13]<br />
-                  [1020 Vienna, Austria]
+                  Lukas Liszka<br />
+                  Bruno-Marek-Allee 13<br />
+                  1020 Vienna, Austria
                 </p>
               </div>
               
               <div>
                 <h3 className="text-lg font-medium text-black mb-1">{t.contact}</h3>
                 <p className="text-lg text-gray-700 leading-snug">
-                  Email: [liszka.lukas@gmx.at]<br />
+                  Email: liszka.lukas@gmx.at<br />
                 </p>
               </div>
               
@@ -1164,9 +1164,9 @@ const ImprintPage = ({ language }) => {
                 <p className="text-lg text-gray-700 leading-snug">
                   {t.vat}<br />
                   {t.purpose}<br />
-                  {t.chamber} [WKO Wien, Fachgruppe Werbung und Marktkommunikation]<br />
+                  {t.chamber} WKO Wien, Fachgruppe Werbung und Marktkommunikation<br />
                   {t.law}<br />
-                  {t.auth} [ Magistratisches Bezirksamt des 2. Bezirkes]<br />
+                  {t.auth} Magistratisches Bezirksamt des 2. Bezirkes<br />
                   {t.job}
                 </p>
               </div>
@@ -1199,10 +1199,10 @@ const ImprintPage = ({ language }) => {
                 <h3 className="text-lg font-medium text-black mb-1">{t.privacy2Title}</h3>
                 <p className="text-lg text-gray-700 leading-snug">
                   {t.privacy2Text}<br /><br />
-                  [Placeholder: Lukas Liszka]<br />
-                  [Placeholder: Bruno-Marek-allee 13]<br />
-                  [Placeholder: 1020 Vienna, Austria]<br />
-                  Email: [liszka.lukas@gmx.at]
+                  Lukas Liszka<br />
+                  Bruno-Marek-allee 13<br />
+                  1020 Vienna, Austria<br />
+                  Email: liszka.lukas@gmx.at
                 </p>
               </div>
 
