@@ -495,6 +495,25 @@ const initialProjects = [
   },
   {
     id: 'p19',
+    slug: 'behind-closed-curtains',
+    title: 'behind closed curtains',
+    category: 'illustrations',
+    description: {
+      en: "The secret observer: An animation about America's quiet hunger for information behind closed blinds.",
+      de: "Der heimliche Beobachter: Eine Animation über Amerikas stillen Informationshunger hinter verschlossenen Jalousien."
+    },
+    carousel: [
+      "/spion.mp4",
+    ], 
+    details: [
+      [
+        { type: '4:5', url: "/spion.mp4" },
+        { type: '16:9', url: "/spion-1.webp" }
+      ],
+    ]
+  },
+  {
+    id: 'p20',
     slug: 'gastvortrag-plakat',
     title: 'gastvortrag plakat',
     category: 'posters',
@@ -515,25 +534,6 @@ const initialProjects = [
         { type: '4:5', url: "/gastvortrag-gang.webp" },
         { type: '4:5', url: "/gastvortrag-snacks.mp4" }
       ]
-    ]
-  },
-  {
-    id: 'p20',
-    slug: 'behind-closed-curtains',
-    title: 'behind closed curtains',
-    category: 'illustrations',
-    description: {
-      en: "The secret observer: An animation about America's quiet hunger for information behind closed blinds.",
-      de: "Der heimliche Beobachter: Eine Animation über Amerikas stillen Informationshunger hinter verschlossenen Jalousien."
-    },
-    carousel: [
-      "/spion.mp4",
-    ], 
-    details: [
-      [
-        { type: '4:5', url: "/spion.mp4" },
-        { type: '16:9', url: "/spion-1.webp" }
-      ],
     ]
   },
   {
@@ -565,24 +565,6 @@ const initialProjects = [
   },
   {
     id: 'p22',
-    slug: 'seoulmates',
-    title: 'seoulmates',
-    category: 'illustration',
-    description: {
-      en: "Cover design for ‘Seoulmates’, the class’s fourth publication featuring ideas for a trip to Seoul. The design uses elements of the Korean Hangul script to form two figures in South Korea’s national colours.",
-      de: "Coverentwurf für „Seoulmates“, die vierte Publikation der Klasse für Ideen zur Reise nach Seoul. Das Motiv formt aus Elementen der koreanischen Hangul-Schrift zwei Figuren in den Landesfarben Südkoreas."
-    },
-    carousel: [
-      "/seoulmates.webp",
-    ], 
-    details: [
-      [
-        { type: '16:9', url: "/seoulmates1.webp" }
-      ]
-    ]
-  },
-  {
-    id: 'p23',
     slug: 'crossdisciplinary-strategies',
     title: 'crossdisciplinary strategies',
     category: 'branding',
@@ -602,6 +584,24 @@ const initialProjects = [
       ],
       [
         { type: '16:9', url: "/cds-schild2.webp" }
+      ]
+    ]
+  },
+  {
+    id: 'p23',
+    slug: 'seoulmates',
+    title: 'seoulmates',
+    category: 'illustration',
+    description: {
+      en: "Cover design for ‘Seoulmates’, the class’s fourth publication featuring ideas for a trip to Seoul. The design uses elements of the Korean Hangul script to form two figures in South Korea’s national colours.",
+      de: "Coverentwurf für „Seoulmates“, die vierte Publikation der Klasse für Ideen zur Reise nach Seoul. Das Motiv formt aus Elementen der koreanischen Hangul-Schrift zwei Figuren in den Landesfarben Südkoreas."
+    },
+    carousel: [
+      "/seoulmates.webp",
+    ], 
+    details: [
+      [
+        { type: '16:9', url: "/seoulmates1.webp" }
       ]
     ]
   },
