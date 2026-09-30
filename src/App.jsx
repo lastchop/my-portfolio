@@ -536,6 +536,95 @@ const initialProjects = [
       ],
     ]
   },
+  {
+    id: 'p21',
+    slug: 'heidi-horten-collection',
+    title: 'heidi horten collection',
+    category: 'posters',
+    description: {
+      en: "Poster design for the permanent exhibition of the Heidi Horten Collection, in collaboration with Thies Design: A relaxed, hand-drawn style and the line ‘Where Klimt, Picasso and Warhol are neighbours’ convey the juxtaposition of these masterpieces in a relaxed, approachable way.",
+      de: "Plakatgestaltung für die Dauerausstellung der Heidi Horten Collection in Zusammenarbeit mit Thies Desgn: Eine lockere Handschrift und die Zeile „Where Klimt, Picasso and Warhol are neighbours“ vermitteln das Nebeneinander der Meisterwerke auf entspannte, nahbare Art."
+    },
+    carousel: [
+      "/hhc-video.mp4",
+      "/hhc-saeule.webp",
+      "/hhc-bus.webp",
+    ], 
+    details: [
+      [
+        { type: '4:5', url: "/hhc-saeule.webp" },
+        { type: '16:9', url: "/hhc-video1.mp4" }
+      ],
+      [
+        { type: '16:9', url: "/hhc-bus1.webp" }
+      ],
+      [
+        { type: '16:9', url: "/hhc-plakate.webp" }
+      ]
+    ]
+  },
+  {
+    id: 'p22',
+    slug: 'seoulmates',
+    title: 'seoulmates',
+    category: 'illustration',
+    description: {
+      en: "Cover design for ‘Seoulmates’, the class’s fourth publication featuring ideas for a trip to Seoul. The design uses elements of the Korean Hangul script to form two figures in South Korea’s national colours.",
+      de: "Coverentwurf für „Seoulmates“, die vierte Publikation der Klasse für Ideen zur Reise nach Seoul. Das Motiv formt aus Elementen der koreanischen Hangul-Schrift zwei Figuren in den Landesfarben Südkoreas."
+    },
+    carousel: [
+      "/seoulmates.webp",
+    ], 
+    details: [
+      [
+        { type: '16:9', url: "/seoulmates1.webp" }
+      ]
+    ]
+  },
+  {
+    id: 'p23',
+    slug: 'crossdisciplinary-strategies',
+    title: 'crossdisciplinary strategies',
+    category: 'branding',
+    description: {
+      en: "In collaboration with Thies Design, the visual identity for the ‘Crossdisciplinary Strategies’ degree programme at the University of Applied Arts in Vienna was developed. Overlapping typography in the logo, as well as interlocking elements on the website and in printed materials, convey the programme’s philosophy: the deliberate combination of different disciplines.",
+      de: "In Zusammenarbeit mit Thies Design entstand das Erscheinungsbild für den Studiengang „Crossdisciplinary Strategies“ an der Universität für angwandte Kunst in Wien. Überlappende Typografie im Logo sowie verschränkte Elemente auf der Website und in Drucksorten übersetzen die Philosophie des Programms: das gezielte Kombinieren unterschiedlicher Fachbereiche."
+    },
+    carousel: [
+      "/cds-animation.mp4",
+      "/cds-website.webp",
+      "/cds-schild1.webp",
+    ], 
+    details: [
+      [
+        { type: '4:5', url: "/cds-animation.mp4" },
+        { type: '16:9', url: "/cds-website1.webp" }
+      ],
+      [
+        { type: '16:9', url: "/cds-schild2.webp" }
+      ]
+    ]
+  },
+  {
+    id: 'p24',
+    slug: 'hoffnung-mensch',
+    title: 'hoffnung mensch',
+    category: 'posters',
+    description: {
+      en: "An independent poster project through which I wanted to offer a note of optimism in response to the questions about the future surrounding generative AI. Entitled ‘Hope in Humanity’, the design makes a deliberately optimistic case for our faith in humanity.",
+      de: "Ein freies Plakatprojekt, mit dem ich den Zukunftsfragen rund um generative KI etwas Zuversicht entgegensetzen wollte. Unter dem Titel „Hoffnung Mensch“ formuliert der Entwurf ein bewusst optimistisches Plädoyer für unser Vertrauen in die Menschheit."
+    },
+    carousel: [
+      "/mitmensch-animation.mp4",
+    ], 
+    details: [
+      [
+        { type: '4:5', url: "/mitmensch-animation.mp4" },
+        { type: '16:9', url: "/mitmensch-plakate.webp" }
+      ]
+    ]
+  },
+
 ];
 
 // --- KOMPONENTEN ---
