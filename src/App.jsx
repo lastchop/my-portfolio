@@ -114,25 +114,6 @@ const initialProjects = [
   },
   {
     id: 'p3',
-    slug: 'waehlengehen',
-    title: 'wählengehen',
-    category: 'illustrations',
-    description: {
-      en: "An animation to mark the 2024 National Council elections, designed to encourage people to vote.",
-      de: "Eine Animation anlässlich der Nationalratswahl 2024, die dazu aufrufen soll, wählen zu gehen."
-    },
-    carousel: [
-      "/waehlengehen.mp4",
-    ], 
-    details: [
-      [
-        { type: '4:5', url: "/waehlengehen.mp4" },
-        { type: '16:9', url: "/waehlengehen-1.webp" }
-      ]
-    ]
-  },
-  {
-    id: 'p4',
     slug: 'wunderlich-christmas-planner',
     title: 'wunderlich christmas planner',
     category: 'branding',
@@ -152,6 +133,25 @@ const initialProjects = [
       ],
       [
         { type: '16:9', url: "/wunderlich-papier1.webp" }
+      ]
+    ]
+  },
+  {
+    id: 'p4',
+    slug: 'waehlengehen',
+    title: 'wählengehen',
+    category: 'illustrations',
+    description: {
+      en: "An animation to mark the 2024 National Council elections, designed to encourage people to vote.",
+      de: "Eine Animation anlässlich der Nationalratswahl 2024, die dazu aufrufen soll, wählen zu gehen."
+    },
+    carousel: [
+      "/waehlengehen.mp4",
+    ], 
+    details: [
+      [
+        { type: '4:5', url: "/waehlengehen.mp4" },
+        { type: '16:9', url: "/waehlengehen-1.webp" }
       ]
     ]
   },
@@ -227,26 +227,28 @@ const initialProjects = [
   },
   {
     id: 'p8',
-    slug: 'fiktives-dixi-rebranding',
-    title: 'fiktives dixi rebranding',
-    category: 'branding',
+    slug: 'heidi-horten-collection',
+    title: 'heidi horten collection',
+    category: 'posters',
     description: {
-      en: "The focus of this fictional rebranding was a contemporary typographical refresh of the brand. The iconic hearts were deliberately retained and reinterpreted to combine brand recognition with a more modern visual language.",
-      de: "Im Fokus dieses fiktiven Rebrandings stand eine zeitgemäße typografische Auffrischung der Marke. Die ikonischen Herzen wurden bewusst beibehalten und neu interpretiert, um Markenwiedererkennung mit einer moderneren Bildsprache zu verbinden."
+      en: "Poster design for the permanent exhibition of the Heidi Horten Collection, in collaboration with Thies Design: A relaxed, hand-drawn style and the line ‘Where Klimt, Picasso and Warhol are neighbours’ convey the juxtaposition of these masterpieces in a relaxed, approachable way.",
+      de: "Plakatgestaltung für die Dauerausstellung der Heidi Horten Collection in Zusammenarbeit mit Thies Desgn: Eine lockere Handschrift und die Zeile „Where Klimt, Picasso and Warhol are neighbours“ vermitteln das Nebeneinander der Meisterwerke auf entspannte, nahbare Art."
     },
     carousel: [
-      "/dixi-logo.webp",
-      "/dixi-nonne.webp",
-      "/dixi-festival1.webp",
+      "/hhc-bus.webp",
+      "/hhc-saeule.webp",
+      "/hhc-video.mp4",
     ], 
     details: [
       [
-        { type: '16:9', url: "/dixi-vergleich.webp" },
-        { type: '4:5', url: "/dixi-nonne.webp" }
+        { type: '4:5', url: "/hhc-saeule.webp" },
+        { type: '16:9', url: "/hhc-video1.mp4" }
       ],
       [
-        { type: '16:9', url: "/dixi-festival.webp" },
-        { type: '4:5', url: "/dixi-logo.webp" }
+        { type: '16:9', url: "/hhc-bus1.webp" }
+      ],
+      [
+        { type: '16:9', url: "/hhc-plakate.webp" }
       ]
     ]
   },
@@ -538,28 +540,26 @@ const initialProjects = [
   },
   {
     id: 'p21',
-    slug: 'heidi-horten-collection',
-    title: 'heidi horten collection',
-    category: 'posters',
+    slug: 'fiktives-dixi-rebranding',
+    title: 'fiktives dixi rebranding',
+    category: 'branding',
     description: {
-      en: "Poster design for the permanent exhibition of the Heidi Horten Collection, in collaboration with Thies Design: A relaxed, hand-drawn style and the line ‘Where Klimt, Picasso and Warhol are neighbours’ convey the juxtaposition of these masterpieces in a relaxed, approachable way.",
-      de: "Plakatgestaltung für die Dauerausstellung der Heidi Horten Collection in Zusammenarbeit mit Thies Desgn: Eine lockere Handschrift und die Zeile „Where Klimt, Picasso and Warhol are neighbours“ vermitteln das Nebeneinander der Meisterwerke auf entspannte, nahbare Art."
+      en: "The focus of this fictional rebranding was a contemporary typographical refresh of the brand. The iconic hearts were deliberately retained and reinterpreted to combine brand recognition with a more modern visual language.",
+      de: "Im Fokus dieses fiktiven Rebrandings stand eine zeitgemäße typografische Auffrischung der Marke. Die ikonischen Herzen wurden bewusst beibehalten und neu interpretiert, um Markenwiedererkennung mit einer moderneren Bildsprache zu verbinden."
     },
     carousel: [
-      "/hhc-video.mp4",
-      "/hhc-saeule.webp",
-      "/hhc-bus.webp",
+      "/dixi-logo.webp",
+      "/dixi-nonne.webp",
+      "/dixi-festival1.webp",
     ], 
     details: [
       [
-        { type: '4:5', url: "/hhc-saeule.webp" },
-        { type: '16:9', url: "/hhc-video1.mp4" }
+        { type: '16:9', url: "/dixi-vergleich.webp" },
+        { type: '4:5', url: "/dixi-nonne.webp" }
       ],
       [
-        { type: '16:9', url: "/hhc-bus1.webp" }
-      ],
-      [
-        { type: '16:9', url: "/hhc-plakate.webp" }
+        { type: '16:9', url: "/dixi-festival.webp" },
+        { type: '4:5', url: "/dixi-logo.webp" }
       ]
     ]
   },
